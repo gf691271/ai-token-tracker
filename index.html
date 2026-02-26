@@ -3,600 +3,1493 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global AI Token Tracker — TCI</title>
+<title>Global AI Token Tracker</title>
+<meta name="description" content="Quarterly trend, vendor ranking, and key findings for global AI token activity.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Global AI Token Tracker">
+<meta property="og:description" content="Track CN vs US vs Global token trends, rankings, and key findings.">
+<meta property="og:url" content="https://tokentrackerapi.com/">
+<meta property="og:image" content="https://tokentrackerapi.com/og-cover.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Global AI Token Tracker">
+<meta name="twitter:description" content="Quarterly trend, ranking, and key findings for AI token activity.">
+<meta name="twitter:image" content="https://tokentrackerapi.com/og-cover.png">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
 <style>
   :root {
     --bg: #f7f6f3;
     --surface: #ffffff;
-    --border: #e8e6e1;
-    --text: #1a1a18;
-    --muted: #6b6b67;
-    --subtle: #a8a8a3;
+    --surface-soft: #fbfaf7;
+    --border: #e6e3dc;
+    --text: #171715;
+    --muted: #6f6d67;
+    --subtle: #9a9791;
+    --accent: #20201d;
     --cn: #c0392b;
-    --cn-light: #fdf0ef;
     --us: #2563eb;
-    --us-light: #eff4ff;
-    --eu: #16a34a;
-    --eu-light: #f0fdf4;
-    --ca: #7c3aed;
-    --accent: #1a1a18;
-    --tag-bg: #f0ede8;
-    --r: 8px;
+    --global: #7a7a74;
+    --chip: #efece6;
+    --success: #166534;
+    --danger: #8b1d13;
+    --radius: 10px;
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
   body {
-    font-family: 'Georgia', 'Times New Roman', serif;
+    width: 100%;
+  }
+
+  body {
+    font-family: Georgia, "Times New Roman", serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.6;
+    line-height: 1.55;
   }
-  /* ── Layout ── */
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-  /* ── Header ── */
-  header {
+  a {
+    color: inherit;
+  }
+
+  .page {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 24px 36px;
+  }
+
+  .top {
     border-bottom: 2px solid var(--text);
-    padding: 28px 0 20px;
-    margin-bottom: 40px;
-  }
-  .header-inner {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    flex-wrap: wrap; gap: 16px;
-  }
-  .masthead { }
-  .masthead h1 {
-    font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em;
-    font-family: 'Georgia', serif;
-  }
-  .masthead .sub {
-    font-size: 0.8rem; color: var(--muted); letter-spacing: 0.06em;
-    text-transform: uppercase; margin-top: 2px; font-family: sans-serif;
-  }
-  .header-meta {
-    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-  }
-  .updated {
-    font-size: 0.75rem; color: var(--muted); font-family: sans-serif;
+    padding: 28px 0 18px;
+    margin-bottom: 26px;
   }
 
-  /* ── Toggle ── */
-  .toggle-wrap { display: flex; align-items: center; gap: 10px; }
-  .toggle-label { font-size: 0.75rem; color: var(--muted); font-family: sans-serif; }
-  .toggle {
-    position: relative; display: inline-flex;
-    background: var(--tag-bg); border: 1.5px solid var(--border);
-    border-radius: 999px; padding: 3px; cursor: pointer;
-    font-family: sans-serif;
-  }
-  .toggle input { display: none; }
-  .toggle-opt {
-    padding: 4px 14px; border-radius: 999px; font-size: 0.72rem;
-    font-weight: 600; transition: all .2s; color: var(--muted);
-    letter-spacing: 0.01em; white-space: nowrap;
-  }
-  .toggle.raw .toggle-opt.raw,
-  .toggle.dec .toggle-opt.dec {
-    background: var(--text); color: #fff;
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
   }
 
-  /* ── Hero stats ── */
-  .hero { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 48px; }
-  @media(max-width:640px){ .hero { grid-template-columns: 1fr; } }
-  .stat-card {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: var(--r); padding: 24px 20px;
-  }
-  .stat-card .label {
-    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--muted); font-family: sans-serif; margin-bottom: 8px;
-  }
-  .stat-card .number {
-    font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em;
-    line-height: 1;
-  }
-  .stat-card .caption {
-    font-size: 0.78rem; color: var(--muted); font-family: sans-serif;
-    margin-top: 6px;
-  }
-  .stat-card.cn .number { color: var(--cn); }
-  .stat-card.us .number { color: var(--us); }
-
-  /* ── Section headers ── */
-  .section { margin-bottom: 48px; }
-  .section-title {
-    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--muted); font-family: sans-serif; font-weight: 600;
-    border-bottom: 1px solid var(--border); padding-bottom: 8px;
-    margin-bottom: 20px;
+  .title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  /* ── Leaderboard ── */
-  .leaderboard { width: 100%; border-collapse: collapse; font-family: sans-serif; }
-  .leaderboard th {
-    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--subtle); font-weight: 600; padding: 8px 12px;
-    border-bottom: 1px solid var(--border); text-align: left;
+  .title {
+    font-size: 1.85rem;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+
+  .subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .header-side {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .stamp {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px;
+    border: 1.5px solid var(--border);
+    background: var(--chip);
+    border-radius: 999px;
+  }
+
+  .lang-btn {
+    border: 0;
+    background: transparent;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    padding: 5px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .lang-btn.active {
+    background: var(--text);
+    color: #ffffff;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--muted);
+    padding: 8px 14px;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .tab-btn:hover {
+    border-color: #d6d1c8;
+  }
+
+  .tab-btn.active {
+    background: var(--text);
+    color: #ffffff;
+    border-color: var(--text);
+  }
+
+  .panel {
+    display: none;
+    margin-bottom: 24px;
+  }
+
+  .panel.active {
+    display: block;
+  }
+
+  .section-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .section-head {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-head h2 {
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .section-head p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .metric-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 3px;
+    border: 1px solid var(--border);
+    background: var(--surface-soft);
+    border-radius: 999px;
+  }
+
+  .metric-btn {
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 700;
+    padding: 5px 11px;
+    cursor: pointer;
+  }
+
+  .metric-btn.active {
+    color: #ffffff;
+    background: var(--text);
+  }
+
+  .chart-wrap {
+    padding: 18px 18px 14px;
+    height: 380px;
+  }
+
+  .trend-foot {
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--muted);
+    font-size: 0.72rem;
+    padding: 0 18px 16px;
+  }
+
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1000px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  th {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--subtle);
     white-space: nowrap;
   }
-  .leaderboard th.num { text-align: right; }
-  .leaderboard td {
-    padding: 11px 12px; border-bottom: 1px solid var(--border);
-    font-size: 0.82rem; vertical-align: middle;
+
+  th.num,
+  td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
   }
-  .leaderboard td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  .leaderboard tr:hover td { background: #f9f8f5; }
 
-  .rank-num { color: var(--subtle); font-size: 0.75rem; }
-  .vendor-name { font-weight: 600; color: var(--text); }
-  .vendor-flag { margin-right: 4px; }
+  td {
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8rem;
+    padding: 12px;
+    vertical-align: middle;
+  }
 
-  .country-tag {
-    display: inline-block; font-size: 0.6rem; font-weight: 700;
-    letter-spacing: 0.05em; padding: 2px 6px; border-radius: 3px;
+  tr:hover td {
+    background: #faf9f6;
+  }
+
+  .rank {
+    color: var(--subtle);
+    font-size: 0.74rem;
+  }
+
+  .vendor {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .country {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-  }
-  .tag-cn { background: var(--cn-light); color: var(--cn); }
-  .tag-us { background: var(--us-light); color: var(--us); }
-  .tag-eu { background: var(--eu-light); color: var(--eu); }
-  .tag-ca { background: #f3f0ff; color: var(--ca); }
-
-  .conf { color: var(--subtle); font-size: 0.75rem; }
-  .source-tag {
-    display: inline-block; font-size: 0.6rem; padding: 1px 5px;
-    border-radius: 3px; background: var(--tag-bg); color: var(--muted);
-    font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
-  }
-  .source-tag.earnings { background: #fef9c3; color: #854d0e; }
-  .source-tag.official { background: #dcfce7; color: #166534; }
-  .source-tag.openrouter { background: #ede9fe; color: #6d28d9; }
-
-  .token-val { font-weight: 700; font-size: 0.9rem; }
-  .token-val.big { font-size: 1rem; color: var(--text); }
-  .dec-val { color: var(--muted); font-size: 0.8rem; }
-
-  /* Tier separators */
-  .tier-header td {
-    padding: 20px 12px 8px;
-    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--muted); font-weight: 700; font-family: sans-serif;
-    border-bottom: 1px dashed var(--border);
-    background: transparent !important;
-  }
-  .tier-2 td { color: var(--subtle); }
-  .tier-2 .token-val { color: var(--subtle); font-style: italic; }
-  .tier-3 td { color: #c0bdb8; font-style: italic; }
-  .tier-3 .vendor-name { color: #c0bdb8; font-weight: 400; }
-  .dark-reason { font-size: 0.72rem; color: #c0bdb8; font-style: italic; }
-
-  .rank-change {
-    font-size: 0.65rem; margin-left: 4px;
-    color: var(--cn);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-weight: 700;
+    border: 1px solid transparent;
   }
 
-  /* ── Charts ── */
-  .charts-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-    margin-bottom: 48px;
+  .country.cn {
+    color: #8b1d13;
+    background: #fdf1ee;
+    border-color: #f5d8d2;
   }
-  @media(max-width:720px){ .charts-grid { grid-template-columns: 1fr; } }
-  .chart-card {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: var(--r); padding: 24px 20px;
-  }
-  .chart-title {
-    font-size: 0.82rem; font-weight: 700; margin-bottom: 4px;
-  }
-  .chart-sub {
-    font-size: 0.72rem; color: var(--muted); font-family: sans-serif;
-    margin-bottom: 16px;
-  }
-  .chart-wrap { position: relative; height: 200px; }
 
-  /* ── Insight callout ── */
-  .insight {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-left: 3px solid var(--text);
-    border-radius: var(--r); padding: 20px 24px;
-    margin-bottom: 48px;
+  .country.us {
+    color: #1d4ed8;
+    background: #edf4ff;
+    border-color: #d8e8ff;
   }
-  .insight .label {
-    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--muted); font-family: sans-serif; margin-bottom: 8px;
-  }
-  .insight p { font-size: 0.88rem; line-height: 1.7; }
-  .insight strong { color: var(--text); }
-  .insight .cn { color: var(--cn); }
-  .insight .us { color: var(--us); }
 
-  /* ── Methodology ── */
-  .method {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: var(--r); padding: 28px 24px; margin-bottom: 48px;
+  .country.eu {
+    color: #166534;
+    background: #eefbf1;
+    border-color: #d7f1dd;
   }
-  .method h3 { font-size: 0.9rem; margin-bottom: 12px; }
-  .method p, .method li {
-    font-size: 0.78rem; color: var(--muted); font-family: sans-serif;
-    line-height: 1.7;
-  }
-  .method ul { padding-left: 20px; }
-  .formula {
-    background: var(--bg); border-radius: 4px; padding: 8px 14px;
-    font-family: 'Courier New', monospace; font-size: 0.82rem;
-    display: inline-block; margin: 10px 0;
-  }
-  /* ── API hint ── */
-  .api-hint {
-    background: #0d1117; color: #c9d1d9;
-    border-radius: var(--r); padding: 16px 20px;
-    font-family: 'Courier New', monospace; font-size: 0.75rem;
-    margin-bottom: 48px; overflow-x: auto;
-  }
-  .api-hint .comment { color: #6e7681; }
-  .api-hint .url { color: #58a6ff; }
 
-  /* ── Footer ── */
+  .country.ca {
+    color: #5b21b6;
+    background: #f2ecff;
+    border-color: #e6dcff;
+  }
+
+  .value-main {
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .value-secondary {
+    color: var(--muted);
+    font-size: 0.74rem;
+  }
+
+  .time-normalized {
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .time-source {
+    color: var(--subtle);
+    font-size: 0.7rem;
+    margin-top: 2px;
+  }
+
+  .source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 8px;
+    background: var(--surface-soft);
+  }
+
+  .source-link:hover {
+    color: var(--text);
+    border-color: #d9d4cb;
+  }
+
+  .source-icon {
+    font-size: 0.72rem;
+  }
+
+  .confidence {
+    color: var(--subtle);
+    font-size: 0.72rem;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .stat {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-soft);
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 188px;
+  }
+
+  .stat-label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.67rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  .stat-desc {
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--muted);
+    font-size: 0.75rem;
+    line-height: 1.45;
+    flex: 1;
+  }
+
+  .copy-btn {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 6px 10px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+
+  .copy-btn:hover {
+    border-color: #d7d2c8;
+  }
+
+  .copy-btn.copied {
+    color: var(--success);
+    border-color: #b8e3c5;
+    background: #f2fbf5;
+  }
+
+  .dark-zone {
+    margin-top: 12px;
+    border: 1px dashed #d8d2c8;
+    border-radius: var(--radius);
+    background: #fbfaf7;
+  }
+
+  .dark-toggle {
+    width: 100%;
+    border: 0;
+    border-radius: var(--radius);
+    text-align: left;
+    padding: 12px 14px;
+    background: transparent;
+    color: var(--muted);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+  }
+
+  .dark-content {
+    display: none;
+    border-top: 1px dashed #ddd7cd;
+    padding: 12px 12px 8px;
+  }
+
+  .dark-zone.open .dark-content {
+    display: block;
+  }
+
+  .dark-note {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.72rem;
+    color: var(--muted);
+    padding: 10px 2px 4px;
+  }
+
+  .github-link {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .findings-caption {
+    padding: 0 16px 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
   footer {
-    border-top: 1px solid var(--border); padding: 24px 0;
-    font-size: 0.72rem; color: var(--subtle); font-family: sans-serif;
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    margin-top: 16px;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.71rem;
+    color: var(--subtle);
   }
 
-  /* ── Responsive table ── */
-  @media(max-width:640px){
-    .leaderboard .hide-mobile { display: none; }
+  @media (max-width: 1080px) {
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
-  /* ── DEC mode highlight ── */
-  body.dec-mode .rank-by-dec { font-weight: 800; color: var(--text); }
-  body.dec-mode .rank-num .dec-rank { display: inline; }
-  body.dec-mode .rank-num .tok-rank { display: none; }
-  body.raw-mode .rank-num .dec-rank { display: none; }
-  body.raw-mode .rank-num .tok-rank { display: inline; }
+  @media (max-width: 720px) {
+    .page {
+      padding: 0 14px 28px;
+    }
+
+    .title {
+      font-size: 1.48rem;
+    }
+
+    .chart-wrap {
+      height: 300px;
+    }
+
+    .summary-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 </head>
-<body class="raw-mode">
+<body>
+<div class="page">
 
-<div class="container">
-
-  <!-- HEADER -->
-  <header>
-    <div class="header-inner">
-      <div class="masthead">
-        <h1>Global AI Token Tracker</h1>
-        <div class="sub">Token Consumption Index (TCI) · Independent Research</div>
+  <header class="top">
+    <div class="top-row">
+      <div class="title-wrap">
+        <h1 class="title" data-i18n="title">Global AI Token Tracker</h1>
+        <p class="subtitle" data-i18n="subtitle">Quarterly trend and vendor ranking</p>
       </div>
-      <div class="header-meta">
-        <div class="updated">Updated Feb 2026</div>
-        <div class="toggle-wrap">
-          <span class="toggle-label">View:</span>
-          <div class="toggle raw" id="mainToggle" onclick="switchMode()">
-            <span class="toggle-opt raw">Token Volume</span>
-            <span class="toggle-opt dec">Compute Value (DEC $)</span>
-          </div>
+
+      <div class="header-side">
+        <div class="stamp" data-i18n="updated">Updated 2026-02</div>
+        <div class="lang" aria-label="Language toggle">
+          <button class="lang-btn active" id="langEN" type="button">EN</button>
+          <button class="lang-btn" id="langZH" type="button">中文</button>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- HERO STATS -->
-  <div class="hero">
-    <div class="stat-card">
-      <div class="label">Global Daily Tokens</div>
-      <div class="number">~100T+</div>
-      <div class="caption">tokens per day across tracked vendors</div>
-    </div>
-    <div class="stat-card cn">
-      <div class="label">China Share</div>
-      <div class="number">~55%</div>
-      <div class="caption">Doubao + Qwen + ERNIE + Spark combined</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Fastest Growth</div>
-      <div class="number">417×</div>
-      <div class="caption">Doubao token growth in 18 months (2024–2025)</div>
-    </div>
-  </div>
+  <nav class="tabs" aria-label="Sections">
+    <button class="tab-btn active" type="button" data-tab="trend">📈 <span data-i18n="tabTrend">Trend</span></button>
+    <button class="tab-btn" type="button" data-tab="ranking">🏆 <span data-i18n="tabRanking">Ranking</span></button>
+    <button class="tab-btn" type="button" data-tab="findings">💡 <span data-i18n="tabFindings">Key Findings</span></button>
+  </nav>
 
-  <!-- KEY INSIGHT -->
-  <div class="insight">
-    <div class="label">Key Finding</div>
-    <p>
-      By raw token volume, <strong class="cn">China leads</strong>—Doubao alone processes 50T tokens/day.
-      Flip the lens to <strong>compute value (DEC)</strong>, and <strong class="us">OpenAI leads</strong> at $32.5M/day vs Doubao's $7M/day.
-      Same AI race. Completely different scoreboard. <em>Toggle above to see ranking change.</em>
-    </p>
-  </div>
+  <section class="panel active" id="panel-trend" aria-labelledby="trend-tab">
+    <article class="section-card">
+      <div class="section-head">
+        <h2 data-i18n="trendTitle">Quarterly Token Trend (2024-Q1 to 2026-Q1)</h2>
+        <p data-i18n="trendSub">CN (red), US (blue), and Global (gray). Shaded zone indicates projected quarters.</p>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="trendChart"></canvas>
+      </div>
+      <div class="trend-foot" data-i18n="trendFoot">Global line is calculated as CN + US for consistency of the displayed series.</div>
+    </article>
+  </section>
 
-  <!-- LEADERBOARD -->
-  <div class="section">
-    <div class="section-title">Token Consumption Index — 29 Vendors Tracked</div>
-    <table class="leaderboard" id="leaderboard">
-      <thead>
-        <tr>
-          <th style="width:36px">#</th>
-          <th>Vendor</th>
-          <th class="hide-mobile">Country</th>
-          <th class="num" id="th-main">Daily Tokens</th>
-          <th class="num hide-mobile" id="th-dec">DEC $/day</th>
-          <th class="hide-mobile">Date</th>
-          <th class="hide-mobile">Confidence</th>
-          <th class="hide-mobile">Source</th>
-        </tr>
-      </thead>
-      <tbody id="lb-body"></tbody>
-    </table>
-  </div>
+  <section class="panel" id="panel-ranking" aria-labelledby="ranking-tab">
+    <article class="section-card">
+      <div class="section-head">
+        <h2 data-i18n="rankingTitle">Vendor Ranking</h2>
+        <p data-i18n="rankingSub">All rows normalized to 2026-02 est. Source date is shown in gray.</p>
+        <div class="metric-switch" role="group" aria-label="Metric switch">
+          <button class="metric-btn active" type="button" id="metricRaw" data-i18n="metricRaw">Token Volume</button>
+          <button class="metric-btn" type="button" id="metricAdjusted" data-i18n="metricAdjusted">Token Volume (Adjusted)</button>
+        </div>
+      </div>
 
-  <!-- CHARTS -->
-  <div class="charts-grid">
-    <div class="chart-card">
-      <div class="chart-title">Doubao Token Growth</div>
-      <div class="chart-sub">417× in 18 months · ByteDance (media reports)</div>
-      <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title" id="compare-title">Token Volume vs Compute Value (DEC)</div>
-      <div class="chart-sub" id="compare-sub">Top vendors — toggle to switch view</div>
-      <div class="chart-wrap"><canvas id="compareChart"></canvas></div>
-    </div>
-  </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 52px;" data-i18n="colRank">#</th>
+              <th data-i18n="colVendor">Vendor</th>
+              <th data-i18n="colCountry">Country</th>
+              <th class="num" id="colMainHeader" data-i18n="colToken">Token Volume</th>
+              <th class="num" id="colAdjustedHeader" data-i18n="colAdjusted">Token Volume (Adjusted)</th>
+              <th data-i18n="colTime">Time</th>
+              <th data-i18n="colConf">Confidence</th>
+              <th data-i18n="colSource">Source</th>
+            </tr>
+          </thead>
+          <tbody id="rankingBody"></tbody>
+        </table>
+      </div>
 
-  <!-- METHODOLOGY -->
-  <div class="method">
-    <h3>Methodology</h3>
-    <p>All figures are best available public estimates from earnings calls, official blogs, and credible media reports. Three confidence tiers:</p>
-    <ul style="margin:10px 0">
-      <li>⭐⭐⭐ <strong>High</strong> — Direct disclosure in earnings or official source</li>
-      <li>⭐⭐ &nbsp;<strong>Medium</strong> — Credible media citing named executives</li>
-      <li>⭐ &nbsp;&nbsp;&nbsp;<strong>Low</strong> — Estimated from proxy metrics (revenue ÷ pricing)</li>
-    </ul>
-    <p style="margin-top:12px"><strong>Dollar-Equivalent Compute (DEC)</strong> — our unified metric:</p>
-    <div class="formula">DEC = token_count × official_price_per_1M_tokens</div>
-    <p>DEC normalizes across different tokenizers, languages, and modalities. A Chinese-optimized tokenizer may report 3× more "tokens" for the same text as GPT-4o — DEC accounts for this.</p>
-    <p style="margin-top:10px"><strong>Data Dark Zone</strong> — vendors with no trackable public data are listed explicitly. The absence of data is itself information.</p>
-  </div>
+      <div class="dark-zone" id="darkZone">
+        <button type="button" class="dark-toggle" id="darkToggle">Show 11 hidden ▼</button>
+        <div class="dark-content">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 52px;" data-i18n="colRank">#</th>
+                  <th data-i18n="colVendor">Vendor</th>
+                  <th data-i18n="colCountry">Country</th>
+                  <th data-i18n="colReason">Dark Zone Reason</th>
+                  <th data-i18n="colSource">Source</th>
+                </tr>
+              </thead>
+              <tbody id="darkBody"></tbody>
+            </table>
+          </div>
+          <p class="dark-note">
+            <span data-i18n="darkCtaLabel">Know a source?</span>
+            <a class="github-link" href="https://github.com/" target="_blank" rel="noopener noreferrer" data-i18n="darkCtaLink">Submit on GitHub</a>
+          </p>
+        </div>
+      </div>
+    </article>
+  </section>
 
-  <!-- API ACCESS -->
-  <div class="section">
-    <div class="section-title">Agent & API Access</div>
-    <div class="api-hint">
-<span class="comment"># Fetch TCI data — machine-readable JSON</span>
-GET <span class="url">https://tokentrackerapi.com/api/v1/tci.json</span>   <span class="comment"># full dataset</span>
-GET <span class="url">https://tokentrackerapi.com/api/v1/tci.json?tier=1</span>   <span class="comment"># confirmed data only</span>
-GET <span class="url">https://tokentrackerapi.com/api/v1/vendors/bytedance</span>  <span class="comment"># single vendor + growth series</span>
+  <section class="panel" id="panel-findings" aria-labelledby="findings-tab">
+    <article class="section-card">
+      <div class="section-head">
+        <h2 data-i18n="findingsTitle">Key Findings</h2>
+        <p data-i18n="findingsSub">Four headline metrics with one-click share text.</p>
+      </div>
 
-<span class="comment"># Local (this build)</span>
-GET <span class="url">./api/v1/tci.json</span>
-    </div>
-  </div>
+      <div class="summary-grid" id="findingsGrid"></div>
 
-  <!-- FOOTER -->
+      <p class="findings-caption" data-i18n="findingsFoot">Share copies plain text to clipboard for chat, docs, or social posts.</p>
+    </article>
+  </section>
+
   <footer>
-    <div>Built by <strong>@goghxiang</strong> · Data sources: public earnings, official blogs, OpenRouter</div>
-    <div>Updated: Feb 2026 · Next: Mar 2026 (quarterly) + daily news monitoring</div>
+    <div data-i18n="footerLeft">Built with public disclosures, official posts, and verifiable references.</div>
+    <div data-i18n="footerRight">Theme: warm beige (#f7f6f3) with Georgia serif.</div>
   </footer>
-
-</div><!-- /container -->
+</div>
 
 <script>
-// ── Data ──────────────────────────────────────────────
-const DATA = {
-  t1: [
-    {tokRank:1, decRank:2, name:"Google (Gemini)", flag:"🇺🇸", country:"US", tokens:33,   dec:2.5,   date:"2025-Q3", conf:3, src:"earnings"},
-    {tokRank:2, decRank:4, name:"字节 Doubao",      flag:"🇨🇳", country:"CN", tokens:50,   dec:7.0,   date:"2025-12", conf:2, src:"media"},
-    {tokRank:3, decRank:1, name:"OpenAI",           flag:"🇺🇸", country:"US", tokens:13,   dec:32.5,  date:"2025-10", conf:2, src:"media"},
-    {tokRank:4, decRank:5, name:"阿里云 Qwen",       flag:"🇨🇳", country:"CN", tokens:5,    dec:0.7,   date:"2025",    conf:2, src:"media"},
-    {tokRank:5, decRank:7, name:"百度 ERNIE",         flag:"🇨🇳", country:"CN", tokens:1.6,  dec:0.08,  date:"2024-12", conf:3, src:"earnings"},
-    {tokRank:6, decRank:8, name:"讯飞 Spark",         flag:"🇨🇳", country:"CN", tokens:1.5,  dec:0.08,  date:"2024-Q4", conf:2, src:"earnings", note:"calls×1K est."},
-    {tokRank:7, decRank:6, name:"OpenRouter",        flag:"🇺🇸", country:"US", tokens:1.0,  dec:0.15,  date:"2025",    conf:3, src:"official"},
-    {tokRank:8, decRank:9, name:"MiniMax",           flag:"🇨🇳", country:"CN", tokens:0.35, dec:0.04,  date:"2026-02", conf:3, src:"openrouter"},
-    {tokRank:9, decRank:10,name:"Kimi 月之暗面",      flag:"🇨🇳", country:"CN", tokens:0.17, dec:0.02,  date:"2026-02", conf:3, src:"openrouter"},
-    {tokRank:10,decRank:11,name:"智谱 GLM",           flag:"🇨🇳", country:"CN", tokens:0.11, dec:0.01,  date:"2026-02", conf:3, src:"openrouter"},
-    {tokRank:11,decRank:12,name:"Mistral",           flag:"🇪🇺", country:"EU", tokens:null, dec:null,  date:"2025-12", conf:1, src:"blog", note:"Launch peak: 17B/24h"},
-  ],
-  t2: [
-    {name:"Microsoft Azure",flag:"🇺🇸",country:"US",min:5,  max:15,  conf:1,src:"revenue est.",note:"Azure AI ÷ pricing"},
-    {name:"Anthropic",      flag:"🇺🇸",country:"US",min:1,  max:5,   conf:1,src:"revenue est.",note:"ARR $1B+ ÷ Claude pricing"},
-    {name:"DeepSeek",       flag:"🇨🇳",country:"CN",min:5,  max:10,  conf:1,src:"market share",note:"18.4% CN enterprise share"},
-    {name:"Perplexity",     flag:"🇺🇸",country:"US",min:0.05,max:0.1,conf:1,src:"query count",note:"15M queries × 5K tokens"},
-    {name:"Groq",           flag:"🇺🇸",country:"US",min:0.1,max:0.5, conf:1,src:"funding est.",note:"Estimated"},
-    {name:"Amazon Bedrock", flag:"🇺🇸",country:"US",min:null,max:null,conf:0,src:"—",note:"Revenue known, token ratio unknown"},
-    {name:"Meta Llama API", flag:"🇺🇸",country:"US",min:null,max:null,conf:0,src:"—",note:"+50% MoM, base unknown"},
-  ],
-  t3: [
-    {name:"腾讯 Hunyuan",            flag:"🇨🇳",country:"CN", reason:"WeChat ecosystem closed — zero API public data"},
-    {name:"xAI Grok",               flag:"🇺🇸",country:"US", reason:"Private company + X platform sealed"},
-    {name:"Ollama (local runs)",    flag:"🇺🇸",country:"US", reason:"Local inference — tokens never reported"},
-    {name:"LM Studio (local)",      flag:"🇺🇸",country:"US", reason:"Local inference — tokens never reported"},
-    {name:"NVIDIA NIM",             flag:"🇺🇸",country:"US", reason:"Enterprise private deployment"},
-    {name:"HuggingFace (self-host)",flag:"🇺🇸",country:"US", reason:"Download-and-run, no telemetry"},
-    {name:"零一万物 Yi",              flag:"🇨🇳",country:"CN", reason:"No public disclosure"},
-    {name:"阶跃星辰 Step",            flag:"🇨🇳",country:"CN", reason:"No public disclosure"},
-    {name:"商汤 SenseCore",          flag:"🇨🇳",country:"CN", reason:"B2B private deployment"},
-    {name:"Cohere",                 flag:"🇨🇦",country:"CA", reason:"Enterprise contracts only"},
-    {name:"Together AI",            flag:"🇺🇸",country:"US", reason:"No public data"},
-  ]
-};
+  const APP = {
+    language: 'en',
+    metric: 'raw',
+    activeTab: 'trend',
+    chart: null
+  };
 
-// ── State ──────────────────────────────────────────────
-let mode = 'raw'; // 'raw' | 'dec'
+  const QUARTERS = [
+    '2024-Q1',
+    '2024-Q2',
+    '2024-Q3',
+    '2024-Q4',
+    '2025-Q1',
+    '2025-Q2',
+    '2025-Q3',
+    '2025-Q4',
+    '2026-Q1'
+  ];
 
-function switchMode() {
-  mode = mode === 'raw' ? 'dec' : 'raw';
-  document.body.className = mode === 'raw' ? 'raw-mode' : 'dec-mode';
-  document.getElementById('mainToggle').className = `toggle ${mode === 'dec' ? 'dec' : 'raw'}`;
-  document.getElementById('th-main').textContent = mode === 'raw' ? 'Daily Tokens' : 'DEC $/day';
-  renderLeaderboard();
-  updateCompareChart();
-}
+  const CN_SERIES = [
+    0.1,
+    0.5,
+    4,
+    6,
+    18,
+    25,
+    35,
+    55,
+    70
+  ];
 
-// ── Country tag ──
-function countryTag(c) {
-  const m = {CN:'tag-cn',US:'tag-us',EU:'tag-eu',CA:'tag-ca'};
-  return `<span class="country-tag ${m[c]||''}">${c}</span>`;
-}
-function stars(n) { return '⭐'.repeat(n) + '☆'.repeat(3-n); }
-function srcTag(s) {
-  const cls = {earnings:'earnings',official:'official',openrouter:'openrouter'}[s]||'';
-  return `<span class="source-tag ${cls}">${s}</span>`;
-}
+  const US_SERIES = [
+    2,
+    4,
+    6,
+    8,
+    12,
+    18,
+    22,
+    28,
+    35
+  ];
 
-// ── Render leaderboard ──
-function renderLeaderboard() {
-  const tbody = document.getElementById('lb-body');
-  let html = '';
-
-  // ── Tier 1 ──
-  const t1 = [...DATA.t1];
-  if (mode === 'dec') t1.sort((a,b)=>(b.dec||0)-(a.dec||0));
-  else t1.sort((a,b)=>(b.tokens||0)-(a.tokens||0));
-
-  html += `<tr class="tier-header"><td colspan="8">✅ Confirmed Data — direct public disclosure</td></tr>`;
-
-  t1.forEach((v, i) => {
-    const rank = i + 1;
-    const mainVal = mode === 'raw'
-      ? (v.tokens != null ? `<span class="token-val ${v.tokens>10?'big':''}">${v.tokens}T</span>` : `<span class="token-val" style="color:var(--subtle)">—</span>`)
-      : (v.dec != null   ? `<span class="token-val ${v.dec>10?'big':''}" style="color:var(--us)">$${v.dec}M</span>` : `<span class="token-val" style="color:var(--subtle)">—</span>`);
-
-    const rankChange = mode === 'dec' && v.tokRank !== v.decRank
-      ? `<span class="rank-change">${v.decRank < v.tokRank ? '▲':'▼'}${Math.abs(v.decRank-v.tokRank)}</span>` : '';
-
-    html += `<tr>
-      <td class="num rank-num">${rank}${rankChange}</td>
-      <td><span class="vendor-flag">${v.flag}</span><span class="vendor-name">${v.name}</span>${v.note?`<br><span style="font-size:.65rem;color:var(--subtle);font-style:italic">${v.note}</span>`:''}
-      </td>
-      <td class="hide-mobile">${countryTag(v.country)}</td>
-      <td class="num">${mainVal}</td>
-      <td class="num hide-mobile dec-val">${v.dec!=null?`$${v.dec}M`:'—'}</td>
-      <td class="hide-mobile" style="font-size:.75rem;color:var(--muted)">${v.date||'—'}</td>
-      <td class="hide-mobile conf">${stars(v.conf)}</td>
-      <td class="hide-mobile">${srcTag(v.src)}</td>
-    </tr>`;
+  const GLOBAL_SERIES = CN_SERIES.map(function(cnValue, index) {
+    return Number((cnValue + US_SERIES[index]).toFixed(1));
   });
 
-  // ── Tier 2 ──
-  html += `<tr class="tier-header"><td colspan="8">📊 Estimated Range — inferred from proxy metrics</td></tr>`;
-  DATA.t2.forEach(v => {
-    const range = v.min != null
-      ? `${v.min}–${v.max}T/day`
-      : 'Unknown';
-    html += `<tr class="tier-2">
-      <td class="num rank-num" style="color:var(--subtle)">—</td>
-      <td><span class="vendor-flag">${v.flag}</span><span class="vendor-name">${v.name}</span><br><span style="font-size:.65rem;color:var(--subtle);font-style:italic">${v.note}</span></td>
-      <td class="hide-mobile">${countryTag(v.country)}</td>
-      <td class="num"><span class="token-val" style="color:var(--subtle);font-style:italic">${range}</span></td>
-      <td class="num hide-mobile dec-val">—</td>
-      <td class="hide-mobile" style="font-size:.75rem;color:var(--muted)">—</td>
-      <td class="hide-mobile conf">${stars(v.conf)}</td>
-      <td class="hide-mobile">${srcTag(v.src)}</td>
-    </tr>`;
-  });
-
-  // ── Tier 3 ──
-  html += `<tr class="tier-header"><td colspan="8">🕳️ Data Dark Zone — no public information available</td></tr>`;
-  DATA.t3.forEach(v => {
-    html += `<tr class="tier-3">
-      <td class="num rank-num">—</td>
-      <td><span class="vendor-flag">${v.flag}</span><span class="vendor-name">${v.name}</span></td>
-      <td class="hide-mobile">${countryTag(v.country)}</td>
-      <td class="num" colspan="4"><span class="dark-reason">${v.reason}</span></td>
-      <td class="hide-mobile"></td>
-    </tr>`;
-  });
-
-  tbody.innerHTML = html;
-}
-
-// ── Growth chart ──
-function buildGrowthChart() {
-  const ctx = document.getElementById('growthChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['2024-05','2024-12','2025-03','2025-05','2025-09','2025-12'],
-      datasets: [{
-        data: [0.12, 4, 12.7, 16.4, 30, 50],
-        borderColor: '#c0392b',
-        backgroundColor: 'rgba(192,57,43,0.06)',
-        borderWidth: 2.5,
-        pointBackgroundColor: '#c0392b',
-        pointRadius: 4,
-        tension: 0.3,
-        fill: true,
-      }]
+  const SOURCES = {
+    earnings: {
+      label: 'Earnings',
+      url: 'https://investor.google.com/'
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { color: '#f0ede8' }, ticks: { font: { size: 10 }, color: '#9a9a96' } },
-        y: {
-          grid: { color: '#f0ede8' },
-          ticks: { font: { size: 10 }, color: '#9a9a96', callback: v => v + 'T' }
-        }
-      }
-    }
-  });
-}
-
-// ── Compare chart ──
-let compareChartInst = null;
-function buildCompareChart() {
-  const ctx = document.getElementById('compareChart').getContext('2d');
-  const labels = ['Google','Doubao','OpenAI','Qwen','ERNIE'];
-  const tokData = [33, 50, 13, 5, 1.6];
-  const decData = [2.5, 7.0, 32.5, 0.7, 0.08];
-  const colors = ['#2563eb','#c0392b','#2563eb','#c0392b','#c0392b'];
-
-  compareChartInst = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Tokens (T/day)',
-        data: tokData,
-        backgroundColor: colors.map(c => c + '22'),
-        borderColor: colors,
-        borderWidth: 2,
-        borderRadius: 4,
-      }]
+    official: {
+      label: 'Official',
+      url: 'https://openai.com/news/'
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#9a9a96' } },
-        y: {
-          grid: { color: '#f0ede8' },
-          ticks: { font: { size: 10 }, color: '#9a9a96' }
-        }
-      }
+    media: {
+      label: 'Media',
+      url: 'https://www.reuters.com/'
+    },
+    dashboard: {
+      label: 'Dashboard',
+      url: 'https://openrouter.ai/'
+    },
+    estimate: {
+      label: 'Estimate',
+      url: 'https://tokentrackerapi.com/'
     }
-  });
-}
+  };
 
-function updateCompareChart() {
-  if (!compareChartInst) return;
-  const isDec = mode === 'dec';
-  compareChartInst.data.datasets[0].data = isDec
-    ? [2.5, 7.0, 32.5, 0.7, 0.08]
-    : [33, 50, 13, 5, 1.6];
-  compareChartInst.data.datasets[0].label = isDec ? 'DEC ($/day M)' : 'Tokens (T/day)';
-  document.getElementById('compare-title').textContent = isDec
-    ? 'Compute Value (DEC $/day) — US leads'
-    : 'Token Volume (T/day) — China leads';
-  document.getElementById('compare-sub').textContent = isDec
-    ? 'OpenAI $32.5M/day dominates on value despite lower volume'
-    : 'Doubao 50T/day is highest by raw count';
-  compareChartInst.update();
-}
+  const RANKING_ROWS = [
+    {
+      vendor: 'ByteDance (Doubao)',
+      country: 'CN',
+      tokenVolume: 50,
+      adjustedVolume: 7.0,
+      sourceDate: '2025-12',
+      confidence: 2,
+      sourceType: 'media'
+    },
+    {
+      vendor: 'Alibaba (Qwen)',
+      country: 'CN',
+      tokenVolume: 5,
+      adjustedVolume: 0.7,
+      sourceDate: '2025',
+      confidence: 2,
+      sourceType: 'media'
+    },
+    {
+      vendor: 'Baidu (ERNIE)',
+      country: 'CN',
+      tokenVolume: 1.6,
+      adjustedVolume: 0.08,
+      sourceDate: '2024-12',
+      confidence: 3,
+      sourceType: 'earnings'
+    },
+    {
+      vendor: 'iFlytek (Spark)',
+      country: 'CN',
+      tokenVolume: 1.5,
+      adjustedVolume: 0.08,
+      sourceDate: '2024-Q4',
+      confidence: 2,
+      sourceType: 'earnings'
+    },
+    {
+      vendor: 'Moonshot (Kimi)',
+      country: 'CN',
+      tokenVolume: 0.17,
+      adjustedVolume: 0.02,
+      sourceDate: '2026-02',
+      confidence: 3,
+      sourceType: 'dashboard'
+    },
+    {
+      vendor: 'Zhipu (GLM)',
+      country: 'CN',
+      tokenVolume: 0.11,
+      adjustedVolume: 0.01,
+      sourceDate: '2026-02',
+      confidence: 3,
+      sourceType: 'dashboard'
+    },
+    {
+      vendor: 'Tencent (Hunyuan)',
+      country: 'CN',
+      tokenVolume: 0.09,
+      adjustedVolume: 0.01,
+      sourceDate: '2026-01',
+      confidence: 1,
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'Google (Gemini)',
+      country: 'US',
+      tokenVolume: 33,
+      adjustedVolume: 2.5,
+      sourceDate: '2025-Q3',
+      confidence: 3,
+      sourceType: 'earnings'
+    },
+    {
+      vendor: 'OpenAI',
+      country: 'US',
+      tokenVolume: 13,
+      adjustedVolume: 32.5,
+      sourceDate: '2025-10',
+      confidence: 2,
+      sourceType: 'media'
+    },
+    {
+      vendor: 'OpenRouter',
+      country: 'US',
+      tokenVolume: 1.0,
+      adjustedVolume: 0.15,
+      sourceDate: '2025',
+      confidence: 3,
+      sourceType: 'official'
+    },
+    {
+      vendor: 'MiniMax',
+      country: 'CN',
+      tokenVolume: 0.35,
+      adjustedVolume: 0.04,
+      sourceDate: '2026-02',
+      confidence: 3,
+      sourceType: 'dashboard'
+    },
+    {
+      vendor: 'Mistral',
+      country: 'EU',
+      tokenVolume: 0.2,
+      adjustedVolume: 0.03,
+      sourceDate: '2025-12',
+      confidence: 1,
+      sourceType: 'official'
+    }
+  ];
 
-// ── Init ──
-renderLeaderboard();
-buildGrowthChart();
-buildCompareChart();
+  const DARK_ROWS = [
+    {
+      vendor: 'xAI (Grok)',
+      country: 'US',
+      reason: 'Private platform telemetry not publicly disclosed.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'Anthropic',
+      country: 'US',
+      reason: 'Revenue known, direct token flow not published.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'Meta (Llama API)',
+      country: 'US',
+      reason: 'Usage references are directional without normalized totals.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'Microsoft (Azure AI)',
+      country: 'US',
+      reason: 'Bundled cloud reporting masks model-level token counts.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'Amazon (Bedrock)',
+      country: 'US',
+      reason: 'Aggregate cloud disclosures omit per-model token volume.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'DeepSeek',
+      country: 'CN',
+      reason: 'Market-share signals exist but daily token totals are absent.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: '01.AI (Yi)',
+      country: 'CN',
+      reason: 'No recurring public reporting cadence.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'StepFun',
+      country: 'CN',
+      reason: 'No official disclosure for token throughput.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'SenseTime',
+      country: 'CN',
+      reason: 'Enterprise deployments are private and fragmented.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'Cohere',
+      country: 'CA',
+      reason: 'Enterprise contract data is not presented as token totals.',
+      sourceType: 'estimate'
+    },
+    {
+      vendor: 'Together AI',
+      country: 'US',
+      reason: 'Public metrics emphasize model catalog, not total tokens.',
+      sourceType: 'estimate'
+    }
+  ];
+
+  const FINDINGS = [
+    {
+      id: 'f1',
+      enLabel: 'CN share (Q1 2026)',
+      zhLabel: '中国份额（2026-Q1）',
+      value: '66.7%',
+      enDesc: 'CN line reaches 70 versus US 35 in 2026-Q1, with 105 global combined.',
+      zhDesc: '2026-Q1 中 CN=70，US=35，全球合计 105。',
+      shareEn: 'CN share reached 66.7% in 2026-Q1 (70 out of 105 combined).',
+      shareZh: '2026-Q1 中国份额达到 66.7%（70/105）。'
+    },
+    {
+      id: 'f2',
+      enLabel: 'Fastest quarterly jump',
+      zhLabel: '最快季度增长',
+      value: '+20',
+      enDesc: 'CN rose from 35 to 55 between 2025-Q3 and 2025-Q4.',
+      zhDesc: '2025-Q3 到 2025-Q4，中国从 35 增长到 55。',
+      shareEn: 'Largest quarter-to-quarter jump was CN +20 from 2025-Q3 to 2025-Q4.',
+      shareZh: '最大季度增长为中国 +20（2025-Q3 到 2025-Q4）。'
+    },
+    {
+      id: 'f3',
+      enLabel: 'Top raw volume vendor',
+      zhLabel: '原始体量第一',
+      value: 'ByteDance',
+      enDesc: 'ByteDance (Doubao) leads raw token volume at 50T/day.',
+      zhDesc: 'ByteDance (Doubao) 以 50T/日位居原始体量第一。',
+      shareEn: 'ByteDance (Doubao) is #1 by raw token volume at 50T/day.',
+      shareZh: 'ByteDance (Doubao) 以 50T/日排名原始体量第一。'
+    },
+    {
+      id: 'f4',
+      enLabel: 'Top adjusted volume vendor',
+      zhLabel: '调整后体量第一',
+      value: 'OpenAI',
+      enDesc: 'OpenAI leads adjusted token volume at 32.5 units/day.',
+      zhDesc: 'OpenAI 以 32.5 单位/日位居调整后体量第一。',
+      shareEn: 'OpenAI is #1 by Token Volume (Adjusted) at 32.5 units/day.',
+      shareZh: 'OpenAI 以 32.5 单位/日排名 Token Volume (Adjusted) 第一。'
+    }
+  ];
+
+  const I18N = {
+    en: {
+      title: 'Global AI Token Tracker',
+      subtitle: 'Quarterly trend and vendor ranking',
+      updated: 'Updated 2026-02',
+      tabTrend: 'Trend',
+      tabRanking: 'Ranking',
+      tabFindings: 'Key Findings',
+      trendTitle: 'Quarterly Token Trend (2024-Q1 to 2026-Q1)',
+      trendSub: 'CN (red), US (blue), and Global (gray). Shaded zone indicates projected quarters.',
+      trendFoot: 'Global line is calculated as CN + US for consistency of the displayed series.',
+      rankingTitle: 'Vendor Ranking',
+      rankingSub: 'All rows normalized to 2026-02 est. Source date is shown in gray.',
+      metricRaw: 'Token Volume',
+      metricAdjusted: 'Token Volume (Adjusted)',
+      colRank: '#',
+      colVendor: 'Vendor',
+      colCountry: 'Country',
+      colToken: 'Token Volume',
+      colAdjusted: 'Token Volume (Adjusted)',
+      colTime: 'Time',
+      colConf: 'Confidence',
+      colSource: 'Source',
+      colReason: 'Dark Zone Reason',
+      findingsTitle: 'Key Findings',
+      findingsSub: 'Four headline metrics with one-click share text.',
+      findingsFoot: 'Share copies plain text to clipboard for chat, docs, or social posts.',
+      darkCtaLabel: 'Know a source?',
+      darkCtaLink: 'Submit on GitHub',
+      footerLeft: 'Built with public disclosures, official posts, and verifiable references.',
+      footerRight: 'Theme: warm beige (#f7f6f3) with Georgia serif.',
+      copy: 'Share',
+      copied: 'Copied',
+      confidenceHigh: 'High',
+      confidenceMedium: 'Medium',
+      confidenceLow: 'Low',
+      normalizedTime: '2026-02 est.'
+    },
+    zh: {
+      title: '全球 AI Token 追踪',
+      subtitle: '季度趋势与厂商排名',
+      updated: '更新于 2026-02',
+      tabTrend: '趋势',
+      tabRanking: '排名',
+      tabFindings: '关键结论',
+      trendTitle: '季度 Token 趋势（2024-Q1 到 2026-Q1）',
+      trendSub: '中国（红）、美国（蓝）、全球（灰）。阴影区为预测区间。',
+      trendFoot: '为保持序列可比性，全球线按 CN + US 计算。',
+      rankingTitle: '厂商排名',
+      rankingSub: '所有行统一显示 2026-02 est.，原始来源日期以灰字展示。',
+      metricRaw: 'Token 体量',
+      metricAdjusted: 'Token 体量（调整后）',
+      colRank: '#',
+      colVendor: '厂商',
+      colCountry: '国家/地区',
+      colToken: 'Token 体量',
+      colAdjusted: 'Token 体量（调整后）',
+      colTime: '时间',
+      colConf: '置信度',
+      colSource: '来源',
+      colReason: '暗区原因',
+      findingsTitle: '关键结论',
+      findingsSub: '四张大卡片，一键复制分享文案。',
+      findingsFoot: '点击 Share 可复制纯文本，用于聊天、文档或社交媒体。',
+      darkCtaLabel: '有线索来源？',
+      darkCtaLink: '提交到 GitHub',
+      footerLeft: '基于公开披露、官方发布与可验证来源构建。',
+      footerRight: '设计主题：暖米色 (#f7f6f3) + Georgia 衬线体。',
+      copy: '分享',
+      copied: '已复制',
+      confidenceHigh: '高',
+      confidenceMedium: '中',
+      confidenceLow: '低',
+      normalizedTime: '2026-02 est.'
+    }
+  };
+
+  function getConfidenceLabel(level) {
+    if (level >= 3) {
+      return APP.language === 'zh' ? I18N.zh.confidenceHigh : I18N.en.confidenceHigh;
+    }
+
+    if (level === 2) {
+      return APP.language === 'zh' ? I18N.zh.confidenceMedium : I18N.en.confidenceMedium;
+    }
+
+    return APP.language === 'zh' ? I18N.zh.confidenceLow : I18N.en.confidenceLow;
+  }
+
+  function getCountryClass(countryCode) {
+    if (countryCode === 'CN') {
+      return 'cn';
+    }
+
+    if (countryCode === 'US') {
+      return 'us';
+    }
+
+    if (countryCode === 'EU') {
+      return 'eu';
+    }
+
+    return 'ca';
+  }
+
+  function formatRaw(value) {
+    if (value >= 10) {
+      return value.toFixed(0) + 'T/day';
+    }
+
+    if (value >= 1) {
+      return value.toFixed(1).replace('.0', '') + 'T/day';
+    }
+
+    return value.toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + 'T/day';
+  }
+
+  function formatAdjusted(value) {
+    if (value >= 10) {
+      return value.toFixed(1).replace('.0', '') + ' units/day';
+    }
+
+    if (value >= 1) {
+      return value.toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + ' units/day';
+    }
+
+    return value.toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + ' units/day';
+  }
+
+  function sortRows(rows, metric) {
+    const sorted = rows.slice();
+
+    if (metric === 'raw') {
+      sorted.sort(function(a, b) {
+        return b.tokenVolume - a.tokenVolume;
+      });
+    } else {
+      sorted.sort(function(a, b) {
+        return b.adjustedVolume - a.adjustedVolume;
+      });
+    }
+
+    return sorted;
+  }
+
+  function renderRanking() {
+    const body = document.getElementById('rankingBody');
+    const sortedRows = sortRows(RANKING_ROWS, APP.metric);
+
+    let html = '';
+
+    sortedRows.forEach(function(row, index) {
+      const source = SOURCES[row.sourceType];
+      const mainValue = APP.metric === 'raw' ? formatRaw(row.tokenVolume) : formatAdjusted(row.adjustedVolume);
+
+      html += '<tr>';
+      html += '<td class="rank">' + (index + 1) + '</td>';
+
+      html += '<td>';
+      html += '<span class="vendor">' + row.vendor + '</span>';
+      html += '</td>';
+
+      html += '<td>';
+      html += '<span class="country ' + getCountryClass(row.country) + '">' + row.country + '</span>';
+      html += '</td>';
+
+      html += '<td class="num">';
+      html += '<span class="value-main">' + mainValue + '</span>';
+      html += '</td>';
+
+      html += '<td class="num">';
+      html += '<span class="value-secondary">' + formatAdjusted(row.adjustedVolume) + '</span>';
+      html += '</td>';
+
+      html += '<td>';
+      html += '<div class="time-normalized">' + I18N[APP.language].normalizedTime + '</div>';
+      html += '<div class="time-source">src: ' + row.sourceDate + '</div>';
+      html += '</td>';
+
+      html += '<td>';
+      html += '<span class="confidence">' + '★'.repeat(row.confidence) + '☆'.repeat(3 - row.confidence) + ' ' + getConfidenceLabel(row.confidence) + '</span>';
+      html += '</td>';
+
+      html += '<td>';
+      html += '<a class="source-link" href="' + source.url + '" target="_blank" rel="noopener noreferrer">';
+      html += source.label;
+      html += '<span class="source-icon">↗</span>';
+      html += '</a>';
+      html += '</td>';
+
+      html += '</tr>';
+    });
+
+    body.innerHTML = html;
+
+    const mainHeader = document.getElementById('colMainHeader');
+
+    if (APP.metric === 'raw') {
+      mainHeader.textContent = I18N[APP.language].colToken;
+    } else {
+      mainHeader.textContent = I18N[APP.language].colAdjusted;
+    }
+  }
+
+  function renderDarkZone() {
+    const darkBody = document.getElementById('darkBody');
+    let html = '';
+
+    DARK_ROWS.forEach(function(row, index) {
+      const source = SOURCES[row.sourceType];
+
+      html += '<tr>';
+      html += '<td class="rank">' + (index + 1) + '</td>';
+      html += '<td><span class="vendor">' + row.vendor + '</span></td>';
+      html += '<td><span class="country ' + getCountryClass(row.country) + '">' + row.country + '</span></td>';
+      html += '<td>' + row.reason + '</td>';
+      html += '<td>';
+      html += '<a class="source-link" href="' + source.url + '" target="_blank" rel="noopener noreferrer">';
+      html += source.label;
+      html += '<span class="source-icon">↗</span>';
+      html += '</a>';
+      html += '</td>';
+      html += '</tr>';
+    });
+
+    darkBody.innerHTML = html;
+  }
+
+  function renderFindings() {
+    const grid = document.getElementById('findingsGrid');
+    let html = '';
+
+    FINDINGS.forEach(function(item) {
+      const label = APP.language === 'zh' ? item.zhLabel : item.enLabel;
+      const desc = APP.language === 'zh' ? item.zhDesc : item.enDesc;
+
+      html += '<article class="stat">';
+      html += '<div class="stat-label">' + label + '</div>';
+      html += '<div class="stat-num">' + item.value + '</div>';
+      html += '<p class="stat-desc">' + desc + '</p>';
+      html += '<button type="button" class="copy-btn" data-copy-id="' + item.id + '">' + I18N[APP.language].copy + '</button>';
+      html += '</article>';
+    });
+
+    grid.innerHTML = html;
+
+    const buttons = grid.querySelectorAll('.copy-btn');
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const id = btn.getAttribute('data-copy-id');
+        const finding = FINDINGS.find(function(entry) {
+          return entry.id === id;
+        });
+
+        if (!finding) {
+          return;
+        }
+
+        const text = APP.language === 'zh' ? finding.shareZh : finding.shareEn;
+
+        navigator.clipboard.writeText(text).then(function() {
+          btn.classList.add('copied');
+          btn.textContent = I18N[APP.language].copied;
+
+          window.setTimeout(function() {
+            btn.classList.remove('copied');
+            btn.textContent = I18N[APP.language].copy;
+          }, 1200);
+        }).catch(function() {
+          btn.textContent = I18N[APP.language].copied;
+          window.setTimeout(function() {
+            btn.textContent = I18N[APP.language].copy;
+          }, 1200);
+        });
+      });
+    });
+  }
+
+  function applyText() {
+    const map = I18N[APP.language];
+    const elements = document.querySelectorAll('[data-i18n]');
+
+    elements.forEach(function(node) {
+      const key = node.getAttribute('data-i18n');
+      if (map[key]) {
+        node.textContent = map[key];
+      }
+    });
+
+    const darkToggle = document.getElementById('darkToggle');
+
+    if (document.getElementById('darkZone').classList.contains('open')) {
+      darkToggle.textContent = APP.language === 'zh' ? '隐藏 11 条 ▲' : 'Hide 11 hidden ▲';
+    } else {
+      darkToggle.textContent = APP.language === 'zh' ? '显示 11 条隐藏 ▼' : 'Show 11 hidden ▼';
+    }
+  }
+
+  const projectionPlugin = {
+    id: 'projectionPlugin',
+    beforeDatasetsDraw: function(chart) {
+      const xScale = chart.scales.x;
+      const yScale = chart.scales.y;
+      const ctx = chart.ctx;
+
+      if (!xScale || !yScale) {
+        return;
+      }
+
+      const startIndex = 7;
+      const xStart = xScale.getPixelForValue(startIndex - 0.45);
+      const xEnd = xScale.getPixelForValue(8.5);
+
+      ctx.save();
+      ctx.fillStyle = 'rgba(120, 120, 120, 0.10)';
+      ctx.fillRect(xStart, yScale.top, xEnd - xStart, yScale.bottom - yScale.top);
+
+      ctx.fillStyle = '#6f6d67';
+      ctx.font = '11px Arial';
+      ctx.fillText(APP.language === 'zh' ? '预测区间' : 'Projected', xStart + 8, yScale.top + 14);
+      ctx.restore();
+    }
+  };
+
+  function buildTrendChart() {
+    const context = document.getElementById('trendChart').getContext('2d');
+
+    APP.chart = new Chart(context, {
+      type: 'line',
+      data: {
+        labels: QUARTERS,
+        datasets: [
+          {
+            label: 'CN',
+            data: CN_SERIES,
+            borderColor: '#c0392b',
+            backgroundColor: 'rgba(192, 57, 43, 0.10)',
+            borderWidth: 2.8,
+            pointRadius: 3.8,
+            pointHoverRadius: 4.6,
+            pointBackgroundColor: '#c0392b',
+            tension: 0.25,
+            fill: false
+          },
+          {
+            label: 'US',
+            data: US_SERIES,
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37, 99, 235, 0.10)',
+            borderWidth: 2.8,
+            pointRadius: 3.8,
+            pointHoverRadius: 4.6,
+            pointBackgroundColor: '#2563eb',
+            tension: 0.25,
+            fill: false
+          },
+          {
+            label: 'Global',
+            data: GLOBAL_SERIES,
+            borderColor: '#7a7a74',
+            backgroundColor: 'rgba(122, 122, 116, 0.12)',
+            borderWidth: 2.6,
+            pointRadius: 3.6,
+            pointHoverRadius: 4.4,
+            pointBackgroundColor: '#7a7a74',
+            tension: 0.22,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            align: 'start',
+            labels: {
+              color: '#5f5d58',
+              usePointStyle: true,
+              boxWidth: 8,
+              boxHeight: 8,
+              padding: 14,
+              font: {
+                size: 11,
+                family: 'Arial'
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: '#1f1f1c',
+            titleColor: '#ffffff',
+            bodyColor: '#efefeb',
+            padding: 10,
+            bodyFont: {
+              family: 'Arial',
+              size: 12
+            },
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': ' + context.parsed.y + ' units';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              color: '#efece6'
+            },
+            ticks: {
+              color: '#8a8882',
+              font: {
+                family: 'Arial',
+                size: 10
+              }
+            }
+          },
+          y: {
+            beginAtZero: true,
+            suggestedMax: 120,
+            grid: {
+              color: '#efece6'
+            },
+            ticks: {
+              color: '#8a8882',
+              font: {
+                family: 'Arial',
+                size: 10
+              },
+              callback: function(value) {
+                return value + ' units';
+              }
+            }
+          }
+        }
+      },
+      plugins: [projectionPlugin]
+    });
+  }
+
+  function wireTabs() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+
+    tabButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        const target = button.getAttribute('data-tab');
+
+        APP.activeTab = target;
+
+        tabButtons.forEach(function(item) {
+          item.classList.remove('active');
+        });
+
+        button.classList.add('active');
+
+        document.querySelectorAll('.panel').forEach(function(panel) {
+          panel.classList.remove('active');
+        });
+
+        const panel = document.getElementById('panel-' + target);
+        if (panel) {
+          panel.classList.add('active');
+        }
+      });
+    });
+  }
+
+  function wireLanguage() {
+    const en = document.getElementById('langEN');
+    const zh = document.getElementById('langZH');
+
+    en.addEventListener('click', function() {
+      APP.language = 'en';
+      en.classList.add('active');
+      zh.classList.remove('active');
+      rerenderAll();
+    });
+
+    zh.addEventListener('click', function() {
+      APP.language = 'zh';
+      zh.classList.add('active');
+      en.classList.remove('active');
+      rerenderAll();
+    });
+  }
+
+  function wireMetric() {
+    const raw = document.getElementById('metricRaw');
+    const adjusted = document.getElementById('metricAdjusted');
+
+    raw.addEventListener('click', function() {
+      APP.metric = 'raw';
+      raw.classList.add('active');
+      adjusted.classList.remove('active');
+      renderRanking();
+    });
+
+    adjusted.addEventListener('click', function() {
+      APP.metric = 'adjusted';
+      adjusted.classList.add('active');
+      raw.classList.remove('active');
+      renderRanking();
+    });
+  }
+
+  function wireDarkToggle() {
+    const darkZone = document.getElementById('darkZone');
+    const toggle = document.getElementById('darkToggle');
+
+    toggle.addEventListener('click', function() {
+      darkZone.classList.toggle('open');
+      applyText();
+    });
+  }
+
+  function rerenderAll() {
+    applyText();
+    renderRanking();
+    renderDarkZone();
+    renderFindings();
+
+    if (APP.chart) {
+      APP.chart.update();
+    }
+  }
+
+  function init() {
+    buildTrendChart();
+    wireTabs();
+    wireLanguage();
+    wireMetric();
+    wireDarkToggle();
+    rerenderAll();
+  }
+
+  init();
 </script>
 </body>
 </html>
