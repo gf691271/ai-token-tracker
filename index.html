@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global AI Token Tracker</title>
+<title>GATT — Global AI Token Tracker</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23171715'/><text x='50' y='68' font-size='54' font-family='Georgia,serif' font-weight='900' fill='white' text-anchor='middle'>G</text></svg>">
 <meta name="description" content="Daily estimates of global AI token consumption by vendor, country, and region. The most complete open dataset tracking AI compute at scale.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Global AI Token Tracker — Daily Estimates">
@@ -43,14 +44,46 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   gap: 16px;
   flex-wrap: wrap;
 }
-.site-title { font-size: 2.6rem; font-family: -apple-system, sans-serif; font-weight: 800; letter-spacing: -0.01em; color: var(--text); line-height: 1.1; }
-.site-title-abbr { font-size: 2.6rem; font-weight: 800; }
-.site-title-full { font-size: 1.05rem; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; margin-top: 2px; display: block; }
-.site-headline { font-size: 1.05rem; font-weight: 400; line-height: 1.4; margin-top: 6px; color: var(--muted); font-family: -apple-system, sans-serif; }
+.site-title { font-family: -apple-system, sans-serif; line-height: 1.1; }
+.site-title-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  flex-wrap: nowrap;
+}
+.site-title-abbr {
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  font-family: 'Georgia', serif;
+}
+.site-title-sep {
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--subtle);
+  margin: 0 10px;
+  font-family: -apple-system, sans-serif;
+}
+.site-title-full {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+  font-family: -apple-system, sans-serif;
+  align-self: center;
+}
+.site-headline { font-size: 0.88rem; font-weight: 400; line-height: 1.5; margin-top: 8px; color: var(--muted); font-family: -apple-system, sans-serif; font-style: italic; }
 .site-meta { text-align: right; font-family: -apple-system, sans-serif; font-size: 0.78rem; color: var(--muted); }
 .site-meta .updated { font-weight: 600; color: var(--text); }
 .live-dot { display: inline-block; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; margin-right: 4px; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+
+/* ── LANG TOGGLE ── */
+.lang-toggle { display: flex; border: 1.5px solid var(--border); border-radius: 6px; overflow: hidden; }
+.lang-btn { background: none; border: none; padding: 3px 9px; font-size: 0.72rem; font-weight: 600; cursor: pointer; color: var(--muted); font-family: -apple-system, sans-serif; transition: background 0.15s, color 0.15s; }
+.lang-btn.active { background: var(--text); color: #fff; }
+.lang-btn:hover:not(.active) { background: var(--chip); }
 
 /* ── SECTION LABELS ── */
 .section-label {
@@ -234,9 +267,9 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   .headline-grid { grid-template-columns: 1fr 1fr; }
   .rank-header, .rank-row { grid-template-columns: 28px 1fr 90px 70px; }
   .rank-header > *:nth-child(4), .rank-row > *:nth-child(4) { display: none; }
-  .site-title { font-size: 1.9rem; }
-  .site-title-abbr { font-size: 1.9rem; }
-  .site-headline { font-size: 0.95rem; }
+  .site-title-abbr { font-size: 1.8rem; }
+  .site-title-full { font-size: 0.9rem; }
+  .site-headline { font-size: 0.82rem; }
 }
 </style>
 </head>
@@ -246,15 +279,27 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 <!-- ════════════════════ HEADER ════════════════════ -->
 <header class="site-header">
   <div>
-    <div class="site-title"><span class="site-title-abbr">GATT</span><span class="site-title-full">Global AI Token Tracker</span></div>
-    <h1 class="site-headline">Daily Token Consumption Index by Vendor &amp; Region —<br>The most complete open dataset tracking AI compute at scale.</h1>
+    <div class="site-title">
+      <div class="site-title-logo">
+        <span class="site-title-abbr">GATT</span>
+        <span class="site-title-sep">·</span>
+        <span class="site-title-full">Global AI Token Tracker</span>
+      </div>
+      <h1 class="site-headline" id="tagline">The most complete open dataset tracking the AI inference economy at scale.</h1>
+    </div>
   </div>
   <div class="site-meta">
+    <div style="display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-bottom:6px;">
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
+      </div>
+    </div>
     <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span></div>
     <div style="margin-top:8px;font-size:0.72rem;line-height:1.8;">
-      <span id="stat-vendors">30</span> Vendors &nbsp;·&nbsp;
-      <span id="stat-countries">12</span> Countries &nbsp;·&nbsp;
-      <span id="stat-models">80+</span> Models
+      <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
+      <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
+      <span id="stat-models">80+</span> <span class="i18n" data-en="Models" data-zh="模型">Models</span>
     </div>
   </div>
 </header>
@@ -727,6 +772,36 @@ buildRankTable();
   const el = document.getElementById('header-date');
   if (el) el.textContent = label;
 })();
+
+// ── LANGUAGE TOGGLE ──
+const i18n = {
+  en: {
+    tagline: 'The most complete open dataset tracking the AI inference economy at scale.',
+    'header-date-prefix': 'Updated',
+  },
+  zh: {
+    tagline: '全球最完整的 AI 推理经济开放数据集，覆盖全球头部厂商。',
+    'header-date-prefix': '更新于',
+  }
+};
+let currentLang = 'en';
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+  // tagline
+  const tg = document.getElementById('tagline');
+  if (tg) tg.textContent = i18n[lang].tagline;
+  // i18n spans
+  document.querySelectorAll('.i18n').forEach(el => {
+    el.textContent = el.dataset[lang] || el.dataset.en;
+  });
+  // section labels and other text — basic swap
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+  });
+}
 </script>
 </body>
 </html>
