@@ -97,6 +97,10 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 .live-dot { display: inline-block; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; margin-right: 4px; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
 
+/* ── COUNTRY ROW ── */
+.country-row { display:grid; grid-template-columns:28px 140px 70px 1fr; align-items:center; padding:10px 16px; gap:8px; border-bottom:1px solid var(--border); font-family:-apple-system,sans-serif; }
+.country-row:last-child { border-bottom:none; }
+
 /* ── ACTION ROW ── */
 .action-row { display: flex; justify-content: flex-end; margin-top: 10px; }
 .action-btns { display: flex; gap: 6px; }
@@ -346,7 +350,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.13</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.14</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -454,6 +458,10 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   </div>
   <!-- rows injected by JS -->
 </div>
+
+<!-- ════════════════════ COUNTRY RANKING ════════════════════ -->
+<div class="section-label">Country Ranking — Token Volume Share</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;padding:4px 0" id="countryRank"></div>
 
 <!-- ════════════════════ METHODOLOGY ════════════════════ -->
 <div class="section-label">Methodology — How We Estimate</div>
@@ -802,40 +810,45 @@ function setView(v) {
 }
 
 // ── RANKING TABLE ──
+// Tier 1: direct or strongly-sourced data — sorted by tokNum desc
 const vendors = [
-  {rank:1, flag:'🇺🇸', name:'Google Gemini', tokens:'33T', tokNum:33, dec:'$2.5M', conf:3, src:'Earnings', country:'US'},
-  {rank:2, flag:'🇨🇳', name:'字节跳动 Doubao', tokens:'50T', tokNum:50, dec:'$7.0M', conf:2, src:'Media', country:'CN'},
-  {rank:3, flag:'🇺🇸', name:'OpenAI', tokens:'13T', tokNum:13, dec:'$32.5M', conf:2, src:'DevDay', country:'US'},
-  {rank:4, flag:'🇨🇳', name:'阿里云 Qwen', tokens:'5T', tokNum:5, dec:'$0.7M', conf:2, src:'Earnings', country:'CN'},
-  {rank:5, flag:'🇨🇳', name:'百度 ERNIE', tokens:'1.6T', tokNum:1.6, dec:'$0.08M', conf:3, src:'Earnings', country:'CN'},
-  {rank:6, flag:'🇨🇳', name:'讯飞 Spark', tokens:'1.5T', tokNum:1.5, dec:'$0.08M', conf:2, src:'Earnings', country:'CN'},
-  {rank:7, flag:'🇺🇸', name:'OpenRouter', tokens:'1.0T', tokNum:1.0, dec:'$0.15M', conf:3, src:'Official', country:'US'},
-  {rank:8, flag:'🇨🇳', name:'MiniMax', tokens:'0.35T', tokNum:0.35, dec:'$0.04M', conf:3, src:'OpenRouter', country:'CN'},
-  {rank:9, flag:'🇨🇳', name:'月之暗面 Kimi', tokens:'0.17T', tokNum:0.17, dec:'$0.02M', conf:3, src:'OpenRouter', country:'CN'},
-  {rank:10, flag:'🇨🇳', name:'智谱 GLM', tokens:'0.11T', tokNum:0.11, dec:'$0.01M', conf:3, src:'OpenRouter', country:'CN'},
+  {rank:1,  flag:'🇨🇳', name:'Doubao',        co:'ByteDance',    tokens:'50T',   tokNum:50,   conf:2, src:'Media / ByteDance blog',   country:'CN'},
+  {rank:2,  flag:'🇺🇸', name:'Google Gemini', co:'Google',       tokens:'33T',   tokNum:33,   conf:3, src:'Earnings call',            country:'US'},
+  {rank:3,  flag:'🇺🇸', name:'ChatGPT / API', co:'OpenAI',       tokens:'13T',   tokNum:13,   conf:2, src:'DevDay 2024',               country:'US'},
+  {rank:4,  flag:'🇨🇳', name:'Qwen',          co:'Alibaba Cloud',tokens:'5T',    tokNum:5,    conf:2, src:'Earnings',                 country:'CN'},
+  {rank:5,  flag:'🇨🇳', name:'ERNIE',         co:'Baidu',        tokens:'1.6T',  tokNum:1.6,  conf:3, src:'Earnings',                 country:'CN'},
+  {rank:6,  flag:'🇨🇳', name:'Spark',         co:'iFlytek',      tokens:'1.4T',  tokNum:1.4,  conf:2, src:'Earnings',                 country:'CN'},
+  {rank:7,  flag:'🇺🇸', name:'OpenRouter',    co:'OpenRouter',   tokens:'1.0T',  tokNum:1.0,  conf:3, src:'Official stats',           country:'US'},
+  {rank:8,  flag:'🇨🇳', name:'MiniMax',       co:'MiniMax',      tokens:'0.35T', tokNum:0.35, conf:2, src:'OpenRouter + HuggingFace', country:'CN'},
+  {rank:9,  flag:'🇨🇳', name:'Kimi',          co:'Moonshot AI',  tokens:'0.17T', tokNum:0.17, conf:2, src:'OpenRouter',               country:'CN'},
+  {rank:10, flag:'🇨🇳', name:'GLM',           co:'Zhipu AI',     tokens:'0.11T', tokNum:0.11, conf:2, src:'OpenRouter',               country:'CN'},
 ];
+
+// Tier 2: calculated estimates (midpoint of range, revenue back-calc) — sorted desc
 const tier2 = [
-  {name:'Microsoft Azure', flag:'🇺🇸', tokens:'5–15T est.', conf:1, src:'Revenue ÷ price'},
-  {name:'DeepSeek', flag:'🇨🇳', tokens:'5–10T est.', conf:1, src:'Market share'},
-  {name:'Anthropic', flag:'🇺🇸', tokens:'1–5T est.', conf:1, src:'Revenue ÷ price'},
-  {name:'Mistral', flag:'🇪🇺', tokens:'launch peak only', conf:1, src:'Blog'},
-  {name:'Groq', flag:'🇺🇸', tokens:'0.1–0.5T est.', conf:1, src:'Estimated'},
-  {name:'Perplexity', flag:'🇺🇸', tokens:'0.05–0.1T est.', conf:1, src:'Query count'},
-  {name:'Meta Llama API', flag:'🇺🇸', tokens:'growth rate only', conf:0, src:'Statement'},
-  {name:'Amazon Bedrock', flag:'🇺🇸', tokens:'unknown', conf:0, src:'Revenue known'},
+  {flag:'🇨🇳', name:'DeepSeek',      co:'DeepSeek AI',    tokNum:7.5,  tokens:'~7.5T est.',  conf:1, src:'HuggingFace + market share', country:'CN'},
+  {flag:'🇺🇸', name:'Azure OpenAI',  co:'Microsoft',      tokNum:7,    tokens:'~7T est.',    conf:1, src:'Revenue ÷ price',            country:'US'},
+  {flag:'🇺🇸', name:'Claude',        co:'Anthropic',      tokNum:2.5,  tokens:'~2.5T est.',  conf:1, src:'Revenue ÷ price',            country:'US'},
+  {flag:'🇫🇷', name:'Mistral',       co:'Mistral AI',     tokNum:0.3,  tokens:'~0.3T est.',  conf:1, src:'Blog + OpenRouter',          country:'EU'},
+  {flag:'🇺🇸', name:'Llama API',     co:'Meta',           tokNum:0.2,  tokens:'~0.2T est.',  conf:1, src:'Growth rate stmt',           country:'US'},
+  {flag:'🇺🇸', name:'Bedrock',       co:'Amazon AWS',     tokNum:0.15, tokens:'~0.15T est.', conf:1, src:'Revenue known, price est.',  country:'US'},
+  {flag:'🇺🇸', name:'Groq',          co:'Groq',           tokNum:0.12, tokens:'~0.12T est.', conf:1, src:'Speed benchmark data',       country:'US'},
+  {flag:'🇺🇸', name:'Perplexity',    co:'Perplexity AI',  tokNum:0.07, tokens:'~0.07T est.', conf:1, src:'Query volume ÷ avg length',  country:'US'},
 ];
+
+// Tier 3: data dark zone
 const tier3 = [
-  {name:'腾讯 Hunyuan', flag:'🇨🇳', reason:'WeChat ecosystem — closed'},
-  {name:'xAI Grok', flag:'🇺🇸', reason:'Private company + X closed'},
-  {name:'Ollama (local)', flag:'🌐', reason:'Local inference — never reported'},
-  {name:'LM Studio', flag:'🌐', reason:'Local inference — never reported'},
-  {name:'NVIDIA NIM', flag:'🇺🇸', reason:'Enterprise private deployment'},
-  {name:'HuggingFace self-hosted', flag:'🌐', reason:'Download-and-run, no telemetry'},
-  {name:'零一万物 Yi', flag:'🇨🇳', reason:'No public disclosure'},
-  {name:'阶跃星辰 Step', flag:'🇨🇳', reason:'No public disclosure'},
-  {name:'商汤 SenseCore', flag:'🇨🇳', reason:'B2B private deployment'},
-  {name:'Cohere', flag:'🇨🇦', reason:'Enterprise contracts only'},
-  {name:'Together AI', flag:'🇺🇸', reason:'No public data'},
+  {name:'Hunyuan',              flag:'🇨🇳', co:'Tencent',         reason:'WeChat ecosystem — no public disclosure'},
+  {name:'Grok',                 flag:'🇺🇸', co:'xAI',             reason:'Private company + X platform closed'},
+  {name:'Ollama',               flag:'🌐',  co:'Ollama',          reason:'Local inference — no telemetry'},
+  {name:'LM Studio',            flag:'🌐',  co:'LM Studio',       reason:'Local inference — no telemetry'},
+  {name:'NIM',                  flag:'🇺🇸', co:'NVIDIA',          reason:'Enterprise private deployment'},
+  {name:'Self-hosted (HF)',     flag:'🌐',  co:'HuggingFace',     reason:'Download-and-run, no usage data'},
+  {name:'Yi',                   flag:'🇨🇳', co:'01.AI',           reason:'No public disclosure'},
+  {name:'Step',                 flag:'🇨🇳', co:'StepFun',         reason:'No public disclosure'},
+  {name:'SenseCore',            flag:'🇨🇳', co:'SenseTime',       reason:'B2B private deployment'},
+  {name:'Cohere',               flag:'🇨🇦', co:'Cohere',          reason:'Enterprise contracts only'},
+  {name:'Together AI',          flag:'🇺🇸', co:'Together AI',     reason:'No public data'},
 ];
 
 const maxTok = 50;
@@ -849,41 +862,83 @@ function confLabel(c) {
 function buildRankTable() {
   const table = document.getElementById('rankTable');
   let html = `<div class="rank-header"><div>#</div><div>Vendor</div><div>T Tokens/day</div><div>DEC $/day</div><div>Source</div></div>`;
-  html += `<div class="tier-divider">✅ Tier 1 — Confirmed &amp; Estimated with Data (${vendors.length} vendors)</div>`;
-  vendors.forEach(v => {
-    const bar = (v.tokNum / maxTok * 100).toFixed(1);
-    const col = v.country === 'CN' ? 'var(--cn)' : v.country === 'US' ? 'var(--us)' : 'var(--row)';
-    html += `<div class="rank-row">
-      <div class="rank-num">${v.rank}</div>
-      <div><span class="rank-flag">${v.flag}</span><span class="rank-name">${v.name}</span>
-        <div class="rank-bar-wrap" style="margin-top:4px"><div class="rank-bar-fill" style="width:${bar}%;background:${col}"></div></div>
+  const allRanked = [...vendors, ...tier2].sort((a,b) => b.tokNum - a.tokNum);
+  let globalRank = 0;
+
+  // Header
+  html = `<div class="rank-header"><div>#</div><div>Vendor · Company</div><div>T Tokens/day</div><div>Source</div></div>`;
+
+  allRanked.forEach(v => {
+    globalRank++;
+    const bar = Math.min((v.tokNum / 50 * 100), 100).toFixed(1);
+    const col = v.country === 'CN' ? 'var(--cn)' : v.country === 'EU' ? '#4f7942' : 'var(--us)';
+    const isTier2 = v.conf === 1;
+    const tokenLabel = isTier2 ? `<span style="color:var(--muted)">${v.tokens}</span>` : `<strong>${v.tokens}</strong>`;
+    const confBadge = isTier2
+      ? `<span style="font-size:.65rem;color:var(--muted);font-weight:400">≈ est.</span>`
+      : confLabel(v.conf);
+    html += `<div class="rank-row${isTier2 ? ' dark-row' : ''}">
+      <div class="rank-num">${globalRank}</div>
+      <div>
+        <span class="rank-flag">${v.flag}</span>
+        <span class="rank-name">${v.name}</span>
+        <span style="font-size:.7rem;color:var(--muted);margin-left:5px;font-weight:400">${v.co}</span>
+        <div class="rank-bar-wrap" style="margin-top:4px">
+          <div class="rank-bar-fill" style="width:${bar}%;background:${col};${isTier2?'opacity:0.45':''}"></div>
+        </div>
       </div>
-      <div class="rank-tokens">${v.tokens}</div>
-      <div class="rank-tokens" style="color:var(--muted)">${v.dec}</div>
-      <div class="rank-confidence">${confLabel(v.conf)}</div>
+      <div class="rank-tokens">${tokenLabel}</div>
+      <div class="rank-confidence" style="font-size:.68rem">${confBadge}<br><span style="color:var(--subtle);font-size:.62rem">${v.src}</span></div>
     </div>`;
   });
-  html += `<div class="tier-divider">📊 Tier 2 — Range Estimates (${tier2.length} vendors)</div>`;
-  tier2.forEach((v,i) => {
-    html += `<div class="rank-row dark-row">
-      <div class="rank-num">${vendors.length+i+1}</div>
-      <div><span class="rank-flag">${v.flag}</span><span class="rank-name">${v.name}</span></div>
-      <div class="range-badge">${v.tokens}</div>
-      <div class="rank-tokens" style="color:var(--subtle)">—</div>
-      <div class="rank-confidence">${confLabel(v.conf)}<br><span style="font-size:.65rem;color:var(--subtle)">${v.src}</span></div>
-    </div>`;
-  });
-  html += `<div class="tier-divider">🕳️ Data Dark Zone — ${tier3.length} vendors · no public data exists</div>`;
+
+  // Dark zone
+  html += `<div class="tier-divider">🕳️ Data Dark Zone — ${tier3.length} vendors with no public data</div>`;
   tier3.forEach(v => {
-    html += `<div class="rank-row dark-row" style="opacity:.4">
+    html += `<div class="rank-row dark-row" style="opacity:.45">
       <div class="rank-num">—</div>
-      <div><span class="rank-flag">${v.flag}</span><span class="rank-name">${v.name}</span></div>
-      <div class="range-badge" style="color:var(--subtle)">?</div>
-      <div style="font-size:.72rem;color:var(--subtle);font-family:sans-serif" class="rank-tokens">?</div>
-      <div style="font-size:.68rem;color:var(--subtle);font-family:sans-serif">${v.reason}</div>
+      <div><span class="rank-flag">${v.flag}</span><span class="rank-name">${v.name}</span>
+        <span style="font-size:.7rem;color:var(--subtle);margin-left:5px">${v.co}</span></div>
+      <div style="font-size:.7rem;color:var(--subtle)">unknown</div>
+      <div style="font-size:.65rem;color:var(--subtle)">${v.reason}</div>
     </div>`;
   });
+
   table.innerHTML = html;
+}
+
+// ── COUNTRY RANKING ──
+function buildCountryRank() {
+  const el = document.getElementById('countryRank');
+  if (!el) return;
+  const all = [...vendors, ...tier2];
+  const byCountry = {};
+  all.forEach(v => {
+    const c = v.country || 'Other';
+    byCountry[c] = (byCountry[c] || 0) + v.tokNum;
+  });
+  const sorted = Object.entries(byCountry).sort((a,b) => b[1]-a[1]);
+  const total = sorted.reduce((s,[,v]) => s+v, 0);
+  const flags = {CN:'🇨🇳', US:'🇺🇸', EU:'🇪🇺', CA:'🇨🇦', Other:'🌐'};
+  const labels = {CN:'China', US:'United States', EU:'Europe', CA:'Canada', Other:'Other'};
+  let html = '';
+  sorted.forEach(([c, v], i) => {
+    const pct = (v/total*100).toFixed(1);
+    const col = c==='CN' ? 'var(--cn)' : c==='US' ? 'var(--us)' : '#6b7280';
+    html += `<div class="country-row">
+      <div class="rank-num">${i+1}</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:1.1rem">${flags[c]||'🌐'}</span>
+        <span style="font-weight:600;font-size:.9rem">${labels[c]||c}</span>
+      </div>
+      <div style="font-weight:700;font-size:.9rem">${v.toFixed(1)}T</div>
+      <div style="flex:1;padding-left:12px">
+        <div style="height:6px;border-radius:3px;background:${col};width:${pct}%;opacity:0.75"></div>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:2px">${pct}% of tracked volume</div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML = html;
 }
 
 // ── SHARE ──
@@ -903,6 +958,7 @@ function shareStats() {
 // ── INIT ──
 initChart();
 buildRankTable();
+buildCountryRank();
 
 // ── ACTION BUTTONS ──
 let liked = false;
