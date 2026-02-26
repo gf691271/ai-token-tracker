@@ -4,1492 +4,713 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Global AI Token Tracker</title>
-<meta name="description" content="Quarterly trend, vendor ranking, and key findings for global AI token activity.">
-
+<meta name="description" content="Daily estimates of global AI token consumption by vendor, country, and region. The most complete open dataset tracking AI compute at scale.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Global AI Token Tracker">
-<meta property="og:description" content="Track CN vs US vs Global token trends, rankings, and key findings.">
-<meta property="og:url" content="https://tokentrackerapi.com/">
-<meta property="og:image" content="https://tokentrackerapi.com/og-cover.png">
-
+<meta property="og:title" content="Global AI Token Tracker — Daily Estimates">
+<meta property="og:description" content="China vs US vs World. Daily token consumption estimates from 30+ AI vendors. Updated 2026-02-26.">
+<meta property="og:url" content="https://gf691271.github.io/ai-token-tracker/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Global AI Token Tracker">
-<meta name="twitter:description" content="Quarterly trend, ranking, and key findings for AI token activity.">
-<meta name="twitter:image" content="https://tokentrackerapi.com/og-cover.png">
-
+<meta name="twitter:description" content="By token count, China leads. By compute value, US leads. The data behind the gap.">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
 <style>
-  :root {
-    --bg: #f7f6f3;
-    --surface: #ffffff;
-    --surface-soft: #fbfaf7;
-    --border: #e6e3dc;
-    --text: #171715;
-    --muted: #6f6d67;
-    --subtle: #9a9791;
-    --accent: #20201d;
-    --cn: #c0392b;
-    --us: #2563eb;
-    --global: #7a7a74;
-    --chip: #efece6;
-    --success: #166534;
-    --danger: #8b1d13;
-    --radius: 10px;
-    --shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html,
-  body {
-    width: 100%;
-  }
-
-  body {
-    font-family: Georgia, "Times New Roman", serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.55;
-  }
-
-  a {
-    color: inherit;
-  }
-
-  .page {
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 0 24px 36px;
-  }
-
-  .top {
-    border-bottom: 2px solid var(--text);
-    padding: 28px 0 18px;
-    margin-bottom: 26px;
-  }
-
-  .top-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .title-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .title {
-    font-size: 1.85rem;
-    letter-spacing: -0.01em;
-    font-weight: 700;
-  }
-
-  .subtitle {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.76rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .header-side {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .stamp {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.72rem;
-    color: var(--muted);
-  }
-
-  .lang {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 3px;
-    border: 1.5px solid var(--border);
-    background: var(--chip);
-    border-radius: 999px;
-  }
-
-  .lang-btn {
-    border: 0;
-    background: transparent;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 0.02em;
-    padding: 5px 10px;
-    border-radius: 999px;
-    cursor: pointer;
-  }
-
-  .lang-btn.active {
-    background: var(--text);
-    color: #ffffff;
-  }
-
-  .tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 22px;
-    flex-wrap: wrap;
-  }
-
-  .tab-btn {
-    border: 1.5px solid var(--border);
-    border-radius: 999px;
-    background: var(--surface);
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--muted);
-    padding: 8px 14px;
-    letter-spacing: 0.01em;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .tab-btn:hover {
-    border-color: #d6d1c8;
-  }
-
-  .tab-btn.active {
-    background: var(--text);
-    color: #ffffff;
-    border-color: var(--text);
-  }
-
-  .panel {
-    display: none;
-    margin-bottom: 24px;
-  }
-
-  .panel.active {
-    display: block;
-  }
-
-  .section-card {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-  }
-
-  .section-head {
-    padding: 16px 18px 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-head h2 {
-    font-size: 0.92rem;
-    letter-spacing: 0.01em;
-    font-weight: 700;
-    margin-bottom: 3px;
-  }
-
-  .section-head p {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-
-  .metric-switch {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 10px;
-    padding: 3px;
-    border: 1px solid var(--border);
-    background: var(--surface-soft);
-    border-radius: 999px;
-  }
-
-  .metric-btn {
-    border: 0;
-    border-radius: 999px;
-    background: transparent;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.72rem;
-    color: var(--muted);
-    font-weight: 700;
-    padding: 5px 11px;
-    cursor: pointer;
-  }
-
-  .metric-btn.active {
-    color: #ffffff;
-    background: var(--text);
-  }
-
-  .chart-wrap {
-    padding: 18px 18px 14px;
-    height: 380px;
-  }
-
-  .trend-foot {
-    font-family: Arial, Helvetica, sans-serif;
-    color: var(--muted);
-    font-size: 0.72rem;
-    padding: 0 18px 16px;
-  }
-
-  .table-wrap {
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    min-width: 1000px;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  th {
-    text-align: left;
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.66rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--subtle);
-    white-space: nowrap;
-  }
-
-  th.num,
-  td.num {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-  }
-
-  td {
-    border-bottom: 1px solid var(--border);
-    font-size: 0.8rem;
-    padding: 12px;
-    vertical-align: middle;
-  }
-
-  tr:hover td {
-    background: #faf9f6;
-  }
-
-  .rank {
-    color: var(--subtle);
-    font-size: 0.74rem;
-  }
-
-  .vendor {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 0.95rem;
-    color: var(--text);
-    font-weight: 700;
-  }
-
-  .country {
-    display: inline-block;
-    font-size: 0.62rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    border-radius: 4px;
-    padding: 2px 7px;
-    font-weight: 700;
-    border: 1px solid transparent;
-  }
-
-  .country.cn {
-    color: #8b1d13;
-    background: #fdf1ee;
-    border-color: #f5d8d2;
-  }
-
-  .country.us {
-    color: #1d4ed8;
-    background: #edf4ff;
-    border-color: #d8e8ff;
-  }
-
-  .country.eu {
-    color: #166534;
-    background: #eefbf1;
-    border-color: #d7f1dd;
-  }
-
-  .country.ca {
-    color: #5b21b6;
-    background: #f2ecff;
-    border-color: #e6dcff;
-  }
-
-  .value-main {
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .value-secondary {
-    color: var(--muted);
-    font-size: 0.74rem;
-  }
-
-  .time-normalized {
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .time-source {
-    color: var(--subtle);
-    font-size: 0.7rem;
-    margin-top: 2px;
-  }
-
-  .source-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--muted);
-    font-weight: 700;
-    font-size: 0.7rem;
-    text-decoration: none;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 4px 8px;
-    background: var(--surface-soft);
-  }
-
-  .source-link:hover {
-    color: var(--text);
-    border-color: #d9d4cb;
-  }
-
-  .source-icon {
-    font-size: 0.72rem;
-  }
-
-  .confidence {
-    color: var(--subtle);
-    font-size: 0.72rem;
-  }
-
-  .summary-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    padding: 16px;
-  }
-
-  .stat {
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface-soft);
-    padding: 16px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-height: 188px;
-  }
-
-  .stat-label {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.67rem;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: var(--muted);
-    font-weight: 700;
-  }
-
-  .stat-num {
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-  }
-
-  .stat-desc {
-    font-family: Arial, Helvetica, sans-serif;
-    color: var(--muted);
-    font-size: 0.75rem;
-    line-height: 1.45;
-    flex: 1;
-  }
-
-  .copy-btn {
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: #ffffff;
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    padding: 6px 10px;
-    cursor: pointer;
-    align-self: flex-start;
-  }
-
-  .copy-btn:hover {
-    border-color: #d7d2c8;
-  }
-
-  .copy-btn.copied {
-    color: var(--success);
-    border-color: #b8e3c5;
-    background: #f2fbf5;
-  }
-
-  .dark-zone {
-    margin-top: 12px;
-    border: 1px dashed #d8d2c8;
-    border-radius: var(--radius);
-    background: #fbfaf7;
-  }
-
-  .dark-toggle {
-    width: 100%;
-    border: 0;
-    border-radius: var(--radius);
-    text-align: left;
-    padding: 12px 14px;
-    background: transparent;
-    color: var(--muted);
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    cursor: pointer;
-  }
-
-  .dark-content {
-    display: none;
-    border-top: 1px dashed #ddd7cd;
-    padding: 12px 12px 8px;
-  }
-
-  .dark-zone.open .dark-content {
-    display: block;
-  }
-
-  .dark-note {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.72rem;
-    color: var(--muted);
-    padding: 10px 2px 4px;
-  }
-
-  .github-link {
-    color: var(--text);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .findings-caption {
-    padding: 0 16px 16px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.72rem;
-    color: var(--muted);
-  }
-
-  footer {
-    margin-top: 16px;
-    border-top: 1px solid var(--border);
-    padding-top: 14px;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.71rem;
-    color: var(--subtle);
-  }
-
-  @media (max-width: 1080px) {
-    .summary-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 720px) {
-    .page {
-      padding: 0 14px 28px;
-    }
-
-    .title {
-      font-size: 1.48rem;
-    }
-
-    .chart-wrap {
-      height: 300px;
-    }
-
-    .summary-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+:root {
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --border: #e6e3dc;
+  --text: #171715;
+  --muted: #6f6d67;
+  --subtle: #b5b2ac;
+  --cn: #c0392b;
+  --us: #2563eb;
+  --row: #5a7a5a;
+  --chip: #efece6;
+  --radius: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 16px; line-height: 1.6; }
+
+/* ── LAYOUT ── */
+.page { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ── HEADER ── */
+.site-header {
+  border-bottom: 2px solid var(--text);
+  padding: 28px 0 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.site-title { font-size: 1.05rem; font-family: -apple-system, sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.site-headline { font-size: 2.1rem; font-weight: 700; line-height: 1.15; margin-top: 4px; }
+.site-meta { text-align: right; font-family: -apple-system, sans-serif; font-size: 0.78rem; color: var(--muted); }
+.site-meta .updated { font-weight: 600; color: var(--text); }
+.live-dot { display: inline-block; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; margin-right: 4px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+
+/* ── SECTION LABELS ── */
+.section-label {
+  font-family: -apple-system, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* ── HEADLINE NUMBERS ── */
+.headline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.headline-card {
+  background: var(--surface);
+  padding: 20px 18px;
+}
+.headline-card .hl-label { font-family: -apple-system, sans-serif; font-size: 0.72rem; color: var(--muted); margin-bottom: 6px; }
+.headline-card .hl-number {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.headline-card .hl-number.cn { color: var(--cn); }
+.headline-card .hl-number.us { color: var(--us); }
+.headline-card .hl-sub { font-family: -apple-system, sans-serif; font-size: 0.73rem; color: var(--muted); margin-top: 5px; }
+.headline-card .hl-badge {
+  display: inline-block;
+  font-family: -apple-system, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--chip);
+  color: var(--text);
+  margin-top: 6px;
+}
+.share-row { text-align: right; margin-bottom: 4px; }
+.btn-share {
+  font-family: -apple-system, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  cursor: pointer;
+  color: var(--text);
+  transition: background .15s;
+}
+.btn-share:hover { background: var(--chip); }
+
+/* ── TREND CHART ── */
+.chart-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  font-family: -apple-system, sans-serif;
+  font-size: 0.78rem;
+}
+.toggle-group { display: flex; gap: 4px; }
+.toggle-btn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.75rem;
+  font-family: -apple-system, sans-serif;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all .15s;
+}
+.toggle-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+.toggle-btn.cn-btn.active { background: var(--cn); border-color: var(--cn); color: #fff; }
+.toggle-btn.us-btn.active { background: var(--us); border-color: var(--us); color: #fff; }
+.toggle-btn.row-btn.active { background: var(--row); border-color: var(--row); color: #fff; }
+.ctrl-sep { color: var(--border); margin: 0 4px; }
+.ctrl-label { color: var(--muted); font-size: 0.72rem; }
+.chart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.chart-axis-label { font-family: -apple-system, sans-serif; font-size: 0.7rem; color: var(--muted); margin-bottom: 6px; }
+.view-toggle-wrap { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.view-toggle { display: flex; gap: 0; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.view-toggle .toggle-btn { border: none; border-radius: 0; }
+
+/* ── RANKING TABLE ── */
+.rank-header {
+  display: grid;
+  grid-template-columns: 36px 1fr 110px 110px 80px;
+  gap: 8px;
+  padding: 6px 12px;
+  font-family: -apple-system, sans-serif;
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border);
+}
+.rank-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 110px 110px 80px;
+  gap: 8px;
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  transition: background .1s;
+}
+.rank-row:hover { background: var(--chip); }
+.rank-row:last-child { border-bottom: none; }
+.rank-num { font-family: -apple-system, sans-serif; font-size: 0.82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.rank-name { font-size: 0.92rem; font-weight: 500; }
+.rank-flag { margin-right: 5px; }
+.rank-tokens { font-family: -apple-system, sans-serif; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+.rank-bar-wrap { position: relative; height: 6px; background: var(--chip); border-radius: 3px; overflow: hidden; }
+.rank-bar-fill { height: 100%; border-radius: 3px; transition: width .5s; }
+.rank-confidence { font-family: -apple-system, sans-serif; font-size: 0.72rem; }
+.conf-3 { color: #166534; } .conf-2 { color: #92400e; } .conf-1 { color: var(--muted); }
+.tier-divider { padding: 8px 12px; font-family: -apple-system, sans-serif; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); background: var(--chip); border-bottom: 1px solid var(--border); }
+.range-badge { font-size: 0.72rem; color: var(--muted); font-family: -apple-system, sans-serif; }
+.dark-row { opacity: 0.55; }
+
+/* ── METHODOLOGY ── */
+.method-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+.method-box h3 { font-size: 0.9rem; font-family: -apple-system, sans-serif; font-weight: 700; margin-bottom: 10px; }
+.method-box p { color: var(--muted); margin-bottom: 8px; }
+.method-box code { font-size: 0.82rem; background: var(--chip); padding: 1px 5px; border-radius: 3px; }
+
+/* ── AGENT API ── */
+.api-box {
+  background: #0f0f0e;
+  color: #e8e5df;
+  border-radius: var(--radius);
+  padding: 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+.api-comment { color: #5a5a52; }
+.api-key { color: #7cb8f2; }
+.api-val { color: #98d982; }
+.api-str { color: #f0b96a; }
+
+/* ── FOOTER ── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 48px;
+  padding-top: 18px;
+  font-family: -apple-system, sans-serif;
+  font-size: 0.72rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .headline-grid { grid-template-columns: 1fr 1fr; }
+  .rank-header, .rank-row { grid-template-columns: 28px 1fr 90px 70px; }
+  .rank-header > *:nth-child(4), .rank-row > *:nth-child(4) { display: none; }
+  .site-headline { font-size: 1.5rem; }
+}
 </style>
 </head>
 <body>
 <div class="page">
 
-  <header class="top">
-    <div class="top-row">
-      <div class="title-wrap">
-        <h1 class="title" data-i18n="title">Global AI Token Tracker</h1>
-        <p class="subtitle" data-i18n="subtitle">Quarterly trend and vendor ranking</p>
-      </div>
+<!-- ════════════════════ HEADER ════════════════════ -->
+<header class="site-header">
+  <div>
+    <div class="site-title">Global AI Token Tracker</div>
+    <h1 class="site-headline">Daily Token Consumption<br>by Vendor &amp; Region</h1>
+  </div>
+  <div class="site-meta">
+    <div><span class="live-dot"></span>Estimates updated daily</div>
+    <div class="updated">2026-02-26</div>
+    <div style="margin-top:6px;font-size:0.68rem;">30 vendors · 3 regions · proprietary DEC model</div>
+  </div>
+</header>
 
-      <div class="header-side">
-        <div class="stamp" data-i18n="updated">Updated 2026-02</div>
-        <div class="lang" aria-label="Language toggle">
-          <button class="lang-btn active" id="langEN" type="button">EN</button>
-          <button class="lang-btn" id="langZH" type="button">中文</button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <nav class="tabs" aria-label="Sections">
-    <button class="tab-btn active" type="button" data-tab="trend">📈 <span data-i18n="tabTrend">Trend</span></button>
-    <button class="tab-btn" type="button" data-tab="ranking">🏆 <span data-i18n="tabRanking">Ranking</span></button>
-    <button class="tab-btn" type="button" data-tab="findings">💡 <span data-i18n="tabFindings">Key Findings</span></button>
-  </nav>
-
-  <section class="panel active" id="panel-trend" aria-labelledby="trend-tab">
-    <article class="section-card">
-      <div class="section-head">
-        <h2 data-i18n="trendTitle">Quarterly Token Trend (2024-Q1 to 2026-Q1)</h2>
-        <p data-i18n="trendSub">CN (red), US (blue), and Global (gray). Shaded zone indicates projected quarters.</p>
-      </div>
-      <div class="chart-wrap">
-        <canvas id="trendChart"></canvas>
-      </div>
-      <div class="trend-foot" data-i18n="trendFoot">Global line is calculated as CN + US for consistency of the displayed series.</div>
-    </article>
-  </section>
-
-  <section class="panel" id="panel-ranking" aria-labelledby="ranking-tab">
-    <article class="section-card">
-      <div class="section-head">
-        <h2 data-i18n="rankingTitle">Vendor Ranking</h2>
-        <p data-i18n="rankingSub">All rows normalized to 2026-02 est. Source date is shown in gray.</p>
-        <div class="metric-switch" role="group" aria-label="Metric switch">
-          <button class="metric-btn active" type="button" id="metricRaw" data-i18n="metricRaw">Token Volume</button>
-          <button class="metric-btn" type="button" id="metricAdjusted" data-i18n="metricAdjusted">Token Volume (Adjusted)</button>
-        </div>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th style="width: 52px;" data-i18n="colRank">#</th>
-              <th data-i18n="colVendor">Vendor</th>
-              <th data-i18n="colCountry">Country</th>
-              <th class="num" id="colMainHeader" data-i18n="colToken">Token Volume</th>
-              <th class="num" id="colAdjustedHeader" data-i18n="colAdjusted">Token Volume (Adjusted)</th>
-              <th data-i18n="colTime">Time</th>
-              <th data-i18n="colConf">Confidence</th>
-              <th data-i18n="colSource">Source</th>
-            </tr>
-          </thead>
-          <tbody id="rankingBody"></tbody>
-        </table>
-      </div>
-
-      <div class="dark-zone" id="darkZone">
-        <button type="button" class="dark-toggle" id="darkToggle">Show 11 hidden ▼</button>
-        <div class="dark-content">
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th style="width: 52px;" data-i18n="colRank">#</th>
-                  <th data-i18n="colVendor">Vendor</th>
-                  <th data-i18n="colCountry">Country</th>
-                  <th data-i18n="colReason">Dark Zone Reason</th>
-                  <th data-i18n="colSource">Source</th>
-                </tr>
-              </thead>
-              <tbody id="darkBody"></tbody>
-            </table>
-          </div>
-          <p class="dark-note">
-            <span data-i18n="darkCtaLabel">Know a source?</span>
-            <a class="github-link" href="https://github.com/" target="_blank" rel="noopener noreferrer" data-i18n="darkCtaLink">Submit on GitHub</a>
-          </p>
-        </div>
-      </div>
-    </article>
-  </section>
-
-  <section class="panel" id="panel-findings" aria-labelledby="findings-tab">
-    <article class="section-card">
-      <div class="section-head">
-        <h2 data-i18n="findingsTitle">Key Findings</h2>
-        <p data-i18n="findingsSub">Four headline metrics with one-click share text.</p>
-      </div>
-
-      <div class="summary-grid" id="findingsGrid"></div>
-
-      <p class="findings-caption" data-i18n="findingsFoot">Share copies plain text to clipboard for chat, docs, or social posts.</p>
-    </article>
-  </section>
-
-  <footer>
-    <div data-i18n="footerLeft">Built with public disclosures, official posts, and verifiable references.</div>
-    <div data-i18n="footerRight">Theme: warm beige (#f7f6f3) with Georgia serif.</div>
-  </footer>
+<!-- ════════════════════ HEADLINE NUMBERS ════════════════════ -->
+<div class="section-label">Key Numbers — Feb 26, 2026</div>
+<div class="headline-grid">
+  <div class="headline-card">
+    <div class="hl-label">Global daily tokens</div>
+    <div class="hl-number">~100T</div>
+    <div class="hl-sub">trillion tokens / day</div>
+    <div class="hl-badge">+417× in 18 months (Doubao)</div>
+  </div>
+  <div class="headline-card">
+    <div class="hl-label">China share by volume</div>
+    <div class="hl-number cn">55%</div>
+    <div class="hl-sub">~55T tokens/day</div>
+    <div class="hl-badge">but only ~14% by compute value</div>
+  </div>
+  <div class="headline-card">
+    <div class="hl-label">US compute value lead</div>
+    <div class="hl-number us">$35M</div>
+    <div class="hl-sub">DEC / day (OpenAI alone: $32.5M)</div>
+    <div class="hl-badge">DEC = Dollar-Equivalent Compute</div>
+  </div>
+  <div class="headline-card">
+    <div class="hl-label">Fastest-growing vendor</div>
+    <div class="hl-number cn" style="font-size:1.7rem">Doubao</div>
+    <div class="hl-sub">120B/day → 50T/day in 18 months</div>
+    <div class="hl-badge">ByteDance · 🇨🇳</div>
+  </div>
+  <div class="headline-card">
+    <div class="hl-label">Data dark zone</div>
+    <div class="hl-number" style="color:#6f6d67">11</div>
+    <div class="hl-sub">vendors with zero public data</div>
+    <div class="hl-badge">incl. Grok, Hunyuan, local inference</div>
+  </div>
+  <div class="headline-card">
+    <div class="hl-label">Confirmed sources</div>
+    <div class="hl-number" style="color:#166534">11</div>
+    <div class="hl-sub">vendors with verified data</div>
+    <div class="hl-badge">earnings / official announcements</div>
+  </div>
+</div>
+<div class="share-row">
+  <button class="btn-share" onclick="shareStats()">↗ Share these numbers</button>
 </div>
 
+<!-- ════════════════════ TREND CHART ════════════════════ -->
+<div class="section-label">Daily Trend — Token Consumption Over Time</div>
+<div class="chart-controls">
+  <span class="ctrl-label">Show:</span>
+  <div class="toggle-group">
+    <button class="toggle-btn cn-btn active" id="btn-cn" onclick="toggleSeries('cn')">🇨🇳 China</button>
+    <button class="toggle-btn us-btn active" id="btn-us" onclick="toggleSeries('us')">🇺🇸 US</button>
+    <button class="toggle-btn row-btn active" id="btn-row" onclick="toggleSeries('row')">🌍 Rest of World</button>
+  </div>
+  <span class="ctrl-sep">|</span>
+  <div class="view-toggle-wrap">
+    <span class="ctrl-label">View:</span>
+    <div class="view-toggle">
+      <button class="toggle-btn active" id="view-tokens" onclick="setView('tokens')">T Tokens</button>
+      <button class="toggle-btn" id="view-dec" onclick="setView('dec')">DEC ($M)</button>
+    </div>
+  </div>
+</div>
+<div class="chart-wrap">
+  <div class="chart-axis-label">Trillion tokens per day (T)</div>
+  <canvas id="trendChart" height="260"></canvas>
+</div>
+
+<!-- ════════════════════ RANKING ════════════════════ -->
+<div class="section-label">Vendor Ranking — Daily Tokens</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;" id="rankTable">
+  <div class="rank-header">
+    <div>#</div><div>Vendor</div><div>T Tokens/day</div><div>DEC $/day</div><div>Source</div>
+  </div>
+  <!-- rows injected by JS -->
+</div>
+
+<!-- ════════════════════ METHODOLOGY ════════════════════ -->
+<div class="section-label">Methodology — How We Estimate</div>
+<div class="method-box">
+  <h3>The Daily Estimation Model</h3>
+  <p>No single source publishes daily token counts. This tracker synthesizes five evidence layers to produce daily-granularity estimates:</p>
+  <p><strong>1. Anchor events</strong> — Official disclosures (earnings calls, press releases, developer conferences) provide point-in-time snapshots.</p>
+  <p><strong>2. Growth interpolation</strong> — Between anchors, we apply compound daily growth rates derived from public revenue trends, model release cadence, and platform activity signals.</p>
+  <p><strong>3. Revenue back-calculation</strong> — For vendors with known revenue but no token disclosures, we reverse-engineer volumes using published API pricing.</p>
+  <p><strong>4. OpenRouter signal</strong> — Platform-level weekly token data provides real-time calibration for API-accessible models.</p>
+  <p><strong>5. DEC normalization</strong> — <code>DEC = tokens × price_per_1M</code>. This adjusts for tokenizer efficiency differences (Chinese text encodes fewer tokens per character in GPT-style tokenizers vs. native Chinese models). Same data, different scoreboard.</p>
+  <p style="margin-top:12px;font-style:italic;color:var(--muted);">The gap between token-count rank and DEC rank is the story: China leads by volume, US leads by compute value. That gap is this tracker's thesis.</p>
+</div>
+
+<!-- ════════════════════ AGENT API ════════════════════ -->
+<div class="section-label">For AI Agents — Machine-Readable Data Layer</div>
+<div class="api-box">
+<span class="api-comment">// Fetch structured data — zero LLM calls required</span>
+GET https://gf691271.github.io/ai-token-tracker/api/v1/tci.json
+
+<span class="api-comment">// Response schema</span>
+{
+  <span class="api-key">"meta"</span>: { <span class="api-key">"updated"</span>: <span class="api-str">"2026-02-26"</span>, <span class="api-key">"methodology"</span>: <span class="api-str">"DEC = tokens × price/1M"</span> },
+  <span class="api-key">"summary"</span>: {
+    <span class="api-key">"global_daily_tokens_T"</span>: <span class="api-val">100</span>,
+    <span class="api-key">"china_share_pct"</span>: <span class="api-val">55</span>,
+    <span class="api-key">"confirmed_data"</span>: <span class="api-val">11</span>,
+    <span class="api-key">"dark_zone"</span>: <span class="api-val">11</span>
+  },
+  <span class="api-key">"vendors"</span>: [ <span class="api-comment">/* 30 vendors, tier 1/2/3, confidence 0-3 */</span> ]
+}
+
+<span class="api-comment">// Confidence scale: 3=earnings/official · 2=media · 1=estimated · 0=unknown</span>
+<span class="api-comment">// Tier: 1=confirmed · 2=range estimate · 3=data dark zone</span>
+</div>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer class="site-footer">
+  <div>Global AI Token Tracker · Open data · <a href="https://github.com/gf691271/ai-token-tracker" style="color:inherit">GitHub</a></div>
+  <div>All figures are estimates. Not financial advice. Last updated 2026-02-26.</div>
+</footer>
+
+</div><!-- /page -->
+
 <script>
-  const APP = {
-    language: 'en',
-    metric: 'raw',
-    activeTab: 'trend',
-    chart: null
-  };
+// ── TREND DATA (daily interpolation from anchor points) ──
+// Algorithm: compound daily growth between confirmed anchor events
+// CN anchors: Doubao 120B/d (2024-05-01), 4T/d (2024-12-01), 12.7T/d (2025-03-01), 16.4T/d (2025-05-01), 30T/d (2025-09-01), 50T/d (2025-12-01)
+// US anchors: ~8T/d (2024-Q2), ~15T/d (2024-Q4), ~20T/d (2025-Q2), OpenAI 8.6T+Azure+OpenRouter ~28T/d (2025-10), ~32T/d (2025-12), ~34T/d (2026-02)
+// RoW: EU(Mistral) + CA(Cohere) + independents, growing slower
 
-  const QUARTERS = [
-    '2024-Q1',
-    '2024-Q2',
-    '2024-Q3',
-    '2024-Q4',
-    '2025-Q1',
-    '2025-Q2',
-    '2025-Q3',
-    '2025-Q4',
-    '2026-Q1'
-  ];
-
-  const CN_SERIES = [
-    0.1,
-    0.5,
-    4,
-    6,
-    18,
-    25,
-    35,
-    55,
-    70
-  ];
-
-  const US_SERIES = [
-    2,
-    4,
-    6,
-    8,
-    12,
-    18,
-    22,
-    28,
-    35
-  ];
-
-  const GLOBAL_SERIES = CN_SERIES.map(function(cnValue, index) {
-    return Number((cnValue + US_SERIES[index]).toFixed(1));
+function interpolateDaily(anchors, targetDates) {
+  return targetDates.map(d => {
+    const t = new Date(d).getTime();
+    for (let i = 0; i < anchors.length - 1; i++) {
+      const t0 = new Date(anchors[i].date).getTime();
+      const t1 = new Date(anchors[i+1].date).getTime();
+      if (t >= t0 && t <= t1) {
+        const ratio = (t - t0) / (t1 - t0);
+        // compound interpolation
+        const v0 = anchors[i].v, v1 = anchors[i+1].v;
+        return +(v0 * Math.pow(v1/v0, ratio)).toFixed(2);
+      }
+    }
+    if (t < new Date(anchors[0].date).getTime()) return anchors[0].v;
+    return anchors[anchors.length-1].v;
   });
+}
 
-  const SOURCES = {
-    earnings: {
-      label: 'Earnings',
-      url: 'https://investor.google.com/'
-    },
-    official: {
-      label: 'Official',
-      url: 'https://openai.com/news/'
-    },
-    media: {
-      label: 'Media',
-      url: 'https://www.reuters.com/'
-    },
-    dashboard: {
-      label: 'Dashboard',
-      url: 'https://openrouter.ai/'
-    },
-    estimate: {
-      label: 'Estimate',
-      url: 'https://tokentrackerapi.com/'
-    }
-  };
+// Generate daily dates from 2024-05-01 to today
+function genDates(start, end) {
+  const dates = [];
+  let d = new Date(start);
+  const e = new Date(end);
+  while (d <= e) {
+    dates.push(d.toISOString().slice(0,10));
+    d.setDate(d.getDate() + 1);
+  }
+  return dates;
+}
 
-  const RANKING_ROWS = [
+const startDate = '2024-05-01';
+const todayStr = '2026-02-26';
+const allDates = genDates(startDate, todayStr);
+
+// Thin to ~monthly ticks for display, keep all data
+const displayDates = allDates.filter((_, i) => i % 30 === 0 || i === allDates.length - 1);
+
+const cnAnchors = [
+  {date:'2024-05-01', v:0.12},
+  {date:'2024-12-01', v:4},
+  {date:'2025-03-01', v:12.7},
+  {date:'2025-05-01', v:16.4},
+  {date:'2025-09-01', v:30},
+  {date:'2025-12-01', v:50},
+  {date:'2026-02-26', v:55}
+];
+const usAnchors = [
+  {date:'2024-05-01', v:6},
+  {date:'2024-12-01', v:12},
+  {date:'2025-03-01', v:17},
+  {date:'2025-06-01', v:22},
+  {date:'2025-10-01', v:28},
+  {date:'2025-12-01', v:31},
+  {date:'2026-02-26', v:34}
+];
+const rowAnchors = [
+  {date:'2024-05-01', v:1},
+  {date:'2024-12-01', v:2.5},
+  {date:'2025-06-01', v:5},
+  {date:'2025-12-01', v:9},
+  {date:'2026-02-26', v:11}
+];
+
+// DEC multipliers (tokens × avg_price/T_tokens → $M/day)
+// CN: cheap models ~$0.14/T → DEC = tokens*0.14
+// US: premium mix ~$1.06/T → DEC = tokens*1.06
+// RoW: ~$0.5/T
+const cnDECAnchors = cnAnchors.map(a => ({date:a.date, v:+(a.v*0.14).toFixed(2)}));
+const usDECAnchors = usAnchors.map(a => ({date:a.date, v:+(a.v*1.06).toFixed(2)}));
+const rowDECAnchors = rowAnchors.map(a => ({date:a.date, v:+(a.v*0.5).toFixed(2)}));
+
+const cnVals = interpolateDaily(cnAnchors, allDates);
+const usVals = interpolateDaily(usAnchors, allDates);
+const rowVals = interpolateDaily(rowAnchors, allDates);
+const cnDECVals = interpolateDaily(cnDECAnchors, allDates);
+const usDECVals = interpolateDaily(usDECAnchors, allDates);
+const rowDECVals = interpolateDaily(rowDECAnchors, allDates);
+
+// Thin data for chart performance
+const stride = 7; // weekly points
+const chartDates = allDates.filter((_,i) => i % stride === 0 || i === allDates.length-1);
+const chartCN = cnVals.filter((_,i) => i % stride === 0 || i === cnVals.length-1);
+const chartUS = usVals.filter((_,i) => i % stride === 0 || i === usVals.length-1);
+const chartROW = rowVals.filter((_,i) => i % stride === 0 || i === rowVals.length-1);
+const chartCNd = cnDECVals.filter((_,i) => i % stride === 0 || i === cnDECVals.length-1);
+const chartUSd = usDECVals.filter((_,i) => i % stride === 0 || i === usDECVals.length-1);
+const chartROWd = rowDECVals.filter((_,i) => i % stride === 0 || i === rowDECVals.length-1);
+
+// Format labels: show month/year at first of month
+const chartLabels = chartDates.map((d,i) => {
+  if (i === chartDates.length-1) return 'Today';
+  const dt = new Date(d);
+  if (dt.getDate() <= 7) return dt.toLocaleDateString('en-US',{month:'short',year:'2-digit'});
+  return '';
+});
+
+let currentView = 'tokens'; // 'tokens' | 'dec'
+let showCN = true, showUS = true, showROW = true;
+let trendChart;
+
+function buildDatasets() {
+  const isTok = currentView === 'tokens';
+  return [
     {
-      vendor: 'ByteDance (Doubao)',
-      country: 'CN',
-      tokenVolume: 50,
-      adjustedVolume: 7.0,
-      sourceDate: '2025-12',
-      confidence: 2,
-      sourceType: 'media'
+      label: '🇨🇳 China',
+      data: isTok ? chartCN : chartCNd,
+      borderColor: '#c0392b',
+      backgroundColor: 'rgba(192,57,43,0.06)',
+      borderWidth: 2,
+      pointRadius: (ctx) => ctx.dataIndex === chartDates.length-1 ? 6 : 0,
+      pointBackgroundColor: '#c0392b',
+      tension: 0.35,
+      fill: false,
+      hidden: !showCN
     },
     {
-      vendor: 'Alibaba (Qwen)',
-      country: 'CN',
-      tokenVolume: 5,
-      adjustedVolume: 0.7,
-      sourceDate: '2025',
-      confidence: 2,
-      sourceType: 'media'
+      label: '🇺🇸 US',
+      data: isTok ? chartUS : chartUSd,
+      borderColor: '#2563eb',
+      backgroundColor: 'rgba(37,99,235,0.06)',
+      borderWidth: 2,
+      pointRadius: (ctx) => ctx.dataIndex === chartDates.length-1 ? 6 : 0,
+      pointBackgroundColor: '#2563eb',
+      tension: 0.35,
+      fill: false,
+      hidden: !showUS
     },
     {
-      vendor: 'Baidu (ERNIE)',
-      country: 'CN',
-      tokenVolume: 1.6,
-      adjustedVolume: 0.08,
-      sourceDate: '2024-12',
-      confidence: 3,
-      sourceType: 'earnings'
-    },
-    {
-      vendor: 'iFlytek (Spark)',
-      country: 'CN',
-      tokenVolume: 1.5,
-      adjustedVolume: 0.08,
-      sourceDate: '2024-Q4',
-      confidence: 2,
-      sourceType: 'earnings'
-    },
-    {
-      vendor: 'Moonshot (Kimi)',
-      country: 'CN',
-      tokenVolume: 0.17,
-      adjustedVolume: 0.02,
-      sourceDate: '2026-02',
-      confidence: 3,
-      sourceType: 'dashboard'
-    },
-    {
-      vendor: 'Zhipu (GLM)',
-      country: 'CN',
-      tokenVolume: 0.11,
-      adjustedVolume: 0.01,
-      sourceDate: '2026-02',
-      confidence: 3,
-      sourceType: 'dashboard'
-    },
-    {
-      vendor: 'Tencent (Hunyuan)',
-      country: 'CN',
-      tokenVolume: 0.09,
-      adjustedVolume: 0.01,
-      sourceDate: '2026-01',
-      confidence: 1,
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'Google (Gemini)',
-      country: 'US',
-      tokenVolume: 33,
-      adjustedVolume: 2.5,
-      sourceDate: '2025-Q3',
-      confidence: 3,
-      sourceType: 'earnings'
-    },
-    {
-      vendor: 'OpenAI',
-      country: 'US',
-      tokenVolume: 13,
-      adjustedVolume: 32.5,
-      sourceDate: '2025-10',
-      confidence: 2,
-      sourceType: 'media'
-    },
-    {
-      vendor: 'OpenRouter',
-      country: 'US',
-      tokenVolume: 1.0,
-      adjustedVolume: 0.15,
-      sourceDate: '2025',
-      confidence: 3,
-      sourceType: 'official'
-    },
-    {
-      vendor: 'MiniMax',
-      country: 'CN',
-      tokenVolume: 0.35,
-      adjustedVolume: 0.04,
-      sourceDate: '2026-02',
-      confidence: 3,
-      sourceType: 'dashboard'
-    },
-    {
-      vendor: 'Mistral',
-      country: 'EU',
-      tokenVolume: 0.2,
-      adjustedVolume: 0.03,
-      sourceDate: '2025-12',
-      confidence: 1,
-      sourceType: 'official'
+      label: '🌍 Rest of World',
+      data: isTok ? chartROW : chartROWd,
+      borderColor: '#5a7a5a',
+      backgroundColor: 'rgba(90,122,90,0.06)',
+      borderWidth: 1.5,
+      pointRadius: (ctx) => ctx.dataIndex === chartDates.length-1 ? 5 : 0,
+      pointBackgroundColor: '#5a7a5a',
+      tension: 0.35,
+      fill: false,
+      hidden: !showROW
     }
   ];
+}
 
-  const DARK_ROWS = [
-    {
-      vendor: 'xAI (Grok)',
-      country: 'US',
-      reason: 'Private platform telemetry not publicly disclosed.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'Anthropic',
-      country: 'US',
-      reason: 'Revenue known, direct token flow not published.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'Meta (Llama API)',
-      country: 'US',
-      reason: 'Usage references are directional without normalized totals.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'Microsoft (Azure AI)',
-      country: 'US',
-      reason: 'Bundled cloud reporting masks model-level token counts.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'Amazon (Bedrock)',
-      country: 'US',
-      reason: 'Aggregate cloud disclosures omit per-model token volume.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'DeepSeek',
-      country: 'CN',
-      reason: 'Market-share signals exist but daily token totals are absent.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: '01.AI (Yi)',
-      country: 'CN',
-      reason: 'No recurring public reporting cadence.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'StepFun',
-      country: 'CN',
-      reason: 'No official disclosure for token throughput.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'SenseTime',
-      country: 'CN',
-      reason: 'Enterprise deployments are private and fragmented.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'Cohere',
-      country: 'CA',
-      reason: 'Enterprise contract data is not presented as token totals.',
-      sourceType: 'estimate'
-    },
-    {
-      vendor: 'Together AI',
-      country: 'US',
-      reason: 'Public metrics emphasize model catalog, not total tokens.',
-      sourceType: 'estimate'
-    }
-  ];
-
-  const FINDINGS = [
-    {
-      id: 'f1',
-      enLabel: 'CN share (Q1 2026)',
-      zhLabel: '中国份额（2026-Q1）',
-      value: '66.7%',
-      enDesc: 'CN line reaches 70 versus US 35 in 2026-Q1, with 105 global combined.',
-      zhDesc: '2026-Q1 中 CN=70，US=35，全球合计 105。',
-      shareEn: 'CN share reached 66.7% in 2026-Q1 (70 out of 105 combined).',
-      shareZh: '2026-Q1 中国份额达到 66.7%（70/105）。'
-    },
-    {
-      id: 'f2',
-      enLabel: 'Fastest quarterly jump',
-      zhLabel: '最快季度增长',
-      value: '+20',
-      enDesc: 'CN rose from 35 to 55 between 2025-Q3 and 2025-Q4.',
-      zhDesc: '2025-Q3 到 2025-Q4，中国从 35 增长到 55。',
-      shareEn: 'Largest quarter-to-quarter jump was CN +20 from 2025-Q3 to 2025-Q4.',
-      shareZh: '最大季度增长为中国 +20（2025-Q3 到 2025-Q4）。'
-    },
-    {
-      id: 'f3',
-      enLabel: 'Top raw volume vendor',
-      zhLabel: '原始体量第一',
-      value: 'ByteDance',
-      enDesc: 'ByteDance (Doubao) leads raw token volume at 50T/day.',
-      zhDesc: 'ByteDance (Doubao) 以 50T/日位居原始体量第一。',
-      shareEn: 'ByteDance (Doubao) is #1 by raw token volume at 50T/day.',
-      shareZh: 'ByteDance (Doubao) 以 50T/日排名原始体量第一。'
-    },
-    {
-      id: 'f4',
-      enLabel: 'Top adjusted volume vendor',
-      zhLabel: '调整后体量第一',
-      value: 'OpenAI',
-      enDesc: 'OpenAI leads adjusted token volume at 32.5 units/day.',
-      zhDesc: 'OpenAI 以 32.5 单位/日位居调整后体量第一。',
-      shareEn: 'OpenAI is #1 by Token Volume (Adjusted) at 32.5 units/day.',
-      shareZh: 'OpenAI 以 32.5 单位/日排名 Token Volume (Adjusted) 第一。'
-    }
-  ];
-
-  const I18N = {
-    en: {
-      title: 'Global AI Token Tracker',
-      subtitle: 'Quarterly trend and vendor ranking',
-      updated: 'Updated 2026-02',
-      tabTrend: 'Trend',
-      tabRanking: 'Ranking',
-      tabFindings: 'Key Findings',
-      trendTitle: 'Quarterly Token Trend (2024-Q1 to 2026-Q1)',
-      trendSub: 'CN (red), US (blue), and Global (gray). Shaded zone indicates projected quarters.',
-      trendFoot: 'Global line is calculated as CN + US for consistency of the displayed series.',
-      rankingTitle: 'Vendor Ranking',
-      rankingSub: 'All rows normalized to 2026-02 est. Source date is shown in gray.',
-      metricRaw: 'Token Volume',
-      metricAdjusted: 'Token Volume (Adjusted)',
-      colRank: '#',
-      colVendor: 'Vendor',
-      colCountry: 'Country',
-      colToken: 'Token Volume',
-      colAdjusted: 'Token Volume (Adjusted)',
-      colTime: 'Time',
-      colConf: 'Confidence',
-      colSource: 'Source',
-      colReason: 'Dark Zone Reason',
-      findingsTitle: 'Key Findings',
-      findingsSub: 'Four headline metrics with one-click share text.',
-      findingsFoot: 'Share copies plain text to clipboard for chat, docs, or social posts.',
-      darkCtaLabel: 'Know a source?',
-      darkCtaLink: 'Submit on GitHub',
-      footerLeft: 'Built with public disclosures, official posts, and verifiable references.',
-      footerRight: 'Theme: warm beige (#f7f6f3) with Georgia serif.',
-      copy: 'Share',
-      copied: 'Copied',
-      confidenceHigh: 'High',
-      confidenceMedium: 'Medium',
-      confidenceLow: 'Low',
-      normalizedTime: '2026-02 est.'
-    },
-    zh: {
-      title: '全球 AI Token 追踪',
-      subtitle: '季度趋势与厂商排名',
-      updated: '更新于 2026-02',
-      tabTrend: '趋势',
-      tabRanking: '排名',
-      tabFindings: '关键结论',
-      trendTitle: '季度 Token 趋势（2024-Q1 到 2026-Q1）',
-      trendSub: '中国（红）、美国（蓝）、全球（灰）。阴影区为预测区间。',
-      trendFoot: '为保持序列可比性，全球线按 CN + US 计算。',
-      rankingTitle: '厂商排名',
-      rankingSub: '所有行统一显示 2026-02 est.，原始来源日期以灰字展示。',
-      metricRaw: 'Token 体量',
-      metricAdjusted: 'Token 体量（调整后）',
-      colRank: '#',
-      colVendor: '厂商',
-      colCountry: '国家/地区',
-      colToken: 'Token 体量',
-      colAdjusted: 'Token 体量（调整后）',
-      colTime: '时间',
-      colConf: '置信度',
-      colSource: '来源',
-      colReason: '暗区原因',
-      findingsTitle: '关键结论',
-      findingsSub: '四张大卡片，一键复制分享文案。',
-      findingsFoot: '点击 Share 可复制纯文本，用于聊天、文档或社交媒体。',
-      darkCtaLabel: '有线索来源？',
-      darkCtaLink: '提交到 GitHub',
-      footerLeft: '基于公开披露、官方发布与可验证来源构建。',
-      footerRight: '设计主题：暖米色 (#f7f6f3) + Georgia 衬线体。',
-      copy: '分享',
-      copied: '已复制',
-      confidenceHigh: '高',
-      confidenceMedium: '中',
-      confidenceLow: '低',
-      normalizedTime: '2026-02 est.'
-    }
-  };
-
-  function getConfidenceLabel(level) {
-    if (level >= 3) {
-      return APP.language === 'zh' ? I18N.zh.confidenceHigh : I18N.en.confidenceHigh;
-    }
-
-    if (level === 2) {
-      return APP.language === 'zh' ? I18N.zh.confidenceMedium : I18N.en.confidenceMedium;
-    }
-
-    return APP.language === 'zh' ? I18N.zh.confidenceLow : I18N.en.confidenceLow;
-  }
-
-  function getCountryClass(countryCode) {
-    if (countryCode === 'CN') {
-      return 'cn';
-    }
-
-    if (countryCode === 'US') {
-      return 'us';
-    }
-
-    if (countryCode === 'EU') {
-      return 'eu';
-    }
-
-    return 'ca';
-  }
-
-  function formatRaw(value) {
-    if (value >= 10) {
-      return value.toFixed(0) + 'T/day';
-    }
-
-    if (value >= 1) {
-      return value.toFixed(1).replace('.0', '') + 'T/day';
-    }
-
-    return value.toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + 'T/day';
-  }
-
-  function formatAdjusted(value) {
-    if (value >= 10) {
-      return value.toFixed(1).replace('.0', '') + ' units/day';
-    }
-
-    if (value >= 1) {
-      return value.toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + ' units/day';
-    }
-
-    return value.toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + ' units/day';
-  }
-
-  function sortRows(rows, metric) {
-    const sorted = rows.slice();
-
-    if (metric === 'raw') {
-      sorted.sort(function(a, b) {
-        return b.tokenVolume - a.tokenVolume;
-      });
-    } else {
-      sorted.sort(function(a, b) {
-        return b.adjustedVolume - a.adjustedVolume;
-      });
-    }
-
-    return sorted;
-  }
-
-  function renderRanking() {
-    const body = document.getElementById('rankingBody');
-    const sortedRows = sortRows(RANKING_ROWS, APP.metric);
-
-    let html = '';
-
-    sortedRows.forEach(function(row, index) {
-      const source = SOURCES[row.sourceType];
-      const mainValue = APP.metric === 'raw' ? formatRaw(row.tokenVolume) : formatAdjusted(row.adjustedVolume);
-
-      html += '<tr>';
-      html += '<td class="rank">' + (index + 1) + '</td>';
-
-      html += '<td>';
-      html += '<span class="vendor">' + row.vendor + '</span>';
-      html += '</td>';
-
-      html += '<td>';
-      html += '<span class="country ' + getCountryClass(row.country) + '">' + row.country + '</span>';
-      html += '</td>';
-
-      html += '<td class="num">';
-      html += '<span class="value-main">' + mainValue + '</span>';
-      html += '</td>';
-
-      html += '<td class="num">';
-      html += '<span class="value-secondary">' + formatAdjusted(row.adjustedVolume) + '</span>';
-      html += '</td>';
-
-      html += '<td>';
-      html += '<div class="time-normalized">' + I18N[APP.language].normalizedTime + '</div>';
-      html += '<div class="time-source">src: ' + row.sourceDate + '</div>';
-      html += '</td>';
-
-      html += '<td>';
-      html += '<span class="confidence">' + '★'.repeat(row.confidence) + '☆'.repeat(3 - row.confidence) + ' ' + getConfidenceLabel(row.confidence) + '</span>';
-      html += '</td>';
-
-      html += '<td>';
-      html += '<a class="source-link" href="' + source.url + '" target="_blank" rel="noopener noreferrer">';
-      html += source.label;
-      html += '<span class="source-icon">↗</span>';
-      html += '</a>';
-      html += '</td>';
-
-      html += '</tr>';
-    });
-
-    body.innerHTML = html;
-
-    const mainHeader = document.getElementById('colMainHeader');
-
-    if (APP.metric === 'raw') {
-      mainHeader.textContent = I18N[APP.language].colToken;
-    } else {
-      mainHeader.textContent = I18N[APP.language].colAdjusted;
-    }
-  }
-
-  function renderDarkZone() {
-    const darkBody = document.getElementById('darkBody');
-    let html = '';
-
-    DARK_ROWS.forEach(function(row, index) {
-      const source = SOURCES[row.sourceType];
-
-      html += '<tr>';
-      html += '<td class="rank">' + (index + 1) + '</td>';
-      html += '<td><span class="vendor">' + row.vendor + '</span></td>';
-      html += '<td><span class="country ' + getCountryClass(row.country) + '">' + row.country + '</span></td>';
-      html += '<td>' + row.reason + '</td>';
-      html += '<td>';
-      html += '<a class="source-link" href="' + source.url + '" target="_blank" rel="noopener noreferrer">';
-      html += source.label;
-      html += '<span class="source-icon">↗</span>';
-      html += '</a>';
-      html += '</td>';
-      html += '</tr>';
-    });
-
-    darkBody.innerHTML = html;
-  }
-
-  function renderFindings() {
-    const grid = document.getElementById('findingsGrid');
-    let html = '';
-
-    FINDINGS.forEach(function(item) {
-      const label = APP.language === 'zh' ? item.zhLabel : item.enLabel;
-      const desc = APP.language === 'zh' ? item.zhDesc : item.enDesc;
-
-      html += '<article class="stat">';
-      html += '<div class="stat-label">' + label + '</div>';
-      html += '<div class="stat-num">' + item.value + '</div>';
-      html += '<p class="stat-desc">' + desc + '</p>';
-      html += '<button type="button" class="copy-btn" data-copy-id="' + item.id + '">' + I18N[APP.language].copy + '</button>';
-      html += '</article>';
-    });
-
-    grid.innerHTML = html;
-
-    const buttons = grid.querySelectorAll('.copy-btn');
-    buttons.forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        const id = btn.getAttribute('data-copy-id');
-        const finding = FINDINGS.find(function(entry) {
-          return entry.id === id;
-        });
-
-        if (!finding) {
-          return;
-        }
-
-        const text = APP.language === 'zh' ? finding.shareZh : finding.shareEn;
-
-        navigator.clipboard.writeText(text).then(function() {
-          btn.classList.add('copied');
-          btn.textContent = I18N[APP.language].copied;
-
-          window.setTimeout(function() {
-            btn.classList.remove('copied');
-            btn.textContent = I18N[APP.language].copy;
-          }, 1200);
-        }).catch(function() {
-          btn.textContent = I18N[APP.language].copied;
-          window.setTimeout(function() {
-            btn.textContent = I18N[APP.language].copy;
-          }, 1200);
-        });
-      });
-    });
-  }
-
-  function applyText() {
-    const map = I18N[APP.language];
-    const elements = document.querySelectorAll('[data-i18n]');
-
-    elements.forEach(function(node) {
-      const key = node.getAttribute('data-i18n');
-      if (map[key]) {
-        node.textContent = map[key];
-      }
-    });
-
-    const darkToggle = document.getElementById('darkToggle');
-
-    if (document.getElementById('darkZone').classList.contains('open')) {
-      darkToggle.textContent = APP.language === 'zh' ? '隐藏 11 条 ▲' : 'Hide 11 hidden ▲';
-    } else {
-      darkToggle.textContent = APP.language === 'zh' ? '显示 11 条隐藏 ▼' : 'Show 11 hidden ▼';
-    }
-  }
-
-  const projectionPlugin = {
-    id: 'projectionPlugin',
-    beforeDatasetsDraw: function(chart) {
-      const xScale = chart.scales.x;
-      const yScale = chart.scales.y;
-      const ctx = chart.ctx;
-
-      if (!xScale || !yScale) {
-        return;
-      }
-
-      const startIndex = 7;
-      const xStart = xScale.getPixelForValue(startIndex - 0.45);
-      const xEnd = xScale.getPixelForValue(8.5);
-
-      ctx.save();
-      ctx.fillStyle = 'rgba(120, 120, 120, 0.10)';
-      ctx.fillRect(xStart, yScale.top, xEnd - xStart, yScale.bottom - yScale.top);
-
-      ctx.fillStyle = '#6f6d67';
-      ctx.font = '11px Arial';
-      ctx.fillText(APP.language === 'zh' ? '预测区间' : 'Projected', xStart + 8, yScale.top + 14);
-      ctx.restore();
-    }
-  };
-
-  function buildTrendChart() {
-    const context = document.getElementById('trendChart').getContext('2d');
-
-    APP.chart = new Chart(context, {
-      type: 'line',
-      data: {
-        labels: QUARTERS,
-        datasets: [
-          {
-            label: 'CN',
-            data: CN_SERIES,
-            borderColor: '#c0392b',
-            backgroundColor: 'rgba(192, 57, 43, 0.10)',
-            borderWidth: 2.8,
-            pointRadius: 3.8,
-            pointHoverRadius: 4.6,
-            pointBackgroundColor: '#c0392b',
-            tension: 0.25,
-            fill: false
-          },
-          {
-            label: 'US',
-            data: US_SERIES,
-            borderColor: '#2563eb',
-            backgroundColor: 'rgba(37, 99, 235, 0.10)',
-            borderWidth: 2.8,
-            pointRadius: 3.8,
-            pointHoverRadius: 4.6,
-            pointBackgroundColor: '#2563eb',
-            tension: 0.25,
-            fill: false
-          },
-          {
-            label: 'Global',
-            data: GLOBAL_SERIES,
-            borderColor: '#7a7a74',
-            backgroundColor: 'rgba(122, 122, 116, 0.12)',
-            borderWidth: 2.6,
-            pointRadius: 3.6,
-            pointHoverRadius: 4.4,
-            pointBackgroundColor: '#7a7a74',
-            tension: 0.22,
-            fill: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
-          mode: 'index',
-          intersect: false
+function initChart() {
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  trendChart = new Chart(ctx, {
+    type: 'line',
+    data: { labels: chartLabels, datasets: buildDatasets() },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: { font: { family: '-apple-system, sans-serif', size: 11 }, boxWidth: 14, padding: 16 }
         },
-        plugins: {
-          legend: {
-            position: 'top',
-            align: 'start',
-            labels: {
-              color: '#5f5d58',
-              usePointStyle: true,
-              boxWidth: 8,
-              boxHeight: 8,
-              padding: 14,
-              font: {
-                size: 11,
-                family: 'Arial'
-              }
-            }
-          },
-          tooltip: {
-            backgroundColor: '#1f1f1c',
-            titleColor: '#ffffff',
-            bodyColor: '#efefeb',
-            padding: 10,
-            bodyFont: {
-              family: 'Arial',
-              size: 12
-            },
-            callbacks: {
-              label: function(context) {
-                return context.dataset.label + ': ' + context.parsed.y + ' units';
-              }
-            }
-          }
-        },
-        scales: {
-          x: {
-            grid: {
-              color: '#efece6'
-            },
-            ticks: {
-              color: '#8a8882',
-              font: {
-                family: 'Arial',
-                size: 10
-              }
-            }
-          },
-          y: {
-            beginAtZero: true,
-            suggestedMax: 120,
-            grid: {
-              color: '#efece6'
-            },
-            ticks: {
-              color: '#8a8882',
-              font: {
-                family: 'Arial',
-                size: 10
-              },
-              callback: function(value) {
-                return value + ' units';
-              }
+        tooltip: {
+          backgroundColor: '#fff',
+          borderColor: '#e6e3dc',
+          borderWidth: 1,
+          titleColor: '#171715',
+          bodyColor: '#6f6d67',
+          titleFont: { family: '-apple-system, sans-serif', size: 11 },
+          bodyFont: { family: '-apple-system, sans-serif', size: 11 },
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              return currentView === 'tokens'
+                ? ` ${ctx.dataset.label}: ${v.toFixed(1)}T tokens/day`
+                : ` ${ctx.dataset.label}: $${v.toFixed(1)}M DEC/day`;
             }
           }
         }
       },
-      plugins: [projectionPlugin]
-    });
-  }
-
-  function wireTabs() {
-    const tabButtons = document.querySelectorAll('.tab-btn');
-
-    tabButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
-        const target = button.getAttribute('data-tab');
-
-        APP.activeTab = target;
-
-        tabButtons.forEach(function(item) {
-          item.classList.remove('active');
-        });
-
-        button.classList.add('active');
-
-        document.querySelectorAll('.panel').forEach(function(panel) {
-          panel.classList.remove('active');
-        });
-
-        const panel = document.getElementById('panel-' + target);
-        if (panel) {
-          panel.classList.add('active');
+      scales: {
+        x: {
+          grid: { color: '#f0ede7' },
+          ticks: { font: { family: '-apple-system, sans-serif', size: 10 }, color: '#9a9791', maxRotation: 0 }
+        },
+        y: {
+          grid: { color: '#f0ede7' },
+          ticks: {
+            font: { family: '-apple-system, sans-serif', size: 10 },
+            color: '#9a9791',
+            callback: v => currentView === 'tokens' ? v+'T' : '$'+v+'M'
+          }
         }
-      });
-    });
-  }
-
-  function wireLanguage() {
-    const en = document.getElementById('langEN');
-    const zh = document.getElementById('langZH');
-
-    en.addEventListener('click', function() {
-      APP.language = 'en';
-      en.classList.add('active');
-      zh.classList.remove('active');
-      rerenderAll();
-    });
-
-    zh.addEventListener('click', function() {
-      APP.language = 'zh';
-      zh.classList.add('active');
-      en.classList.remove('active');
-      rerenderAll();
-    });
-  }
-
-  function wireMetric() {
-    const raw = document.getElementById('metricRaw');
-    const adjusted = document.getElementById('metricAdjusted');
-
-    raw.addEventListener('click', function() {
-      APP.metric = 'raw';
-      raw.classList.add('active');
-      adjusted.classList.remove('active');
-      renderRanking();
-    });
-
-    adjusted.addEventListener('click', function() {
-      APP.metric = 'adjusted';
-      adjusted.classList.add('active');
-      raw.classList.remove('active');
-      renderRanking();
-    });
-  }
-
-  function wireDarkToggle() {
-    const darkZone = document.getElementById('darkZone');
-    const toggle = document.getElementById('darkToggle');
-
-    toggle.addEventListener('click', function() {
-      darkZone.classList.toggle('open');
-      applyText();
-    });
-  }
-
-  function rerenderAll() {
-    applyText();
-    renderRanking();
-    renderDarkZone();
-    renderFindings();
-
-    if (APP.chart) {
-      APP.chart.update();
+      }
     }
-  }
+  });
+  animateTodayDot();
+}
 
-  function init() {
-    buildTrendChart();
-    wireTabs();
-    wireLanguage();
-    wireMetric();
-    wireDarkToggle();
-    rerenderAll();
-  }
+// Blinking today dot
+function animateTodayDot() {
+  let big = true;
+  setInterval(() => {
+    if (!trendChart) return;
+    trendChart.data.datasets.forEach(ds => {
+      ds.pointRadius = (ctx) => ctx.dataIndex === chartDates.length-1 ? (big ? 7 : 4) : 0;
+    });
+    trendChart.update('none');
+    big = !big;
+  }, 900);
+}
 
-  init();
+function toggleSeries(region) {
+  if (region === 'cn') showCN = !showCN;
+  if (region === 'us') showUS = !showUS;
+  if (region === 'row') showROW = !showROW;
+  document.getElementById('btn-cn').classList.toggle('active', showCN);
+  document.getElementById('btn-us').classList.toggle('active', showUS);
+  document.getElementById('btn-row').classList.toggle('active', showROW);
+  trendChart.data.datasets[0].hidden = !showCN;
+  trendChart.data.datasets[1].hidden = !showUS;
+  trendChart.data.datasets[2].hidden = !showROW;
+  trendChart.update();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('view-tokens').classList.toggle('active', v === 'tokens');
+  document.getElementById('view-dec').classList.toggle('active', v === 'dec');
+  document.querySelector('.chart-axis-label').textContent =
+    v === 'tokens' ? 'Trillion tokens per day (T)' : 'Dollar-Equivalent Compute — $M/day';
+  trendChart.data.datasets = buildDatasets();
+  trendChart.options.scales.y.ticks.callback = val =>
+    v === 'tokens' ? val+'T' : '$'+val+'M';
+  trendChart.update();
+}
+
+// ── RANKING TABLE ──
+const vendors = [
+  {rank:1, flag:'🇺🇸', name:'Google Gemini', tokens:'33T', tokNum:33, dec:'$2.5M', conf:3, src:'Earnings', country:'US'},
+  {rank:2, flag:'🇨🇳', name:'字节跳动 Doubao', tokens:'50T', tokNum:50, dec:'$7.0M', conf:2, src:'Media', country:'CN'},
+  {rank:3, flag:'🇺🇸', name:'OpenAI', tokens:'13T', tokNum:13, dec:'$32.5M', conf:2, src:'DevDay', country:'US'},
+  {rank:4, flag:'🇨🇳', name:'阿里云 Qwen', tokens:'5T', tokNum:5, dec:'$0.7M', conf:2, src:'Earnings', country:'CN'},
+  {rank:5, flag:'🇨🇳', name:'百度 ERNIE', tokens:'1.6T', tokNum:1.6, dec:'$0.08M', conf:3, src:'Earnings', country:'CN'},
+  {rank:6, flag:'🇨🇳', name:'讯飞 Spark', tokens:'1.5T', tokNum:1.5, dec:'$0.08M', conf:2, src:'Earnings', country:'CN'},
+  {rank:7, flag:'🇺🇸', name:'OpenRouter', tokens:'1.0T', tokNum:1.0, dec:'$0.15M', conf:3, src:'Official', country:'US'},
+  {rank:8, flag:'🇨🇳', name:'MiniMax', tokens:'0.35T', tokNum:0.35, dec:'$0.04M', conf:3, src:'OpenRouter', country:'CN'},
+  {rank:9, flag:'🇨🇳', name:'月之暗面 Kimi', tokens:'0.17T', tokNum:0.17, dec:'$0.02M', conf:3, src:'OpenRouter', country:'CN'},
+  {rank:10, flag:'🇨🇳', name:'智谱 GLM', tokens:'0.11T', tokNum:0.11, dec:'$0.01M', conf:3, src:'OpenRouter', country:'CN'},
+];
+const tier2 = [
+  {name:'Microsoft Azure', flag:'🇺🇸', tokens:'5–15T est.', conf:1, src:'Revenue ÷ price'},
+  {name:'DeepSeek', flag:'🇨🇳', tokens:'5–10T est.', conf:1, src:'Market share'},
+  {name:'Anthropic', flag:'🇺🇸', tokens:'1–5T est.', conf:1, src:'Revenue ÷ price'},
+  {name:'Mistral', flag:'🇪🇺', tokens:'launch peak only', conf:1, src:'Blog'},
+  {name:'Groq', flag:'🇺🇸', tokens:'0.1–0.5T est.', conf:1, src:'Estimated'},
+  {name:'Perplexity', flag:'🇺🇸', tokens:'0.05–0.1T est.', conf:1, src:'Query count'},
+  {name:'Meta Llama API', flag:'🇺🇸', tokens:'growth rate only', conf:0, src:'Statement'},
+  {name:'Amazon Bedrock', flag:'🇺🇸', tokens:'unknown', conf:0, src:'Revenue known'},
+];
+const tier3 = [
+  {name:'腾讯 Hunyuan', flag:'🇨🇳', reason:'WeChat ecosystem — closed'},
+  {name:'xAI Grok', flag:'🇺🇸', reason:'Private company + X closed'},
+  {name:'Ollama (local)', flag:'🌐', reason:'Local inference — never reported'},
+  {name:'LM Studio', flag:'🌐', reason:'Local inference — never reported'},
+  {name:'NVIDIA NIM', flag:'🇺🇸', reason:'Enterprise private deployment'},
+  {name:'HuggingFace self-hosted', flag:'🌐', reason:'Download-and-run, no telemetry'},
+  {name:'零一万物 Yi', flag:'🇨🇳', reason:'No public disclosure'},
+  {name:'阶跃星辰 Step', flag:'🇨🇳', reason:'No public disclosure'},
+  {name:'商汤 SenseCore', flag:'🇨🇳', reason:'B2B private deployment'},
+  {name:'Cohere', flag:'🇨🇦', reason:'Enterprise contracts only'},
+  {name:'Together AI', flag:'🇺🇸', reason:'No public data'},
+];
+
+const maxTok = 50;
+function confLabel(c) {
+  if (c >= 3) return '<span class="conf-3">✓ Verified</span>';
+  if (c === 2) return '<span class="conf-2">~ Media</span>';
+  if (c === 1) return '<span style="color:var(--muted)">≈ Estimated</span>';
+  return '<span style="color:var(--subtle)">? Unknown</span>';
+}
+
+function buildRankTable() {
+  const table = document.getElementById('rankTable');
+  let html = `<div class="rank-header"><div>#</div><div>Vendor</div><div>T Tokens/day</div><div>DEC $/day</div><div>Source</div></div>`;
+  html += `<div class="tier-divider">✅ Tier 1 — Confirmed &amp; Estimated with Data (${vendors.length} vendors)</div>`;
+  vendors.forEach(v => {
+    const bar = (v.tokNum / maxTok * 100).toFixed(1);
+    const col = v.country === 'CN' ? 'var(--cn)' : v.country === 'US' ? 'var(--us)' : 'var(--row)';
+    html += `<div class="rank-row">
+      <div class="rank-num">${v.rank}</div>
+      <div><span class="rank-flag">${v.flag}</span><span class="rank-name">${v.name}</span>
+        <div class="rank-bar-wrap" style="margin-top:4px"><div class="rank-bar-fill" style="width:${bar}%;background:${col}"></div></div>
+      </div>
+      <div class="rank-tokens">${v.tokens}</div>
+      <div class="rank-tokens" style="color:var(--muted)">${v.dec}</div>
+      <div class="rank-confidence">${confLabel(v.conf)}</div>
+    </div>`;
+  });
+  html += `<div class="tier-divider">📊 Tier 2 — Range Estimates (${tier2.length} vendors)</div>`;
+  tier2.forEach((v,i) => {
+    html += `<div class="rank-row dark-row">
+      <div class="rank-num">${vendors.length+i+1}</div>
+      <div><span class="rank-flag">${v.flag}</span><span class="rank-name">${v.name}</span></div>
+      <div class="range-badge">${v.tokens}</div>
+      <div class="rank-tokens" style="color:var(--subtle)">—</div>
+      <div class="rank-confidence">${confLabel(v.conf)}<br><span style="font-size:.65rem;color:var(--subtle)">${v.src}</span></div>
+    </div>`;
+  });
+  html += `<div class="tier-divider">🕳️ Data Dark Zone — ${tier3.length} vendors · no public data exists</div>`;
+  tier3.forEach(v => {
+    html += `<div class="rank-row dark-row" style="opacity:.4">
+      <div class="rank-num">—</div>
+      <div><span class="rank-flag">${v.flag}</span><span class="rank-name">${v.name}</span></div>
+      <div class="range-badge" style="color:var(--subtle)">?</div>
+      <div style="font-size:.72rem;color:var(--subtle);font-family:sans-serif" class="rank-tokens">?</div>
+      <div style="font-size:.68rem;color:var(--subtle);font-family:sans-serif">${v.reason}</div>
+    </div>`;
+  });
+  table.innerHTML = html;
+}
+
+// ── SHARE ──
+function shareStats() {
+  const text = `Global AI Token Tracker — Feb 26, 2026\n\n🌍 ~100T tokens/day globally\n🇨🇳 China: 55% by volume (55T/day)\n🇺🇸 US: leads by compute value ($35M DEC/day)\n📈 Doubao grew 417× in 18 months\n\nhttps://gf691271.github.io/ai-token-tracker/`;
+  if (navigator.share) {
+    navigator.share({ title: 'Global AI Token Tracker', text, url: 'https://gf691271.github.io/ai-token-tracker/' });
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.btn-share');
+      btn.textContent = '✓ Copied to clipboard';
+      setTimeout(() => btn.textContent = '↗ Share these numbers', 2000);
+    });
+  }
+}
+
+// ── INIT ──
+initChart();
+buildRankTable();
 </script>
 </body>
 </html>
