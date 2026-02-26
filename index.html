@@ -296,12 +296,32 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 }
 
 @media (max-width: 640px) {
-  .headline-grid { grid-template-columns: 1fr 1fr; }
+  .page { padding: 0 16px 60px; }
+
+  /* Header: stack vertically on mobile */
+  .site-header { flex-direction: column; gap: 10px; padding: 16px 0 12px; }
+  .site-header-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 8px; justify-content: space-between; width: 100%; }
+  .site-title-abbr { font-size: 1.9rem; }
+  .site-title-full { font-size: 0.88rem; }
+  .site-headline { font-size: 0.8rem; }
+
+  /* Key numbers: 2-col on mobile */
+  .headline-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .headline-card { padding: 12px; }
+  .hl-number { font-size: 1.5rem; }
+
+  /* Chart controls: wrap */
+  .chart-controls { flex-wrap: wrap; gap: 8px; }
+
+  /* Rank table: hide DEC column */
   .rank-header, .rank-row { grid-template-columns: 28px 1fr 90px 70px; }
   .rank-header > *:nth-child(4), .rank-row > *:nth-child(4) { display: none; }
-  .site-title-abbr { font-size: 1.8rem; }
-  .site-title-full { font-size: 0.9rem; }
-  .site-headline { font-size: 0.82rem; }
+
+  /* Action buttons: smaller */
+  .action-btn { padding: 4px 9px; font-size: 0.68rem; }
+
+  /* Section labels */
+  .section-label { font-size: 0.65rem; }
 }
 </style>
 </head>
@@ -325,7 +345,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.12</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
