@@ -14,6 +14,7 @@
 <meta name="twitter:title" content="Global AI Token Tracker">
 <meta name="twitter:description" content="By token count, China leads. By compute value, US leads. The data behind the gap.">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
 :root {
   --bg: #f7f6f3;
@@ -345,7 +346,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.12</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.13</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -437,12 +438,12 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     <button class="toggle-btn row-btn active" id="btn-row" onclick="toggleSeries('row')">🌍 Rest of World</button>
   </div>
   <div class="view-toggle">
-    <button class="toggle-btn active" id="view-tokens" onclick="setView('tokens')">Raw</button>
-    <button class="toggle-btn" id="view-dec" onclick="setView('dec')">Normalized</button>
+    <button class="toggle-btn active" id="view-tokens" onclick="setView('tokens')">T Tokens</button>
+    <button class="toggle-btn" id="view-dec" onclick="setView('dec')">T Tokens (Adjusted)</button>
   </div>
 </div>
 <div class="chart-wrap">
-  <canvas id="trendChart" height="220"></canvas>
+  <canvas id="trendChart" height="200"></canvas>
 </div>
 
 <!-- ════════════════════ RANKING ════════════════════ -->
@@ -675,22 +676,22 @@ function initChart() {
           align: 'start',
           labels: {
             font: { family: '-apple-system, sans-serif', size: 11, weight: '500' },
-            boxWidth: 10, boxHeight: 10,
-            padding: 20,
+            boxWidth: 8, boxHeight: 8,
+            padding: 18,
             color: '#3a3935',
             usePointStyle: true,
             pointStyle: 'circle'
           }
         },
         tooltip: {
-          backgroundColor: 'rgba(255,255,255,0.97)',
+          backgroundColor: 'rgba(255,255,255,0.98)',
           borderColor: '#e6e3dc',
           borderWidth: 1,
           titleColor: '#171715',
           bodyColor: '#6f6d67',
           titleFont: { family: '-apple-system, sans-serif', size: 11, weight: '600' },
           bodyFont: { family: '-apple-system, sans-serif', size: 11 },
-          padding: 10,
+          padding: 12,
           boxPadding: 4,
           callbacks: {
             title: items => {
@@ -699,9 +700,38 @@ function initChart() {
             },
             label: c => {
               const v = c.parsed.y;
+              const label = c.dataset.label.replace(/🇨🇳|🇺🇸|🌍/g,'').trim();
               return currentView === 'tokens'
-                ? `  ${c.dataset.label}  ${v.toFixed(1)}T / day`
-                : `  ${c.dataset.label}  $${v.toFixed(1)}M / day`;
+                ? `  ${label}  ${v.toFixed(1)}T / day`
+                : `  ${label}  ${v.toFixed(1)}T adj / day`;
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            doubaoSurge: {
+              type: 'line', scaleID: 'x',
+              value: chartDates.findIndex(d => d >= '2024-12-01'),
+              borderColor: 'rgba(192,57,43,0.25)', borderWidth: 1, borderDash: [4,3],
+              label: { display: true, content: 'Doubao 4T', position: 'start',
+                font: { size: 9, family: '-apple-system, sans-serif' },
+                color: '#c0392b', backgroundColor: 'transparent', padding: 2 }
+            },
+            deepseekR1: {
+              type: 'line', scaleID: 'x',
+              value: chartDates.findIndex(d => d >= '2025-01-20'),
+              borderColor: 'rgba(37,99,235,0.2)', borderWidth: 1, borderDash: [4,3],
+              label: { display: true, content: 'DeepSeek R1', position: 'start',
+                font: { size: 9, family: '-apple-system, sans-serif' },
+                color: '#2563eb', backgroundColor: 'transparent', padding: 2 }
+            },
+            doubao50T: {
+              type: 'line', scaleID: 'x',
+              value: chartDates.findIndex(d => d >= '2025-12-01'),
+              borderColor: 'rgba(192,57,43,0.2)', borderWidth: 1, borderDash: [4,3],
+              label: { display: true, content: 'Doubao 50T', position: 'start',
+                font: { size: 9, family: '-apple-system, sans-serif' },
+                color: '#c0392b', backgroundColor: 'transparent', padding: 2 }
             }
           }
         }
