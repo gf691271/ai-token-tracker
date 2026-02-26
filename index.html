@@ -38,20 +38,26 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 .site-header {
   border-bottom: 2px solid var(--text);
   padding: 28px 0 18px;
-}
-.site-header-row1 {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 16px;
+  align-items: stretch;
+  gap: 32px;
 }
-.site-header-row2 {
+.site-header-left {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-  margin-top: 8px;
-  flex-wrap: wrap;
+}
+.site-header-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  text-align: right;
+  flex-shrink: 0;
+  font-family: -apple-system, sans-serif;
+  font-size: 0.78rem;
+  color: var(--muted);
 }
 .site-title { font-family: -apple-system, sans-serif; line-height: 1.1; }
 .site-title-logo {
@@ -287,27 +293,23 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 
 <!-- ════════════════════ HEADER ════════════════════ -->
 <header class="site-header">
-  <!-- Row 1: logo line + lang toggle -->
-  <div class="site-header-row1">
+  <!-- LEFT: logo + tagline -->
+  <div class="site-header-left">
     <div class="site-title-logo">
       <span class="site-title-abbr">GATT</span>
       <span class="site-title-sep">·</span>
       <span class="site-title-full">Global AI Token Tracker</span>
     </div>
+    <h1 class="site-headline" id="tagline">The open index tracking the global Token Economy —<br>AI inference as commodity, currency, and geopolitical force.</h1>
+  </div>
+  <!-- RIGHT: toggle / date / stats — 3 lines, right-aligned -->
+  <div class="site-header-right">
     <div class="lang-toggle">
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-  </div>
-  <!-- Row 2: tagline full width -->
-  <div style="margin-top:8px;">
-    <h1 class="site-headline" id="tagline">The open index tracking the global Token Economy — AI inference as commodity, currency, and geopolitical force.</h1>
-  </div>
-  <!-- Row 3: date + stats right-aligned -->
-  <div style="display:flex;justify-content:flex-end;margin-top:10px;gap:16px;align-items:center;">
-    <div class="site-meta">
-      <span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span>
-      &nbsp;&nbsp;
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span></div>
+    <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
       <span id="stat-models">80+</span> <span class="i18n" data-en="Models" data-zh="模型">Models</span>
