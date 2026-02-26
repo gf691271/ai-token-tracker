@@ -37,27 +37,28 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 /* ── HEADER ── */
 .site-header {
   border-bottom: 2px solid var(--text);
-  padding: 28px 0 18px;
+  padding: 20px 0 14px;
   display: flex;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 32px;
 }
 .site-header-left {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 3px;
 }
 .site-header-right {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: flex-end;
   text-align: right;
   flex-shrink: 0;
   font-family: -apple-system, sans-serif;
   font-size: 0.78rem;
   color: var(--muted);
+  gap: 4px;
+  padding-top: 1px;
 }
 .site-title { font-family: -apple-system, sans-serif; line-height: 1.1; }
 .site-title-logo {
@@ -72,6 +73,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   letter-spacing: -0.02em;
   color: var(--text);
   font-family: 'Georgia', serif;
+  line-height: 0.85;
 }
 .site-title-sep {
   font-size: 1.6rem;
