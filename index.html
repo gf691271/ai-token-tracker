@@ -43,8 +43,10 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   gap: 16px;
   flex-wrap: wrap;
 }
-.site-title { font-size: 1.05rem; font-family: -apple-system, sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-.site-headline { font-size: 2.1rem; font-weight: 700; line-height: 1.15; margin-top: 4px; }
+.site-title { font-size: 2.6rem; font-family: -apple-system, sans-serif; font-weight: 800; letter-spacing: -0.01em; color: var(--text); line-height: 1.1; }
+.site-title-abbr { font-size: 2.6rem; font-weight: 800; }
+.site-title-full { font-size: 1.05rem; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; margin-top: 2px; display: block; }
+.site-headline { font-size: 1.05rem; font-weight: 400; line-height: 1.4; margin-top: 6px; color: var(--muted); font-family: -apple-system, sans-serif; }
 .site-meta { text-align: right; font-family: -apple-system, sans-serif; font-size: 0.78rem; color: var(--muted); }
 .site-meta .updated { font-weight: 600; color: var(--text); }
 .live-dot { display: inline-block; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; margin-right: 4px; animation: pulse 2s infinite; }
@@ -232,7 +234,9 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   .headline-grid { grid-template-columns: 1fr 1fr; }
   .rank-header, .rank-row { grid-template-columns: 28px 1fr 90px 70px; }
   .rank-header > *:nth-child(4), .rank-row > *:nth-child(4) { display: none; }
-  .site-headline { font-size: 1.5rem; }
+  .site-title { font-size: 1.9rem; }
+  .site-title-abbr { font-size: 1.9rem; }
+  .site-headline { font-size: 0.95rem; }
 }
 </style>
 </head>
@@ -242,13 +246,16 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 <!-- ════════════════════ HEADER ════════════════════ -->
 <header class="site-header">
   <div>
-    <div class="site-title">Global AI Token Tracker</div>
-    <h1 class="site-headline">Daily Token Consumption<br>by Vendor &amp; Region</h1>
+    <div class="site-title"><span class="site-title-abbr">GATT</span><span class="site-title-full">Global AI Token Tracker</span></div>
+    <h1 class="site-headline">Daily Token Consumption Index by Vendor &amp; Region —<br>The most complete open dataset tracking AI compute at scale.</h1>
   </div>
   <div class="site-meta">
-    <div><span class="live-dot"></span>Estimates updated daily</div>
-    <div class="updated">2026-02-26</div>
-    <div style="margin-top:6px;font-size:0.68rem;">30 vendors · 3 regions · proprietary DEC model</div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span></div>
+    <div style="margin-top:8px;font-size:0.72rem;line-height:1.8;">
+      <span id="stat-vendors">30</span> Vendors &nbsp;·&nbsp;
+      <span id="stat-countries">12</span> Countries &nbsp;·&nbsp;
+      <span id="stat-models">80+</span> Models
+    </div>
   </div>
 </header>
 
@@ -711,6 +718,15 @@ function shareStats() {
 // ── INIT ──
 initChart();
 buildRankTable();
+
+// ── AUTO DATE ──
+(function() {
+  const d = new Date();
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const label = `Updated ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+  const el = document.getElementById('header-date');
+  if (el) el.textContent = label;
+})();
 </script>
 </body>
 </html>
