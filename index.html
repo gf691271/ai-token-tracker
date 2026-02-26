@@ -38,10 +38,19 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 .site-header {
   border-bottom: 2px solid var(--text);
   padding: 28px 0 18px;
+}
+.site-header-row1 {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   gap: 16px;
+}
+.site-header-row2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 8px;
   flex-wrap: wrap;
 }
 .site-title { font-family: -apple-system, sans-serif; line-height: 1.1; }
@@ -74,7 +83,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   align-self: center;
 }
 .site-headline { font-size: 0.88rem; font-weight: 400; line-height: 1.5; margin-top: 8px; color: var(--muted); font-family: -apple-system, sans-serif; font-style: italic; }
-.site-meta { text-align: right; font-family: -apple-system, sans-serif; font-size: 0.78rem; color: var(--muted); }
+.site-meta { text-align: right; font-family: -apple-system, sans-serif; font-size: 0.78rem; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
 .site-meta .updated { font-weight: 600; color: var(--text); }
 .live-dot { display: inline-block; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; margin-right: 4px; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
@@ -278,25 +287,27 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 
 <!-- ════════════════════ HEADER ════════════════════ -->
 <header class="site-header">
-  <div>
-    <div class="site-title">
-      <div class="site-title-logo">
-        <span class="site-title-abbr">GATT</span>
-        <span class="site-title-sep">·</span>
-        <span class="site-title-full">Global AI Token Tracker</span>
-      </div>
-      <h1 class="site-headline" id="tagline">The open index tracking the global Token Economy — AI inference as commodity, currency, and geopolitical force.</h1>
+  <!-- Row 1: logo line + lang toggle -->
+  <div class="site-header-row1">
+    <div class="site-title-logo">
+      <span class="site-title-abbr">GATT</span>
+      <span class="site-title-sep">·</span>
+      <span class="site-title-full">Global AI Token Tracker</span>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
   </div>
-  <div class="site-meta">
-    <div style="display:flex;align-items:center;gap:10px;justify-content:flex-end;">
-      <div class="lang-toggle">
-        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
-      </div>
-      <span><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span></span>
-    </div>
-    <div style="margin-top:8px;font-size:0.72rem;line-height:1.8;">
+  <!-- Row 2: tagline full width -->
+  <div style="margin-top:8px;">
+    <h1 class="site-headline" id="tagline">The open index tracking the global Token Economy — AI inference as commodity, currency, and geopolitical force.</h1>
+  </div>
+  <!-- Row 3: date + stats right-aligned -->
+  <div style="display:flex;justify-content:flex-end;margin-top:10px;gap:16px;align-items:center;">
+    <div class="site-meta">
+      <span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span>
+      &nbsp;&nbsp;
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
       <span id="stat-models">80+</span> <span class="i18n" data-en="Models" data-zh="模型">Models</span>
