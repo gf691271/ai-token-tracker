@@ -9,7 +9,7 @@ AI inference as commodity, currency, and geopolitical force.
 
 ## What is GATT?
 
-Just as the original GATT (General Agreement on Tariffs and Trade) mapped the flow of physical goods across borders, **GATT tracks the flow of AI tokens** — the first true commodity of the internet era.
+Just as the original GATT (General Agreement on Tariffs and Trade) mapped the flow of physical goods across borders, **GATT tracks the flow of AI tokens** — the first true commodity of the AI Agent era.
 
 Token consumption tells you:
 - Which AI vendors are winning the inference war
