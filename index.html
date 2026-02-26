@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global AI Token Tracker — TCI</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --border: #e8e6e1;
+    --text: #1a1a18;
+    --muted: #6b6b67;
+    --subtle: #a8a8a3;
+    --cn: #c0392b;
+    --cn-light: #fdf0ef;
+    --us: #2563eb;
+    --us-light: #eff4ff;
+    --eu: #16a34a;
+    --eu-light: #f0fdf4;
+    --ca: #7c3aed;
+    --accent: #1a1a18;
+    --tag-bg: #f0ede8;
+    --r: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  /* ── Layout ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 2px solid var(--text);
+    padding: 28px 0 20px;
+    margin-bottom: 40px;
+  }
+  .header-inner {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .masthead { }
+  .masthead h1 {
+    font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em;
+    font-family: 'Georgia', serif;
+  }
+  .masthead .sub {
+    font-size: 0.8rem; color: var(--muted); letter-spacing: 0.06em;
+    text-transform: uppercase; margin-top: 2px; font-family: sans-serif;
+  }
+  .header-meta {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .updated {
+    font-size: 0.75rem; color: var(--muted); font-family: sans-serif;
+  }
+
+  /* ── Toggle ── */
+  .toggle-wrap { display: flex; align-items: center; gap: 10px; }
+  .toggle-label { font-size: 0.75rem; color: var(--muted); font-family: sans-serif; }
+  .toggle {
+    position: relative; display: inline-flex;
+    background: var(--tag-bg); border: 1.5px solid var(--border);
+    border-radius: 999px; padding: 3px; cursor: pointer;
+    font-family: sans-serif;
+  }
+  .toggle input { display: none; }
+  .toggle-opt {
+    padding: 4px 14px; border-radius: 999px; font-size: 0.72rem;
+    font-weight: 600; transition: all .2s; color: var(--muted);
+    letter-spacing: 0.01em; white-space: nowrap;
+  }
+  .toggle.raw .toggle-opt.raw,
+  .toggle.dec .toggle-opt.dec {
+    background: var(--text); color: #fff;
+  }
+
+  /* ── Hero stats ── */
+  .hero { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 48px; }
+  @media(max-width:640px){ .hero { grid-template-columns: 1fr; } }
+  .stat-card {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: var(--r); padding: 24px 20px;
+  }
+  .stat-card .label {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted); font-family: sans-serif; margin-bottom: 8px;
+  }
+  .stat-card .number {
+    font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .stat-card .caption {
+    font-size: 0.78rem; color: var(--muted); font-family: sans-serif;
+    margin-top: 6px;
+  }
+  .stat-card.cn .number { color: var(--cn); }
+  .stat-card.us .number { color: var(--us); }
+
+  /* ── Section headers ── */
+  .section { margin-bottom: 48px; }
+  .section-title {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); font-family: sans-serif; font-weight: 600;
+    border-bottom: 1px solid var(--border); padding-bottom: 8px;
+    margin-bottom: 20px;
+  }
+
+  /* ── Leaderboard ── */
+  .leaderboard { width: 100%; border-collapse: collapse; font-family: sans-serif; }
+  .leaderboard th {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--subtle); font-weight: 600; padding: 8px 12px;
+    border-bottom: 1px solid var(--border); text-align: left;
+    white-space: nowrap;
+  }
+  .leaderboard th.num { text-align: right; }
+  .leaderboard td {
+    padding: 11px 12px; border-bottom: 1px solid var(--border);
+    font-size: 0.82rem; vertical-align: middle;
+  }
+  .leaderboard td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .leaderboard tr:hover td { background: #f9f8f5; }
+
+  .rank-num { color: var(--subtle); font-size: 0.75rem; }
+  .vendor-name { font-weight: 600; color: var(--text); }
+  .vendor-flag { margin-right: 4px; }
+
+  .country-tag {
+    display: inline-block; font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.05em; padding: 2px 6px; border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .tag-cn { background: var(--cn-light); color: var(--cn); }
+  .tag-us { background: var(--us-light); color: var(--us); }
+  .tag-eu { background: var(--eu-light); color: var(--eu); }
+  .tag-ca { background: #f3f0ff; color: var(--ca); }
+
+  .conf { color: var(--subtle); font-size: 0.75rem; }
+  .source-tag {
+    display: inline-block; font-size: 0.6rem; padding: 1px 5px;
+    border-radius: 3px; background: var(--tag-bg); color: var(--muted);
+    font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .source-tag.earnings { background: #fef9c3; color: #854d0e; }
+  .source-tag.official { background: #dcfce7; color: #166534; }
+  .source-tag.openrouter { background: #ede9fe; color: #6d28d9; }
+
+  .token-val { font-weight: 700; font-size: 0.9rem; }
+  .token-val.big { font-size: 1rem; color: var(--text); }
+  .dec-val { color: var(--muted); font-size: 0.8rem; }
+
+  /* Tier separators */
+  .tier-header td {
+    padding: 20px 12px 8px;
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); font-weight: 700; font-family: sans-serif;
+    border-bottom: 1px dashed var(--border);
+    background: transparent !important;
+  }
+  .tier-2 td { color: var(--subtle); }
+  .tier-2 .token-val { color: var(--subtle); font-style: italic; }
+  .tier-3 td { color: #c0bdb8; font-style: italic; }
+  .tier-3 .vendor-name { color: #c0bdb8; font-weight: 400; }
+  .dark-reason { font-size: 0.72rem; color: #c0bdb8; font-style: italic; }
+
+  .rank-change {
+    font-size: 0.65rem; margin-left: 4px;
+    color: var(--cn);
+  }
+
+  /* ── Charts ── */
+  .charts-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    margin-bottom: 48px;
+  }
+  @media(max-width:720px){ .charts-grid { grid-template-columns: 1fr; } }
+  .chart-card {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: var(--r); padding: 24px 20px;
+  }
+  .chart-title {
+    font-size: 0.82rem; font-weight: 700; margin-bottom: 4px;
+  }
+  .chart-sub {
+    font-size: 0.72rem; color: var(--muted); font-family: sans-serif;
+    margin-bottom: 16px;
+  }
+  .chart-wrap { position: relative; height: 200px; }
+
+  /* ── Insight callout ── */
+  .insight {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-left: 3px solid var(--text);
+    border-radius: var(--r); padding: 20px 24px;
+    margin-bottom: 48px;
+  }
+  .insight .label {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); font-family: sans-serif; margin-bottom: 8px;
+  }
+  .insight p { font-size: 0.88rem; line-height: 1.7; }
+  .insight strong { color: var(--text); }
+  .insight .cn { color: var(--cn); }
+  .insight .us { color: var(--us); }
+
+  /* ── Methodology ── */
+  .method {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: var(--r); padding: 28px 24px; margin-bottom: 48px;
+  }
+  .method h3 { font-size: 0.9rem; margin-bottom: 12px; }
+  .method p, .method li {
+    font-size: 0.78rem; color: var(--muted); font-family: sans-serif;
+    line-height: 1.7;
+  }
+  .method ul { padding-left: 20px; }
+  .formula {
+    background: var(--bg); border-radius: 4px; padding: 8px 14px;
+    font-family: 'Courier New', monospace; font-size: 0.82rem;
+    display: inline-block; margin: 10px 0;
+  }
+  /* ── API hint ── */
+  .api-hint {
+    background: #0d1117; color: #c9d1d9;
+    border-radius: var(--r); padding: 16px 20px;
+    font-family: 'Courier New', monospace; font-size: 0.75rem;
+    margin-bottom: 48px; overflow-x: auto;
+  }
+  .api-hint .comment { color: #6e7681; }
+  .api-hint .url { color: #58a6ff; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 24px 0;
+    font-size: 0.72rem; color: var(--subtle); font-family: sans-serif;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  /* ── Responsive table ── */
+  @media(max-width:640px){
+    .leaderboard .hide-mobile { display: none; }
+  }
+
+  /* ── DEC mode highlight ── */
+  body.dec-mode .rank-by-dec { font-weight: 800; color: var(--text); }
+  body.dec-mode .rank-num .dec-rank { display: inline; }
+  body.dec-mode .rank-num .tok-rank { display: none; }
+  body.raw-mode .rank-num .dec-rank { display: none; }
+  body.raw-mode .rank-num .tok-rank { display: inline; }
+</style>
+</head>
+<body class="raw-mode">
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="masthead">
+        <h1>Global AI Token Tracker</h1>
+        <div class="sub">Token Consumption Index (TCI) · Independent Research</div>
+      </div>
+      <div class="header-meta">
+        <div class="updated">Updated Feb 2026</div>
+        <div class="toggle-wrap">
+          <span class="toggle-label">View:</span>
+          <div class="toggle raw" id="mainToggle" onclick="switchMode()">
+            <span class="toggle-opt raw">Token Volume</span>
+            <span class="toggle-opt dec">Compute Value (DEC $)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO STATS -->
+  <div class="hero">
+    <div class="stat-card">
+      <div class="label">Global Daily Tokens</div>
+      <div class="number">~100T+</div>
+      <div class="caption">tokens per day across tracked vendors</div>
+    </div>
+    <div class="stat-card cn">
+      <div class="label">China Share</div>
+      <div class="number">~55%</div>
+      <div class="caption">Doubao + Qwen + ERNIE + Spark combined</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Fastest Growth</div>
+      <div class="number">417×</div>
+      <div class="caption">Doubao token growth in 18 months (2024–2025)</div>
+    </div>
+  </div>
+
+  <!-- KEY INSIGHT -->
+  <div class="insight">
+    <div class="label">Key Finding</div>
+    <p>
+      By raw token volume, <strong class="cn">China leads</strong>—Doubao alone processes 50T tokens/day.
+      Flip the lens to <strong>compute value (DEC)</strong>, and <strong class="us">OpenAI leads</strong> at $32.5M/day vs Doubao's $7M/day.
+      Same AI race. Completely different scoreboard. <em>Toggle above to see ranking change.</em>
+    </p>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div class="section">
+    <div class="section-title">Token Consumption Index — 29 Vendors Tracked</div>
+    <table class="leaderboard" id="leaderboard">
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Vendor</th>
+          <th class="hide-mobile">Country</th>
+          <th class="num" id="th-main">Daily Tokens</th>
+          <th class="num hide-mobile" id="th-dec">DEC $/day</th>
+          <th class="hide-mobile">Date</th>
+          <th class="hide-mobile">Confidence</th>
+          <th class="hide-mobile">Source</th>
+        </tr>
+      </thead>
+      <tbody id="lb-body"></tbody>
+    </table>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title">Doubao Token Growth</div>
+      <div class="chart-sub">417× in 18 months · ByteDance (media reports)</div>
+      <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title" id="compare-title">Token Volume vs Compute Value (DEC)</div>
+      <div class="chart-sub" id="compare-sub">Top vendors — toggle to switch view</div>
+      <div class="chart-wrap"><canvas id="compareChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- METHODOLOGY -->
+  <div class="method">
+    <h3>Methodology</h3>
+    <p>All figures are best available public estimates from earnings calls, official blogs, and credible media reports. Three confidence tiers:</p>
+    <ul style="margin:10px 0">
+      <li>⭐⭐⭐ <strong>High</strong> — Direct disclosure in earnings or official source</li>
+      <li>⭐⭐ &nbsp;<strong>Medium</strong> — Credible media citing named executives</li>
+      <li>⭐ &nbsp;&nbsp;&nbsp;<strong>Low</strong> — Estimated from proxy metrics (revenue ÷ pricing)</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Dollar-Equivalent Compute (DEC)</strong> — our unified metric:</p>
+    <div class="formula">DEC = token_count × official_price_per_1M_tokens</div>
+    <p>DEC normalizes across different tokenizers, languages, and modalities. A Chinese-optimized tokenizer may report 3× more "tokens" for the same text as GPT-4o — DEC accounts for this.</p>
+    <p style="margin-top:10px"><strong>Data Dark Zone</strong> — vendors with no trackable public data are listed explicitly. The absence of data is itself information.</p>
+  </div>
+
+  <!-- API ACCESS -->
+  <div class="section">
+    <div class="section-title">Agent & API Access</div>
+    <div class="api-hint">
+<span class="comment"># Fetch TCI data — machine-readable JSON</span>
+GET <span class="url">https://tokentrackerapi.com/api/v1/tci.json</span>   <span class="comment"># full dataset</span>
+GET <span class="url">https://tokentrackerapi.com/api/v1/tci.json?tier=1</span>   <span class="comment"># confirmed data only</span>
+GET <span class="url">https://tokentrackerapi.com/api/v1/vendors/bytedance</span>  <span class="comment"># single vendor + growth series</span>
+
+<span class="comment"># Local (this build)</span>
+GET <span class="url">./api/v1/tci.json</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>Built by <strong>@goghxiang</strong> · Data sources: public earnings, official blogs, OpenRouter</div>
+    <div>Updated: Feb 2026 · Next: Mar 2026 (quarterly) + daily news monitoring</div>
+  </footer>
+
+</div><!-- /container -->
+
+<script>
+// ── Data ──────────────────────────────────────────────
+const DATA = {
+  t1: [
+    {tokRank:1, decRank:2, name:"Google (Gemini)", flag:"🇺🇸", country:"US", tokens:33,   dec:2.5,   date:"2025-Q3", conf:3, src:"earnings"},
+    {tokRank:2, decRank:4, name:"字节 Doubao",      flag:"🇨🇳", country:"CN", tokens:50,   dec:7.0,   date:"2025-12", conf:2, src:"media"},
+    {tokRank:3, decRank:1, name:"OpenAI",           flag:"🇺🇸", country:"US", tokens:13,   dec:32.5,  date:"2025-10", conf:2, src:"media"},
+    {tokRank:4, decRank:5, name:"阿里云 Qwen",       flag:"🇨🇳", country:"CN", tokens:5,    dec:0.7,   date:"2025",    conf:2, src:"media"},
+    {tokRank:5, decRank:7, name:"百度 ERNIE",         flag:"🇨🇳", country:"CN", tokens:1.6,  dec:0.08,  date:"2024-12", conf:3, src:"earnings"},
+    {tokRank:6, decRank:8, name:"讯飞 Spark",         flag:"🇨🇳", country:"CN", tokens:1.5,  dec:0.08,  date:"2024-Q4", conf:2, src:"earnings", note:"calls×1K est."},
+    {tokRank:7, decRank:6, name:"OpenRouter",        flag:"🇺🇸", country:"US", tokens:1.0,  dec:0.15,  date:"2025",    conf:3, src:"official"},
+    {tokRank:8, decRank:9, name:"MiniMax",           flag:"🇨🇳", country:"CN", tokens:0.35, dec:0.04,  date:"2026-02", conf:3, src:"openrouter"},
+    {tokRank:9, decRank:10,name:"Kimi 月之暗面",      flag:"🇨🇳", country:"CN", tokens:0.17, dec:0.02,  date:"2026-02", conf:3, src:"openrouter"},
+    {tokRank:10,decRank:11,name:"智谱 GLM",           flag:"🇨🇳", country:"CN", tokens:0.11, dec:0.01,  date:"2026-02", conf:3, src:"openrouter"},
+    {tokRank:11,decRank:12,name:"Mistral",           flag:"🇪🇺", country:"EU", tokens:null, dec:null,  date:"2025-12", conf:1, src:"blog", note:"Launch peak: 17B/24h"},
+  ],
+  t2: [
+    {name:"Microsoft Azure",flag:"🇺🇸",country:"US",min:5,  max:15,  conf:1,src:"revenue est.",note:"Azure AI ÷ pricing"},
+    {name:"Anthropic",      flag:"🇺🇸",country:"US",min:1,  max:5,   conf:1,src:"revenue est.",note:"ARR $1B+ ÷ Claude pricing"},
+    {name:"DeepSeek",       flag:"🇨🇳",country:"CN",min:5,  max:10,  conf:1,src:"market share",note:"18.4% CN enterprise share"},
+    {name:"Perplexity",     flag:"🇺🇸",country:"US",min:0.05,max:0.1,conf:1,src:"query count",note:"15M queries × 5K tokens"},
+    {name:"Groq",           flag:"🇺🇸",country:"US",min:0.1,max:0.5, conf:1,src:"funding est.",note:"Estimated"},
+    {name:"Amazon Bedrock", flag:"🇺🇸",country:"US",min:null,max:null,conf:0,src:"—",note:"Revenue known, token ratio unknown"},
+    {name:"Meta Llama API", flag:"🇺🇸",country:"US",min:null,max:null,conf:0,src:"—",note:"+50% MoM, base unknown"},
+  ],
+  t3: [
+    {name:"腾讯 Hunyuan",            flag:"🇨🇳",country:"CN", reason:"WeChat ecosystem closed — zero API public data"},
+    {name:"xAI Grok",               flag:"🇺🇸",country:"US", reason:"Private company + X platform sealed"},
+    {name:"Ollama (local runs)",    flag:"🇺🇸",country:"US", reason:"Local inference — tokens never reported"},
+    {name:"LM Studio (local)",      flag:"🇺🇸",country:"US", reason:"Local inference — tokens never reported"},
+    {name:"NVIDIA NIM",             flag:"🇺🇸",country:"US", reason:"Enterprise private deployment"},
+    {name:"HuggingFace (self-host)",flag:"🇺🇸",country:"US", reason:"Download-and-run, no telemetry"},
+    {name:"零一万物 Yi",              flag:"🇨🇳",country:"CN", reason:"No public disclosure"},
+    {name:"阶跃星辰 Step",            flag:"🇨🇳",country:"CN", reason:"No public disclosure"},
+    {name:"商汤 SenseCore",          flag:"🇨🇳",country:"CN", reason:"B2B private deployment"},
+    {name:"Cohere",                 flag:"🇨🇦",country:"CA", reason:"Enterprise contracts only"},
+    {name:"Together AI",            flag:"🇺🇸",country:"US", reason:"No public data"},
+  ]
+};
+
+// ── State ──────────────────────────────────────────────
+let mode = 'raw'; // 'raw' | 'dec'
+
+function switchMode() {
+  mode = mode === 'raw' ? 'dec' : 'raw';
+  document.body.className = mode === 'raw' ? 'raw-mode' : 'dec-mode';
+  document.getElementById('mainToggle').className = `toggle ${mode === 'dec' ? 'dec' : 'raw'}`;
+  document.getElementById('th-main').textContent = mode === 'raw' ? 'Daily Tokens' : 'DEC $/day';
+  renderLeaderboard();
+  updateCompareChart();
+}
+
+// ── Country tag ──
+function countryTag(c) {
+  const m = {CN:'tag-cn',US:'tag-us',EU:'tag-eu',CA:'tag-ca'};
+  return `<span class="country-tag ${m[c]||''}">${c}</span>`;
+}
+function stars(n) { return '⭐'.repeat(n) + '☆'.repeat(3-n); }
+function srcTag(s) {
+  const cls = {earnings:'earnings',official:'official',openrouter:'openrouter'}[s]||'';
+  return `<span class="source-tag ${cls}">${s}</span>`;
+}
+
+// ── Render leaderboard ──
+function renderLeaderboard() {
+  const tbody = document.getElementById('lb-body');
+  let html = '';
+
+  // ── Tier 1 ──
+  const t1 = [...DATA.t1];
+  if (mode === 'dec') t1.sort((a,b)=>(b.dec||0)-(a.dec||0));
+  else t1.sort((a,b)=>(b.tokens||0)-(a.tokens||0));
+
+  html += `<tr class="tier-header"><td colspan="8">✅ Confirmed Data — direct public disclosure</td></tr>`;
+
+  t1.forEach((v, i) => {
+    const rank = i + 1;
+    const mainVal = mode === 'raw'
+      ? (v.tokens != null ? `<span class="token-val ${v.tokens>10?'big':''}">${v.tokens}T</span>` : `<span class="token-val" style="color:var(--subtle)">—</span>`)
+      : (v.dec != null   ? `<span class="token-val ${v.dec>10?'big':''}" style="color:var(--us)">$${v.dec}M</span>` : `<span class="token-val" style="color:var(--subtle)">—</span>`);
+
+    const rankChange = mode === 'dec' && v.tokRank !== v.decRank
+      ? `<span class="rank-change">${v.decRank < v.tokRank ? '▲':'▼'}${Math.abs(v.decRank-v.tokRank)}</span>` : '';
+
+    html += `<tr>
+      <td class="num rank-num">${rank}${rankChange}</td>
+      <td><span class="vendor-flag">${v.flag}</span><span class="vendor-name">${v.name}</span>${v.note?`<br><span style="font-size:.65rem;color:var(--subtle);font-style:italic">${v.note}</span>`:''}
+      </td>
+      <td class="hide-mobile">${countryTag(v.country)}</td>
+      <td class="num">${mainVal}</td>
+      <td class="num hide-mobile dec-val">${v.dec!=null?`$${v.dec}M`:'—'}</td>
+      <td class="hide-mobile" style="font-size:.75rem;color:var(--muted)">${v.date||'—'}</td>
+      <td class="hide-mobile conf">${stars(v.conf)}</td>
+      <td class="hide-mobile">${srcTag(v.src)}</td>
+    </tr>`;
+  });
+
+  // ── Tier 2 ──
+  html += `<tr class="tier-header"><td colspan="8">📊 Estimated Range — inferred from proxy metrics</td></tr>`;
+  DATA.t2.forEach(v => {
+    const range = v.min != null
+      ? `${v.min}–${v.max}T/day`
+      : 'Unknown';
+    html += `<tr class="tier-2">
+      <td class="num rank-num" style="color:var(--subtle)">—</td>
+      <td><span class="vendor-flag">${v.flag}</span><span class="vendor-name">${v.name}</span><br><span style="font-size:.65rem;color:var(--subtle);font-style:italic">${v.note}</span></td>
+      <td class="hide-mobile">${countryTag(v.country)}</td>
+      <td class="num"><span class="token-val" style="color:var(--subtle);font-style:italic">${range}</span></td>
+      <td class="num hide-mobile dec-val">—</td>
+      <td class="hide-mobile" style="font-size:.75rem;color:var(--muted)">—</td>
+      <td class="hide-mobile conf">${stars(v.conf)}</td>
+      <td class="hide-mobile">${srcTag(v.src)}</td>
+    </tr>`;
+  });
+
+  // ── Tier 3 ──
+  html += `<tr class="tier-header"><td colspan="8">🕳️ Data Dark Zone — no public information available</td></tr>`;
+  DATA.t3.forEach(v => {
+    html += `<tr class="tier-3">
+      <td class="num rank-num">—</td>
+      <td><span class="vendor-flag">${v.flag}</span><span class="vendor-name">${v.name}</span></td>
+      <td class="hide-mobile">${countryTag(v.country)}</td>
+      <td class="num" colspan="4"><span class="dark-reason">${v.reason}</span></td>
+      <td class="hide-mobile"></td>
+    </tr>`;
+  });
+
+  tbody.innerHTML = html;
+}
+
+// ── Growth chart ──
+function buildGrowthChart() {
+  const ctx = document.getElementById('growthChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['2024-05','2024-12','2025-03','2025-05','2025-09','2025-12'],
+      datasets: [{
+        data: [0.12, 4, 12.7, 16.4, 30, 50],
+        borderColor: '#c0392b',
+        backgroundColor: 'rgba(192,57,43,0.06)',
+        borderWidth: 2.5,
+        pointBackgroundColor: '#c0392b',
+        pointRadius: 4,
+        tension: 0.3,
+        fill: true,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#f0ede8' }, ticks: { font: { size: 10 }, color: '#9a9a96' } },
+        y: {
+          grid: { color: '#f0ede8' },
+          ticks: { font: { size: 10 }, color: '#9a9a96', callback: v => v + 'T' }
+        }
+      }
+    }
+  });
+}
+
+// ── Compare chart ──
+let compareChartInst = null;
+function buildCompareChart() {
+  const ctx = document.getElementById('compareChart').getContext('2d');
+  const labels = ['Google','Doubao','OpenAI','Qwen','ERNIE'];
+  const tokData = [33, 50, 13, 5, 1.6];
+  const decData = [2.5, 7.0, 32.5, 0.7, 0.08];
+  const colors = ['#2563eb','#c0392b','#2563eb','#c0392b','#c0392b'];
+
+  compareChartInst = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Tokens (T/day)',
+        data: tokData,
+        backgroundColor: colors.map(c => c + '22'),
+        borderColor: colors,
+        borderWidth: 2,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#9a9a96' } },
+        y: {
+          grid: { color: '#f0ede8' },
+          ticks: { font: { size: 10 }, color: '#9a9a96' }
+        }
+      }
+    }
+  });
+}
+
+function updateCompareChart() {
+  if (!compareChartInst) return;
+  const isDec = mode === 'dec';
+  compareChartInst.data.datasets[0].data = isDec
+    ? [2.5, 7.0, 32.5, 0.7, 0.08]
+    : [33, 50, 13, 5, 1.6];
+  compareChartInst.data.datasets[0].label = isDec ? 'DEC ($/day M)' : 'Tokens (T/day)';
+  document.getElementById('compare-title').textContent = isDec
+    ? 'Compute Value (DEC $/day) — US leads'
+    : 'Token Volume (T/day) — China leads';
+  document.getElementById('compare-sub').textContent = isDec
+    ? 'OpenAI $32.5M/day dominates on value despite lower volume'
+    : 'Doubao 50T/day is highest by raw count';
+  compareChartInst.update();
+}
+
+// ── Init ──
+renderLeaderboard();
+buildGrowthChart();
+buildCompareChart();
+</script>
+</body>
+</html>

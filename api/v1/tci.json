@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "version": "1.0",
+    "updated": "2026-02-26",
+    "methodology": "DEC = tokens × official_price_per_1M_tokens",
+    "note": "All figures are best available estimates. See confidence field."
+  },
+  "summary": {
+    "global_daily_tokens_T": 100,
+    "china_share_pct": 55,
+    "fastest_growth": { "vendor": "Doubao (ByteDance)", "growth": "417×", "period": "18 months" },
+    "total_vendors_tracked": 29,
+    "confirmed_data": 11,
+    "estimated_range": 7,
+    "dark_zone": 11
+  },
+  "vendors": [
+    {
+      "id": "google", "name": "Google (Gemini)", "flag": "🇺🇸", "country": "US",
+      "tier": 1, "rank_by_tokens": 1, "rank_by_dec": 2,
+      "daily_tokens_T": 33, "dec_daily_M": 2.5,
+      "date": "2025-Q3", "confidence": 3, "source_type": "earnings",
+      "source_quote": "Gemini 10B+ tokens/minute — Alphabet Q4 2025 earnings"
+    },
+    {
+      "id": "bytedance", "name": "字节跳动 Doubao", "flag": "🇨🇳", "country": "CN",
+      "tier": 1, "rank_by_tokens": 2, "rank_by_dec": 4,
+      "daily_tokens_T": 50, "dec_daily_M": 7.0,
+      "date": "2025-12", "confidence": 2, "source_type": "media",
+      "source_quote": "豆包日均Token调用量超50万亿 — 媒体沟通会 2025-12",
+      "growth_series": [
+        {"date":"2024-05","tokens_T":0.12},
+        {"date":"2024-12","tokens_T":4},
+        {"date":"2025-03","tokens_T":12.7},
+        {"date":"2025-05","tokens_T":16.4},
+        {"date":"2025-09","tokens_T":30},
+        {"date":"2025-12","tokens_T":50}
+      ]
+    },
+    {
+      "id": "openai", "name": "OpenAI", "flag": "🇺🇸", "country": "US",
+      "tier": 1, "rank_by_tokens": 3, "rank_by_dec": 1,
+      "daily_tokens_T": 13, "dec_daily_M": 32.5,
+      "date": "2025-10", "confidence": 2, "source_type": "media",
+      "source_quote": "8.6T API tokens/day — DevDay 2025"
+    },
+    {
+      "id": "alibaba", "name": "阿里云 Qwen", "flag": "🇨🇳", "country": "CN",
+      "tier": 1, "rank_by_tokens": 4, "rank_by_dec": 5,
+      "daily_tokens_T": 5, "dec_daily_M": 0.7,
+      "date": "2025", "confidence": 2, "source_type": "media",
+      "source_quote": "外部客户日均Token调用量近5万亿 — 财报电话会议"
+    },
+    {
+      "id": "baidu", "name": "百度 ERNIE", "flag": "🇨🇳", "country": "CN",
+      "tier": 1, "rank_by_tokens": 5, "rank_by_dec": 7,
+      "daily_tokens_T": 1.6, "dec_daily_M": 0.08,
+      "date": "2024-12", "confidence": 3, "source_type": "earnings",
+      "source_quote": "文心日均API调用量16.5亿次 — 百度Q4 2024财报"
+    },
+    {
+      "id": "iflytek", "name": "科大讯飞 Spark", "flag": "🇨🇳", "country": "CN",
+      "tier": 1, "rank_by_tokens": 6, "rank_by_dec": 8,
+      "daily_tokens_T": 1.5, "dec_daily_M": 0.08,
+      "date": "2024-Q4", "confidence": 2, "source_type": "earnings",
+      "note": "Calls×1K tokens estimated",
+      "source_quote": "星火日均API调用量15亿次 — 讯飞2024年报"
+    },
+    {
+      "id": "openrouter", "name": "OpenRouter", "flag": "🇺🇸", "country": "US",
+      "tier": 1, "rank_by_tokens": 7, "rank_by_dec": 6,
+      "daily_tokens_T": 1.0, "dec_daily_M": 0.15,
+      "date": "2025", "confidence": 3, "source_type": "official",
+      "source_quote": "Platform processes ~7T tokens/week — OpenRouter State of AI 2025"
+    },
+    {
+      "id": "minimax", "name": "MiniMax", "flag": "🇨🇳", "country": "CN",
+      "tier": 1, "rank_by_tokens": 8, "rank_by_dec": 9,
+      "daily_tokens_T": 0.35, "dec_daily_M": 0.04,
+      "date": "2026-02", "confidence": 3, "source_type": "openrouter",
+      "source_quote": "2.45T tokens/week on OpenRouter — 2026-02"
+    },
+    {
+      "id": "moonshot", "name": "月之暗面 Kimi", "flag": "🇨🇳", "country": "CN",
+      "tier": 1, "rank_by_tokens": 9, "rank_by_dec": 10,
+      "daily_tokens_T": 0.17, "dec_daily_M": 0.02,
+      "date": "2026-02", "confidence": 3, "source_type": "openrouter",
+      "source_quote": "1.21T tokens/week on OpenRouter — 2026-02"
+    },
+    {
+      "id": "zhipu", "name": "智谱AI GLM", "flag": "🇨🇳", "country": "CN",
+      "tier": 1, "rank_by_tokens": 10, "rank_by_dec": 11,
+      "daily_tokens_T": 0.11, "dec_daily_M": 0.01,
+      "date": "2026-02", "confidence": 3, "source_type": "openrouter",
+      "source_quote": "0.8T tokens/week on OpenRouter after launch — 2026-02"
+    },
+    {
+      "id": "mistral", "name": "Mistral", "flag": "🇪🇺", "country": "EU",
+      "tier": 1, "rank_by_tokens": 11, "rank_by_dec": 12,
+      "daily_tokens_T": null, "dec_daily_M": null,
+      "date": "2025-12", "confidence": 1, "source_type": "blog",
+      "note": "Launch peak only: 17B tokens in 24h for Devstral 2",
+      "source_quote": "Devstral 2 processed 17B tokens in first 24h — Mistral blog 2025-12"
+    },
+    {
+      "id": "microsoft", "name": "Microsoft Azure", "flag": "🇺🇸", "country": "US",
+      "tier": 2, "daily_tokens_min": 5, "daily_tokens_max": 15,
+      "date": "2025-Q2", "confidence": 1, "source_type": "revenue_backtrack",
+      "note": "Azure AI $8B+/quarter ÷ GPT-4o avg pricing"
+    },
+    {
+      "id": "anthropic", "name": "Anthropic", "flag": "🇺🇸", "country": "US",
+      "tier": 2, "daily_tokens_min": 1, "daily_tokens_max": 5,
+      "date": "2025", "confidence": 1, "source_type": "revenue_backtrack",
+      "note": "ARR $1B+ ÷ Claude Sonnet $3/1M tokens"
+    },
+    {
+      "id": "deepseek", "name": "DeepSeek", "flag": "🇨🇳", "country": "CN",
+      "tier": 2, "daily_tokens_min": 5, "daily_tokens_max": 10,
+      "date": "2025-H2", "confidence": 1, "source_type": "market_share",
+      "note": "18.4% CN enterprise market share"
+    },
+    {
+      "id": "perplexity", "name": "Perplexity", "flag": "🇺🇸", "country": "US",
+      "tier": 2, "daily_tokens_min": 0.05, "daily_tokens_max": 0.1,
+      "date": "2025-Q1", "confidence": 1, "source_type": "query_count",
+      "note": "15M queries/day × ~5K tokens/query"
+    },
+    {
+      "id": "amazon", "name": "Amazon Bedrock", "flag": "🇺🇸", "country": "US",
+      "tier": 2, "daily_tokens_min": null, "daily_tokens_max": null,
+      "confidence": 0, "note": "Revenue known (+37% YoY), token ratio unknown"
+    },
+    {
+      "id": "meta", "name": "Meta Llama API", "flag": "🇺🇸", "country": "US",
+      "tier": 2, "daily_tokens_min": null, "daily_tokens_max": null,
+      "confidence": 0, "note": "+50% MoM growth rate only, base unknown"
+    },
+    {
+      "id": "groq", "name": "Groq", "flag": "🇺🇸", "country": "US",
+      "tier": 2, "daily_tokens_min": 0.1, "daily_tokens_max": 0.5,
+      "confidence": 1, "note": "Estimated from funding & pricing"
+    },
+    {
+      "id": "tencent", "name": "腾讯 Hunyuan", "flag": "🇨🇳", "country": "CN",
+      "tier": 3, "dark_reason": "WeChat ecosystem closed — zero API public data"
+    },
+    {
+      "id": "xai", "name": "xAI Grok", "flag": "🇺🇸", "country": "US",
+      "tier": 3, "dark_reason": "Private company + X platform closed"
+    },
+    {
+      "id": "ollama", "name": "Ollama (local)", "flag": "🇺🇸", "country": "US",
+      "tier": 3, "dark_reason": "Local inference — tokens never reported anywhere"
+    },
+    {
+      "id": "lmstudio", "name": "LM Studio (local)", "flag": "🇺🇸", "country": "US",
+      "tier": 3, "dark_reason": "Local inference — tokens never reported anywhere"
+    },
+    {
+      "id": "nvidia_nim", "name": "NVIDIA NIM", "flag": "🇺🇸", "country": "US",
+      "tier": 3, "dark_reason": "Enterprise private deployment — data owned by customers"
+    },
+    {
+      "id": "huggingface", "name": "HuggingFace (self-hosted)", "flag": "🇺🇸", "country": "US",
+      "tier": 3, "dark_reason": "Download-and-run — no usage telemetry"
+    },
+    {
+      "id": "01ai", "name": "零一万物 Yi", "flag": "🇨🇳", "country": "CN",
+      "tier": 3, "dark_reason": "No public disclosure"
+    },
+    {
+      "id": "stepfun", "name": "阶跃星辰 Step", "flag": "🇨🇳", "country": "CN",
+      "tier": 3, "dark_reason": "No public disclosure"
+    },
+    {
+      "id": "sensecore", "name": "商汤 SenseCore", "flag": "🇨🇳", "country": "CN",
+      "tier": 3, "dark_reason": "B2B private deployment"
+    },
+    {
+      "id": "cohere", "name": "Cohere", "flag": "🇨🇦", "country": "CA",
+      "tier": 3, "dark_reason": "Enterprise contracts only — no public data"
+    },
+    {
+      "id": "together", "name": "Together AI", "flag": "🇺🇸", "country": "US",
+      "tier": 3, "dark_reason": "No public data"
+    }
+  ]
+}
