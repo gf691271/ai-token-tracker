@@ -588,7 +588,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.27</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.29</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -882,6 +882,13 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     <div>#</div><div>Vendor</div><div>T Tokens/day</div><div>DEC $/day</div><div>Source</div>
   </div>
   <!-- rows injected by JS -->
+</div>
+
+<div style="font-family:-apple-system,sans-serif;font-size:0.68rem;color:var(--muted);margin-top:8px;padding:0 4px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+  <span>Data freshness:</span>
+  <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;margin-right:3px;vertical-align:middle;"></span>≤30 days</span>
+  <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#f59e0b;margin-right:3px;vertical-align:middle;"></span>31–90 days</span>
+  <span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#ef4444;margin-right:3px;vertical-align:middle;"></span>&gt;90 days (likely stale)</span>
 </div>
 
 <!-- ════════════════════ COUNTRY RANKING ════════════════════ -->
@@ -1807,6 +1814,42 @@ function confLabel(c) {
   return '<span style="color:var(--subtle)">? Unknown</span>';
 }
 
+// ── DATA FRESHNESS ──
+// Given a source date string (YYYY-MM-DD), return a freshness indicator
+const TODAY_DATE = new Date('2026-02-26');
+function freshnessDot(dateStr) {
+  if (!dateStr) return '';
+  const src = new Date(dateStr);
+  const daysAgo = Math.floor((TODAY_DATE - src) / (1000*60*60*24));
+  if (daysAgo <= 30) return `<span title="Fresh data (${daysAgo}d old)" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;margin-left:4px;vertical-align:middle;"></span>`;
+  if (daysAgo <= 90) return `<span title="Data is ${daysAgo}d old — may be stale" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#f59e0b;margin-left:4px;vertical-align:middle;"></span>`;
+  return `<span title="Data is ${daysAgo}d old — likely outdated" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#ef4444;margin-left:4px;vertical-align:middle;"></span>`;
+}
+
+// Source dates for vendors (YYYY-MM-DD)
+const vendorSourceDates = {
+  'Doubao': '2026-01-15',
+  'Google Gemini': '2025-10-29',
+  'ChatGPT / API': '2026-02-01',
+  'Claude': '2026-02-20',
+  'DeepSeek': '2026-02-01',
+  'Azure OpenAI': '2026-01-29',
+  'Qwen': '2026-01-15',
+  'Hunyuan': '2026-02-25',
+  'ERNIE': '2026-02-10',
+  'Spark': '2025-11-01',
+  'OpenRouter': '2026-02-20',
+  'Grok': '2026-02-20',
+  'MiniMax': '2026-02-10',
+  'Kimi': '2026-02-10',
+  'GLM': '2026-02-01',
+  'Mistral': '2025-12-01',
+  'Llama API': '2025-11-15',
+  'Bedrock': '2025-12-01',
+  'Groq': '2026-01-15',
+  'Perplexity': '2026-01-01',
+};
+
 // Map vendor names to method IDs
 const vendorMethodIds = {
   'Doubao': 'doubao',
@@ -1853,6 +1896,7 @@ function buildRankTable() {
       : `<span class="rank-name">${v.name}</span>`;
     const correctionBadge = renderCorrectionBadge(v.name);
     const correctionPanel = renderCorrectionPanel(v.name);
+    const freshDot = freshnessDot(vendorSourceDates[v.name]);
 
     html += `<div class="rank-row-wrapper">
     <div class="rank-row${isTier2 ? ' dark-row' : ''}">
@@ -1867,7 +1911,7 @@ function buildRankTable() {
         </div>
       </div>
       <div class="rank-tokens">${tokenLabel}</div>
-      <div class="rank-confidence" style="font-size:.68rem">${confBadge}<br><span style="color:var(--subtle);font-size:.62rem">${v.src}</span></div>
+      <div class="rank-confidence" style="font-size:.68rem">${confBadge}${freshDot}<br><span style="color:var(--subtle);font-size:.62rem">${v.src}</span></div>
     </div>
     ${methodPanel}${correctionPanel}
     </div>`;
