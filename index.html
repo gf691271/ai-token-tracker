@@ -51,7 +51,7 @@
     "url": "https://linkedin.com/in/frankgao"
   },
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "dateModified": "2026-02-26",
+  "dateModified": "2026-02-27",
   "distribution": [
     {
       "@type": "DataDownload",
@@ -613,7 +613,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.59</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.60</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -2158,6 +2158,121 @@ function copyEmbed(type) {
 })();
 </script>
 
+<!-- ════════════════════ BLACK HOLE METHODOLOGY — v0.60 ════════════════════ -->
+<div class="section-label" id="section-blackhole">🕳️ Black Hole Vendors — How We Estimate the Unknown</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;">
+  <p style="font-size:0.78rem;color:var(--muted);margin:0 0 14px;">
+    Six vendors disclose no public inference volume data. Rather than leave them blank — which would misrepresent the market — GATT uses triangulated estimation. Every formula is shown below so journalists and analysts can independently verify or challenge our numbers.
+  </p>
+
+  <!-- Tencent Hunyuan -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;" open>
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇨🇳 Hunyuan (Tencent) — est. 2T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Very Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: User-base proxy × avg session tokens</strong><br>
+      WeChat Monthly Active Users: ~1.38B (Tencent Q3 2025 earnings)<br>
+      Estimated daily AI feature users: 5% = 69M users<br>
+      Avg tokens per AI interaction: ~30K (WeChat AI reply, Hunyuan search, mini-programs)<br>
+      <strong>Result: 69M × 30K = 2.07T/day → rounded to 2T</strong><br>
+      <span style="color:var(--muted);">⚠️ This excludes Tencent Cloud B2B API volume. Real number may be 2-5× higher. We use the conservative floor.</span>
+    </div>
+  </details>
+
+  <!-- Groq -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇺🇸 Groq — est. 0.25T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: Revenue proxy × price-per-token</strong><br>
+      Groq's last known ARR run-rate: ~$70M (Dec 2024, The Information)<br>
+      Blended API price: ~$0.80/M tokens (Groq public pricing, avg of Llama 3.1 tiers)<br>
+      Daily implied tokens: ($70M/365) / $0.80/M = 240B = 0.24T/day<br>
+      <strong>Result: ~0.25T/day</strong><br>
+      <span style="color:var(--muted);">⚠️ Groq's main value proposition is speed (fastest LPU inference), not volume. May be lower than revenue implies if premium pricing per token is higher.</span>
+    </div>
+  </details>
+
+  <!-- xAI Grok -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇺🇸 Grok (xAI) — est. 0.5T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: X Premium subscriber base × usage rate</strong><br>
+      X Premium subscribers: ~1M active (X Corp, Q3 2025 estimate)<br>
+      Daily Grok usage rate: ~30% of Premium users = 300K users/day<br>
+      Avg tokens per session: ~1.5K (conversational AI, shorter than ChatGPT due to X context)<br>
+      X Premium share: 300K × 1.5K = 0.45T<br>
+      xAI API (enterprise/B2B): add ~0.05T estimated<br>
+      <strong>Result: ~0.5T/day</strong><br>
+      <span style="color:var(--muted);">⚠️ xAI raised $6B (Nov 2024, WSJ) for compute buildout — volume may grow 5-10× in 2026 if Grok gains traction on X.</span>
+    </div>
+  </details>
+
+  <!-- Azure OpenAI -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇺🇸 Azure OpenAI Service — est. 7T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: Microsoft AI Cloud revenue ÷ blended price</strong><br>
+      Microsoft AI Cloud revenue: ~$13B/yr run rate (Q2 FY2026, Microsoft earnings)<br>
+      Portion attributable to Azure OpenAI Service: ~30% = $3.9B/yr (remainder = Copilot seats + GitHub Copilot)<br>
+      Blended API price: ~$1.50/M tokens<br>
+      Daily implied: ($3.9B/365) / $1.50/M = 7.1T/day<br>
+      <strong>Result: ~7T/day</strong><br>
+      <span style="color:var(--muted);">⚠️ Microsoft bundles Azure OpenAI with enterprise agreements. Actual per-token revenue may be lower than list price.</span>
+    </div>
+  </details>
+
+  <!-- Mistral -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇫🇷 Mistral AI — est. 0.6T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: Funding-implied ARR × price proxy</strong><br>
+      Mistral raised €600M (Jun 2024) at €6B valuation → implies ~$150M ARR expectation<br>
+      Blended API price: ~$0.70/M tokens (Mistral pricing, weighted avg)<br>
+      Daily implied: ($150M/365) / $0.70/M = 0.59T/day<br>
+      <strong>Result: ~0.6T/day</strong><br>
+      <span style="color:var(--muted);">⚠️ Mistral is heavily used in European enterprise (GDPR-compliant on-prem deployments). Self-hosted tokens are not included in this estimate.</span>
+    </div>
+  </details>
+
+  <!-- DeepSeek -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇨🇳 DeepSeek — est. 7.5T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: App download proxy + GPU cluster estimate</strong><br>
+      DeepSeek app downloads: #1 globally Jan 2026, estimated 50M+ DAU at peak<br>
+      Avg tokens per conversation: ~3K (reasoning model, longer chains)<br>
+      Estimated DAU in Feb 2026 (post-peak decline): ~25M<br>
+      Consumer: 25M × 3K = 75B = 0.075T<br>
+      Known GPU cluster: ~50K H800s (leaked CNBC, Dec 2025) → theoretical max ~45T/day<br>
+      Reported utilization ~15-20% → 7-9T/day<br>
+      <strong>Result: 7.5T/day (midpoint of GPU-utilization method)</strong><br>
+      <span style="color:var(--muted);">⚠️ DeepSeek's API pricing is near-zero ($0.014/M tokens). Volume is likely higher than revenue implies.</span>
+    </div>
+  </details>
+
+  <div style="font-size:0.72rem;color:var(--muted);margin-top:12px;padding:10px;border-top:1px solid var(--border);">
+    🔗 <a href="https://gf691271.github.io/gatt/data/tci-latest.json" style="color:var(--us);">Full methodology in tci-latest.json</a> · 
+    <a href="mailto:goghxiang@gmail.com" style="color:var(--us);">Challenge our estimates</a> — we update when better data arrives.
+  </div>
+</div>
+
 <!-- ════════════════════ IN THE PRESS ════════════════════ -->
 <div class="section-label" id="press">In the Press &amp; Community</div>
 <div class="method-box" style="font-family:-apple-system,sans-serif;">
@@ -3333,6 +3448,7 @@ function setTheme(t) {
     <a href="#section-token-gdp" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">💰 Global Token GDP</a>
     <a href="#section-pricing" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">💲 Vendor Pricing Intelligence</a>
     <a href="#section-provenance" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔍 Data Provenance Board</a>
+    <a href="#section-blackhole" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🕳️ Black Hole Vendor Methodology</a>
     <a href="#press" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📰 In the Press</a>
   </div>
 </div>
