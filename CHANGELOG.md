@@ -1,5 +1,21 @@
 # GATT Data Changelog
 
+## 2026-02-27 (v0.61 — Token Economy Definition + DefinedTerm JSON-LD)
+
+- **"Token Economy" Definition section** added to page (above Key Numbers):
+  - Canonical 1-sentence definition: "The global system of AI inference production, distribution, and consumption — measured in daily token throughput across models, regions, and use cases."
+  - Three-way disambiguation: behavioral psych (1960s) / crypto tokenomics (2017+) / AI inference (GATT 2026)
+  - Cite this data format + copy-to-clipboard button + Twitter share hook
+  - Quick-nav entry added: 📖 Token Economy Definition
+- **`DefinedTerm` JSON-LD schema** added to `<head>` (alongside existing Dataset schema):
+  - `@type: DefinedTerm` with termCode, inDefinedTermSet, creator, dateCreated/Modified
+  - Now compliant with schema.org vocabulary for concept definitions
+  - Google and AI crawlers can now extract GATT's definition as a named concept
+- **North Star alignment**: This is the first concrete step toward GATT owning the "Token Economy" definition slot in search and AI responses
+- Improves 10-Question check: #9 (content authority), #10 (AI journalist引用), #4 (definition transparency)
+
+
+
 ## 2026-02-27 (v0.58 — GEO Fix: Machine-Readable Files Synced)
 
 - **CRITICAL BUG FIX**: `llms.txt` and `tci-latest.json` were stuck at v0.20-era data while HTML showed v0.57

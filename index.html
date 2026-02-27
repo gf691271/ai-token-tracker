@@ -64,6 +64,30 @@
   "temporalCoverage": "2024-05/2026-02"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTerm",
+  "name": "Token Economy",
+  "termCode": "GATT-TE-2026",
+  "description": "The global system of AI inference production, distribution, and consumption — measured in daily token throughput across AI models, regions, and use cases. Encompasses the economic value, geopolitical distribution, and computational infrastructure of AI inference at scale.",
+  "inDefinedTermSet": {
+    "@type": "DefinedTermSet",
+    "name": "GATT Terminology",
+    "url": "https://gf691271.github.io/gatt/"
+  },
+  "url": "https://gf691271.github.io/gatt/#section-definition",
+  "sameAs": [],
+  "alternateName": ["AI inference economy", "token throughput economy"],
+  "creator": {
+    "@type": "Person",
+    "name": "Frank Gao",
+    "url": "https://linkedin.com/in/frankgao"
+  },
+  "dateCreated": "2026-02-26",
+  "dateModified": "2026-02-27"
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
@@ -613,7 +637,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.60</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.61</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -627,8 +651,34 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <span style="font-size:1.1rem;flex-shrink:0;">🔔</span>
   <div>
     <strong style="color:#92400e;">What changed since last update (Feb 26):</strong>
-    <span style="color:#78350f;"> Global total revised 151T→<strong>162T</strong> · OpenAI re-estimated 19T→28T (Sep 2025 baseline extrapolated) · Token GDP math corrected ($36B→$45B, $99M→$122M) · Volume vs GDP chart added · 7 CHANGELOG entries</span>
+    <span style="color:#78350f;"> Global total revised 151T→<strong>162T</strong> · OpenAI re-estimated 19T→28T · Token GDP corrected ($45B/yr, $122M/day) · Black Hole Vendor Methodology added · <strong>v0.61: "Token Economy" official definition + JSON-LD DefinedTerm schema added</strong></span>
     <a href="#changelog" style="color:#92400e;font-weight:600;margin-left:8px;text-decoration:underline;" onclick="document.querySelector('.section-label + .method-box').scrollIntoView({behavior:'smooth'});return false;">See full log →</a>
+  </div>
+</div>
+
+<!-- ════════════════════ TOKEN ECONOMY DEFINITION — v0.61 ════════════════════ -->
+<div id="section-definition" style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:28px;font-family:-apple-system,sans-serif;">
+  <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:260px;">
+      <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--subtle);margin-bottom:8px;">GATT Definition — Token Economy</div>
+      <blockquote style="margin:0 0 10px 0;padding:0 0 0 14px;border-left:3px solid var(--cn);font-size:0.98rem;font-weight:600;line-height:1.55;color:var(--text);">
+        The <strong>Token Economy</strong> is the global system of AI inference production, distribution, and consumption — measured in daily token throughput across models, regions, and use cases.
+      </blockquote>
+      <p style="font-size:0.78rem;color:var(--muted);margin:0 0 10px 0;line-height:1.6;">
+        In 2026, the Token Economy processes an estimated <strong>162 trillion tokens per day</strong> — roughly $122M in economic value — concentrated in China (51% of volume) and the US (40%), yet with the US commanding 80% of Token GDP due to pricing asymmetry.
+      </p>
+      <div style="font-size:0.7rem;color:var(--subtle);border-top:1px solid var(--border);padding-top:8px;margin-top:8px;">
+        <strong>Disambiguation:</strong> Not to be confused with (1) behavioral psychology's token economy (1960s reward systems) or (2) cryptocurrency tokenomics (2017+). GATT uses <em>Token Economy</em> exclusively to mean <strong>AI inference at scale</strong>.
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;min-width:160px;">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-size:0.72rem;">
+        <div style="font-weight:700;color:var(--text);margin-bottom:2px;">Cite this definition</div>
+        <div style="color:var(--muted);line-height:1.5;">Gao, F. (2026). <em>GATT: Global AI Token Tracker</em>. <a href="https://gf691271.github.io/gatt/" style="color:var(--cn);">gf691271.github.io/gatt</a></div>
+      </div>
+      <button onclick="(() => { navigator.clipboard.writeText('The Token Economy is the global system of AI inference production, distribution, and consumption — measured in daily token throughput across models, regions, and use cases. Source: GATT (gf691271.github.io/gatt), Feb 2026.'); this.textContent='✅ Copied!'; setTimeout(()=>this.textContent='📋 Copy definition',2000); })()" style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:0.72rem;cursor:pointer;color:var(--text);text-align:left;">📋 Copy definition</button>
+      <a href="https://twitter.com/intent/tweet?text=%22The+Token+Economy+is+the+global+system+of+AI+inference+production%2C+distribution%2C+and+consumption%22+%E2%80%94+GATT+tracks+162T+tokens%2Fday+across+29+vendors%2C+18+countries.+%40frankgxo+gf691271.github.io%2Fgatt%2F" target="_blank" rel="noopener" style="background:#1d9bf0;color:#fff;border-radius:6px;padding:8px 12px;font-size:0.72rem;text-decoration:none;text-align:center;display:block;">🐦 Share this definition</a>
+    </div>
   </div>
 </div>
 
@@ -3449,6 +3499,7 @@ function setTheme(t) {
     <a href="#section-pricing" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">💲 Vendor Pricing Intelligence</a>
     <a href="#section-provenance" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔍 Data Provenance Board</a>
     <a href="#section-blackhole" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🕳️ Black Hole Vendor Methodology</a>
+    <a href="#section-definition" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📖 Token Economy Definition</a>
     <a href="#press" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📰 In the Press</a>
   </div>
 </div>
