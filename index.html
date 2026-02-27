@@ -594,7 +594,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.31</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.32</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -620,7 +620,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <!-- 1. Daily volume — precise -->
   <div class="headline-card">
     <div class="hl-label">Global daily tokens</div>
-    <div class="hl-number">~151T <button class="show-method" onclick="toggleMethod('global')" title="How we calculated this">ⓘ</button></div>
+    <div class="hl-number">~<span id="hl-global-tokens">151</span>T <button class="show-method" onclick="toggleMethod('global')" title="How we calculated this">ⓘ</button></div>
     <div class="hl-sub">trillion tokens / day · Feb 2026 est. (revised)</div>
     <div class="hl-badge">↑ from ~13T in Feb 2025 · revised from 136T</div>
     <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: GATT synthesis · Epoch AI · ByteDance disclosures</div>
@@ -632,7 +632,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <!-- 2. MoM growth -->
   <div class="headline-card">
     <div class="hl-label">Month-on-month growth</div>
-    <div class="hl-number" style="color:#166534;">+12%</div>
+    <div class="hl-number" style="color:#166534;">+<span id="hl-growth">12</span>%</div>
     <div class="hl-sub">Jan → Feb 2026 (est.)</div>
     <div class="hl-badge">driven by Doubao 63T + OpenAI 19T</div>
     <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: GATT interpolation model · revenue proxies</div>
@@ -663,7 +663,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <!-- 5. 2026 projection -->
   <div class="headline-card">
     <div class="hl-label">2026 year-end projection</div>
-    <div class="hl-number" style="color:#1d4ed8;">~1,000T</div>
+    <div class="hl-number" style="color:#1d4ed8;">~<span id="hl-year-proj">1000</span>T</div>
     <div class="hl-sub">trillion tokens / day by Dec 2026</div>
     <div class="hl-badge">on track · ~10× current run rate</div>
   </div>
@@ -2018,10 +2018,55 @@ function shareStats() {
   }
 }
 
+// ── NUMBER COUNTER ANIMATION ──
+// Animates numbers from 0 to target value when they scroll into view
+function animateCounter(el, target, suffix, duration) {
+  if (!el || el.dataset.animated) return;
+  el.dataset.animated = '1';
+  const start = performance.now();
+  const isFloat = String(target).includes('.');
+  function tick(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+    el.textContent = (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+    else el.textContent = (isFloat ? target.toFixed(1) : target) + suffix;
+  }
+  requestAnimationFrame(tick);
+}
+
+function setupCounterAnimations() {
+  // Headline numbers
+  const animations = [
+    { selector: '#hl-global-tokens', target: 151, suffix: 'T', duration: 1200 },
+    { selector: '#hl-growth', target: 12, suffix: '%', duration: 800 },
+    { selector: '#hl-cn-vol', target: 55, suffix: '%', duration: 900 },
+    { selector: '#hl-us-val', target: 62, suffix: '%', duration: 900 },
+    { selector: '#hl-year-proj', target: 1000, suffix: 'T', duration: 1500 },
+    { selector: '#hl-dark-count', target: 11, suffix: '', duration: 600 },
+  ];
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const anim = animations.find(a => entry.target.matches(a.selector));
+        if (anim) animateCounter(entry.target, anim.target, anim.suffix, anim.duration);
+      }
+    });
+  }, { threshold: 0.5 });
+  animations.forEach(a => {
+    const el = document.querySelector(a.selector);
+    if (el) observer.observe(el);
+  });
+}
+
 // ── INIT ──
 initChart();
 buildRankTable();
 buildCountryRank();
+setupCounterAnimations();
 
 // ── ACTION BUTTONS ──
 let liked = false;

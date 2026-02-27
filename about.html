@@ -7,144 +7,89 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23171715'/><text x='50' y='68' font-size='54' font-family='Georgia,serif' font-weight='900' fill='white' text-anchor='middle'>G</text></svg>">
 <meta name="description" content="About GATT — methodology, data sources, confidence ratings, and how to cite.">
 <style>
-:root {
-  --bg: #f7f6f3;
-  --surface: #ffffff;
-  --border: #e6e3dc;
-  --text: #171715;
-  --muted: #6f6d67;
-  --subtle: #b5b2ac;
-  --us: #2563eb;
-  --chip: #efece6;
-  --radius: 8px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 16px; line-height: 1.7; }
-.page { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
-a { color: var(--us); }
-h1 { font-size: 2rem; font-weight: 900; margin-top: 40px; margin-bottom: 8px; font-family: Georgia, serif; }
-h2 { font-size: 1.2rem; font-weight: 700; margin-top: 40px; margin-bottom: 12px; font-family: -apple-system, sans-serif; border-top: 1px solid var(--border); padding-top: 20px; }
-h3 { font-size: 1rem; font-weight: 600; margin-top: 20px; margin-bottom: 8px; font-family: -apple-system, sans-serif; }
-p { margin-bottom: 14px; }
-.back { font-family: -apple-system, sans-serif; font-size: 0.85rem; display: inline-block; margin-top: 20px; }
-.cite-box { background: var(--chip); padding: 16px 18px; border-radius: var(--radius); font-family: -apple-system, sans-serif; font-size: 0.85rem; line-height: 1.6; margin: 12px 0; }
-code { font-size: 0.85rem; background: var(--chip); padding: 2px 6px; border-radius: 3px; }
-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-family: -apple-system, sans-serif; font-size: 0.85rem; }
-th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
-th { font-weight: 600; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-.tier-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; font-family: -apple-system, sans-serif; }
-.tier-1 { background: #dcfce7; color: #166534; }
-.tier-2 { background: #fef3c7; color: #92400e; }
-.tier-3 { background: #f3f4f6; color: #6b7280; }
-footer { font-family: -apple-system, sans-serif; font-size: 0.75rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 20px; margin-top: 60px; }
+:root{--bg:#f7f6f3;--surface:#fff;--border:#e6e3dc;--text:#171715;--muted:#6f6d67;--subtle:#b5b2ac;--us:#2563eb;--chip:#efece6;--radius:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.7}
+.page{max-width:720px;margin:0 auto;padding:0 24px 80px}
+a{color:var(--us)}
+h1{font-size:2rem;font-weight:900;margin-top:40px;margin-bottom:8px}
+h2{font-size:1.2rem;font-weight:700;margin-top:40px;margin-bottom:12px;font-family:-apple-system,sans-serif;border-top:1px solid var(--border);padding-top:20px}
+h3{font-size:1rem;font-weight:600;margin-top:20px;margin-bottom:8px;font-family:-apple-system,sans-serif}
+p{margin-bottom:14px}
+.back{font-family:-apple-system,sans-serif;font-size:.85rem;display:inline-block;margin-top:20px}
+.cite-box{background:var(--chip);padding:16px 18px;border-radius:var(--radius);font-family:-apple-system,sans-serif;font-size:.85rem;line-height:1.6;margin:12px 0}
+code{font-size:.85rem;background:var(--chip);padding:2px 6px;border-radius:3px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-family:-apple-system,sans-serif;font-size:.85rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--border)}
+th{font-weight:600;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.tier-badge{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:10px;font-family:-apple-system,sans-serif}
+.tier-1{background:#dcfce7;color:#166534}.tier-2{background:#fef3c7;color:#92400e}.tier-3{background:#f3f4f6;color:#6b7280}
+footer{font-family:-apple-system,sans-serif;font-size:.75rem;color:var(--muted);border-top:1px solid var(--border);padding-top:20px;margin-top:60px}
 </style>
 </head>
 <body>
 <div class="page">
-
 <a href="index.html" class="back">← Back to Dashboard</a>
-
 <h1>About GATT</h1>
-<p style="font-size:1.05rem;color:var(--muted);font-style:italic;margin-bottom:30px;">
-  Global AI Token Tracker — tracking AI inference as commodity, currency, and geopolitical force.
-</p>
+<p style="font-size:1.05rem;color:var(--muted);font-style:italic;margin-bottom:30px">Global AI Token Tracker — tracking AI inference as commodity, currency, and geopolitical force.</p>
 
 <h2>Who</h2>
-<p>
-  <strong>Frank Gao</strong> is a tech communications strategist with 15 years of experience at Alibaba, Microsoft, Nokia, and HONOR. GATT started as a personal project to make AI infrastructure data accessible and citable — because the most consequential shift in global compute is happening without a public scoreboard.
-</p>
+<p><strong>Frank Gao</strong> is a tech communications strategist with 15 years of experience at Alibaba, Microsoft, Nokia, and HONOR. GATT started as a personal project to make AI infrastructure data accessible and citable — because the most consequential shift in global compute is happening without a public scoreboard.</p>
 
 <h2>Why This Exists</h2>
-<p>
-  AI inference is the new commodity. Every day, the world's AI systems process hundreds of trillions of tokens — yet there's no Bloomberg Terminal for this data. No standardized index. No one tracking it systematically.
-</p>
-<p>
-  GATT introduces the concept of the <strong>Token Economy</strong>: the global system of AI inference production, consumption, and exchange. Tokens are the atomic unit of AI work — and they're becoming as economically significant as barrels of oil or kilowatt-hours of electricity.
-</p>
-<p>
-  This project exists to answer simple questions: <em>How many tokens does the world produce per day? Who leads? How fast is it growing? And what does that mean?</em>
-</p>
+<p>AI inference is the new commodity. Every day, the world's AI systems process hundreds of trillions of tokens — yet there's no Bloomberg Terminal for this data. No standardized index. No one tracking it systematically.</p>
+<p>GATT introduces the concept of the <strong>Token Economy</strong>: the global system of AI inference production, consumption, and exchange. Tokens are the atomic unit of AI work — and they're becoming as economically significant as barrels of oil or kilowatt-hours of electricity.</p>
 
 <h2>Methodology</h2>
-
 <h3>Data Source Hierarchy</h3>
 <table>
-  <tr><th>Tier</th><th>Source Type</th><th>Confidence</th><th>Example</th></tr>
-  <tr><td><span class="tier-badge tier-1">Tier 1</span></td><td>Direct official disclosure (earnings calls, official blogs)</td><td>High</td><td>ByteDance: "50T tokens/day" (Q3 2025)</td></tr>
-  <tr><td><span class="tier-badge tier-2">Tier 2</span></td><td>Indirect inference (ARR ÷ price, user count × usage)</td><td>Medium / Low</td><td>Anthropic: $14B ARR ÷ $3/M blended price</td></tr>
-  <tr><td><span class="tier-badge tier-3">Tier 3</span></td><td>Data dark zone (no reliable data exists)</td><td>Very Low</td><td>Self-hosted Ollama/LM Studio instances</td></tr>
+<tr><th>Tier</th><th>Source Type</th><th>Confidence</th><th>Example</th></tr>
+<tr><td><span class="tier-badge tier-1">Tier 1</span></td><td>Direct official disclosure</td><td>High</td><td>ByteDance: "50T tokens/day" (Q3 2025)</td></tr>
+<tr><td><span class="tier-badge tier-2">Tier 2</span></td><td>Indirect inference (ARR ÷ price)</td><td>Medium / Low</td><td>Anthropic: $14B ARR ÷ $3/M blended price</td></tr>
+<tr><td><span class="tier-badge tier-3">Tier 3</span></td><td>Data dark zone</td><td>Very Low</td><td>Self-hosted Ollama/LM Studio</td></tr>
 </table>
 
 <h3>Extrapolation Method</h3>
-<p>
-  When the latest data point is older than 30 days, we extrapolate using compound monthly growth rates derived from at least 2 historical data points. Growth rates are capped at observed maximums and adjusted downward when maturation signals appear (e.g., declining month-over-month acceleration).
-</p>
+<p>When the latest data point is older than 30 days, we extrapolate using compound monthly growth rates derived from at least 2 historical data points. Growth rates are capped and adjusted downward when maturation signals appear.</p>
 
 <h3>Scope: "All Surfaces" vs "API Only"</h3>
-<p>
-  For vendors like Google who report separate metrics for API usage and total platform usage ("across all surfaces"), GATT uses the <strong>All Surfaces</strong> scope. This ensures apple-to-apple comparison: ByteDance's figures include all Doubao channels (app + API + internal), and so should Google's.
-</p>
+<p>For vendors like Google who report separate metrics, GATT uses the <strong>All Surfaces</strong> scope for apple-to-apple comparison with ByteDance (who reports total service volume).</p>
 
 <h3>Confidence Ratings</h3>
 <table>
-  <tr><th>Rating</th><th>Meaning</th></tr>
-  <tr><td><strong>High</strong></td><td>Direct company disclosure, ≤3 months old, minimal extrapolation</td></tr>
-  <tr><td><strong>Medium</strong></td><td>Indirect but multiple converging signals (ARR + MAU + analyst reports agree)</td></tr>
-  <tr><td><strong>Low</strong></td><td>Single indirect signal, wide confidence interval (3x+ range)</td></tr>
-  <tr><td><strong>Very Low</strong></td><td>Essentially a guess — included for completeness, marked clearly</td></tr>
+<tr><th>Rating</th><th>Meaning</th></tr>
+<tr><td><strong>High</strong></td><td>Direct company disclosure, ≤3 months old</td></tr>
+<tr><td><strong>Medium</strong></td><td>Multiple converging indirect signals</td></tr>
+<tr><td><strong>Low</strong></td><td>Single indirect signal, wide confidence interval</td></tr>
+<tr><td><strong>Very Low</strong></td><td>Essentially a guess — included for completeness</td></tr>
 </table>
 
 <h3>Dollar-Equivalent Compute (DEC)</h3>
-<p>
-  Because a token from Doubao costs ~$0.14/T while a token from Claude costs ~$5/T, raw token counts don't tell the full economic story. DEC multiplies daily tokens by blended price-per-trillion to get daily compute value in USD. This reveals that the US leads in compute <em>value</em> despite China leading in token <em>volume</em>.
-</p>
+<p>Because a token from Doubao costs ~$0.14/T while a token from Claude costs ~$5/T, raw counts don't tell the full story. DEC reveals that the US leads in compute <em>value</em> despite China leading in token <em>volume</em>.</p>
 
 <h2>Cite This Data</h2>
-
-<div class="cite-box">
-  <strong>Academic / Research Report:</strong><br>
-  <code>Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/</code>
-</div>
-
-<div class="cite-box">
-  <strong>Journalism:</strong><br>
-  "According to the Global AI Token Tracker (GATT), a project by Frank Gao tracking daily AI inference consumption across 20+ vendors..."
-</div>
-
-<div class="cite-box">
-  <strong>Machine-Readable (API):</strong><br>
-  <code>curl https://gf691271.github.io/gatt/data/tci-latest.json</code>
-</div>
+<div class="cite-box"><strong>Academic:</strong><br><code>Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/</code></div>
+<div class="cite-box"><strong>Journalism:</strong><br>"According to the Global AI Token Tracker (GATT), a project by Frank Gao..."</div>
+<div class="cite-box"><strong>API:</strong><br><code>curl https://gf691271.github.io/gatt/data/tci-latest.json</code></div>
 
 <h2>Data Correction Policy</h2>
-<p>
-  GATT is an open project. If you're a vendor and our estimate for your service is wrong — we <em>want</em> to hear from you. If you're a researcher with better data — please share it.
-</p>
-<p>
-  Every correction is logged in our <a href="CHANGELOG.md">Data Changelog</a> with the date, old value, new value, and reason.
-</p>
-<p>
-  To submit a correction:
-</p>
-<ul style="margin-left:20px;margin-bottom:14px;">
-  <li><a href="https://github.com/gf691271/gatt/issues/new?title=Data+correction&labels=data">Open a GitHub Issue</a></li>
-  <li>Email: <a href="mailto:goghxiang@gmail.com">goghxiang@gmail.com</a></li>
+<p>If you're a vendor and our estimate is wrong — we want to hear from you. Every correction is logged in our <a href="CHANGELOG.md">Data Changelog</a>.</p>
+<ul style="margin-left:20px;margin-bottom:14px">
+<li><a href="https://github.com/gf691271/gatt/issues/new?title=Data+correction&labels=data">Open a GitHub Issue</a></li>
+<li>Email: <a href="mailto:goghxiang@gmail.com">goghxiang@gmail.com</a></li>
 </ul>
 
 <h2>Contact</h2>
-<p>
-  <strong>Email:</strong> <a href="mailto:goghxiang@gmail.com">goghxiang@gmail.com</a><br>
-  <strong>X/Twitter:</strong> <a href="https://twitter.com/goghxiang">@goghxiang</a><br>
-  <strong>LinkedIn:</strong> <a href="https://linkedin.com/in/frankgao">linkedin.com/in/frankgao</a><br>
-  <strong>GitHub:</strong> <a href="https://github.com/gf691271/gatt">gf691271/gatt</a>
-</p>
+<p><strong>Email:</strong> <a href="mailto:goghxiang@gmail.com">goghxiang@gmail.com</a><br>
+<strong>X/Twitter:</strong> <a href="https://twitter.com/goghxiang">@goghxiang</a><br>
+<strong>LinkedIn:</strong> <a href="https://linkedin.com/in/frankgao">linkedin.com/in/frankgao</a><br>
+<strong>GitHub:</strong> <a href="https://github.com/gf691271/gatt">gf691271/gatt</a></p>
 
 <footer>
-  <p>GATT · Global AI Token Tracker · Open Data · CC BY 4.0</p>
-  <p>Cite: Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/</p>
-  <p><a href="index.html">Dashboard</a> · <a href="CHANGELOG.md">Data Changelog</a> · <a href="https://github.com/gf691271/gatt">GitHub</a></p>
+<p>GATT · Global AI Token Tracker · Open Data · CC BY 4.0</p>
+<p>Cite: Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/</p>
+<p><a href="index.html">Dashboard</a> · <a href="CHANGELOG.md">Data Changelog</a> · <a href="https://github.com/gf691271/gatt">GitHub</a></p>
 </footer>
-
 </div>
 </body>
 </html>
