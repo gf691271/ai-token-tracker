@@ -63,3 +63,21 @@ We welcome corrections. If you have more accurate data for any vendor:
 - Open a [GitHub Issue](https://github.com/gf691271/gatt/issues/new?title=Data+correction&labels=data)
 - Email: goghxiang@gmail.com
 - Include: source URL, date, and the specific claim
+
+## v0.52 — 2026-02-26 21:05 PST (Overnight Agent)
+
+### Changed
+- **CREDIBILITY FIX**: Removed fabricated testimonial quotes from "In the Press" section (were: unnamed r/MachineLearning post and unnamed "AI infrastructure analyst" — no real attribution, could destroy journalist trust)
+- Replaced with honest "Launched Feb 2026 — First Citations Welcome" banner
+- Added GitHub social proof links (Star, Bug report, Twitter follow)
+
+### Added
+- **Distribution Toolkit** — ready-to-post titles for:
+  - Hacker News: "The US generates 214× more AI tokens per person per day than India — open dataset" (with one-click Submit to HN link)
+  - Reddit r/MachineLearning: "[OC] Open dataset" format with Submit link
+  - Twitter/X: Full thread hook with 214× stat, ready to copy
+- Honest citation placeholder grid (3 cards: press / research / KOL)
+
+### Why this matters (10-question improvement)
+- Q9 (Content authority): Fake quotes are *worse* than no quotes — a journalist who spots them would distrust ALL data. Now the site is honest about being newly launched.
+- Q10 (Would AI journalist cite?): Credibility restored. The "Distribution Toolkit" also makes it easy for the first real citations to happen.
