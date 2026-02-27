@@ -1,10 +1,10 @@
 {
   "meta": {
-    "version": "0.63",
+    "version": "0.65",
     "updated": "2026-02-27",
     "methodology": "DEC = tokens × official_price_per_1M_tokens",
     "note": "All figures are best available estimates. See confidence field.",
-    "gatt_version": "v0.63",
+    "gatt_version": "v0.65",
     "q1_2026_report": {
       "global_daily_tokens_T": 162,
       "token_gdp_annual_B": 45,
@@ -234,7 +234,7 @@
       "confidence": 1,
       "source_type": "blog",
       "note": "Launch peak only: 17B tokens in 24h for Devstral 2",
-      "source_quote": "Devstral 2 processed 17B tokens in first 24h \u2014 Mistral blog 2025-12"
+      "source_quote": "Devstral 2 processed 17B tokens in first 24h — Mistral blog 2025-12"
     },
     {
       "id": "microsoft",
@@ -409,5 +409,21 @@
       "tier": 3,
       "dark_reason": "No public data"
     }
-  ]
+  ],
+  "key_stats": {
+    "headline": "Global AI inference: 162 trillion tokens per day",
+    "token_gdp": "$45B/year ($122.6M/day)",
+    "growth_rate": "~20% month-over-month",
+    "year_end_2026_projection_T": 1000,
+    "china_volume_share_pct": 51,
+    "china_gdp_share_pct": 7,
+    "us_volume_share_pct": 40,
+    "us_gdp_share_pct": 80,
+    "pricing_divergence": "60-100x (US premium vendors vs Chinese platforms)",
+    "per_capita_gap": "US 135K tokens/person/day vs India 631 (214x gap)",
+    "top_vendor_by_volume": "ByteDance Doubao (~50T/day)",
+    "top_vendor_by_gdp": "OpenAI (~$97.5M/day)",
+    "as_of": "2026-02-27",
+    "gatt_version": "v0.65"
+  }
 }

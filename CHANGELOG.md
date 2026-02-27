@@ -252,3 +252,11 @@ We welcome corrections. If you have more accurate data for any vendor:
 - **Q7 (JSON/API ready)**: The advertised API endpoint now returns data instead of 404 — fundamental for GEO goal
 - **Q8 (分享钩子/机读性)**: llms.txt now has structured quarterly report that LLMs can directly quote
 - **Q10 (AI记者会引用吗)**: When ChatGPT/Gemini is asked about token economy, it now has a properly cited Q1 2026 report format to pull from
+
+## v0.65 — 2026-02-27 (自主迭代)
+- CRITICAL FIX: HTML version display was stuck at v0.62 (git was v0.64) — now synchronized to v0.65
+- NEW: `key_stats{}` object added to `api/v1/tci.json` — pre-computed headline numbers for AI bots
+  - headline, token_gdp, growth_rate, china_volume/gdp share, us_india gap, top vendors
+  - Bots can now extract key facts without parsing full vendor array
+- API meta.version updated: 0.63 → 0.65
+- 10Q改善: #1 (版本号一致性), #8 (机读性 — bots get pre-computed stats)
