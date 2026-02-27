@@ -29,6 +29,95 @@
   --chip: #efece6;
   --radius: 8px;
 }
+
+/* ── THEME A — Bloomberg Terminal ── */
+[data-theme="a"] {
+  --bg: #0d0d0b;
+  --surface: #141412;
+  --border: #2a2a27;
+  --text: #e8e5df;
+  --muted: #8a8780;
+  --subtle: #4a4845;
+  --cn: #ff4444;
+  --us: #00d4aa;
+  --row: #00d4aa;
+  --chip: #1e1e1b;
+  --radius: 4px;
+}
+[data-theme="a"] body, [data-theme="a"] html {
+  font-family: 'Courier New', 'SF Mono', monospace;
+}
+[data-theme="a"] .site-title-abbr {
+  font-family: 'Courier New', monospace;
+  color: #00ff88;
+  text-shadow: 0 0 20px rgba(0,255,136,0.4);
+}
+[data-theme="a"] .site-header { border-bottom-color: #00ff88; }
+[data-theme="a"] .hl-number { font-family: 'Courier New', monospace; color: #00ff88 !important; }
+[data-theme="a"] .hl-number.cn { color: #ff4444 !important; }
+[data-theme="a"] .hl-number.us { color: #00d4aa !important; }
+[data-theme="a"] .rank-bar-fill { box-shadow: 0 0 6px currentColor; }
+[data-theme="a"] .live-dot { background: #00ff88; }
+[data-theme="a"] .section-label { color: #00ff88; border-top-color: #2a2a27; }
+[data-theme="a"] .api-box { background: #000; border: 1px solid #00ff88; }
+
+/* ── THEME C — SaaS / Linear ── */
+[data-theme="c"] {
+  --bg: #ffffff;
+  --surface: #f9fafb;
+  --border: #e5e7eb;
+  --text: #111827;
+  --muted: #6b7280;
+  --subtle: #d1d5db;
+  --cn: #ef4444;
+  --us: #3b82f6;
+  --row: #10b981;
+  --chip: #f3f4f6;
+  --radius: 12px;
+}
+[data-theme="c"] html, [data-theme="c"] body { font-family: -apple-system, 'Inter', sans-serif; }
+[data-theme="c"] .site-title-abbr { font-family: -apple-system, sans-serif; font-weight: 800; }
+[data-theme="c"] .site-header { border-bottom: 1px solid var(--border); }
+[data-theme="c"] .headline-card { border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); border: 1px solid var(--border); }
+[data-theme="c"] .headline-grid { background: transparent; border: none; gap: 12px; }
+[data-theme="c"] .chart-wrap { border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+[data-theme="c"] .rank-row:hover { background: #f0f9ff; }
+[data-theme="c"] .action-btn { border-radius: 8px; }
+
+/* ── THEME D — Hybrid ── */
+[data-theme="d"] {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --subtle: #cbd5e1;
+  --cn: #dc2626;
+  --us: #2563eb;
+  --row: #059669;
+  --chip: #f1f5f9;
+  --radius: 8px;
+}
+[data-theme="d"] .site-header {
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 0 0 16px 16px;
+  border-bottom: none;
+  padding: 28px 24px 22px;
+  margin: -0px -24px 32px;
+}
+[data-theme="d"] .site-title-abbr { color: #38bdf8; text-shadow: none; }
+[data-theme="d"] .site-title-full { color: #94a3b8; }
+[data-theme="d"] .site-title-sep { color: #475569; }
+[data-theme="d"] .site-headline { color: #94a3b8; }
+[data-theme="d"] .site-header-right { color: #64748b; }
+[data-theme="d"] .site-header-right .updated { color: #e2e8f0; }
+[data-theme="d"] .lang-btn.active { background: #38bdf8; color: #0f172a; }
+[data-theme="d"] .lang-toggle { border-color: #334155; }
+[data-theme="d"] .lang-btn { color: #94a3b8; }
+[data-theme="d"] .live-dot { background: #4ade80; }
+[data-theme="d"] .section-label { color: #2563eb; border-top-color: #e2e8f0; }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 16px; line-height: 1.6; }
 
@@ -350,7 +439,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.14</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.15</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -1019,6 +1108,28 @@ function setLang(lang) {
     if (i18n[lang][key]) el.textContent = i18n[lang][key];
   });
 }
+
+// ── THEME SWITCHER ──
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('gatt-theme', t);
+  ['a','b','c','d'].forEach(x => {
+    const btn = document.getElementById('th-' + x);
+    if (btn) btn.style.borderColor = (x === t) ? '#2563eb' : 'transparent';
+  });
+}
+(function() {
+  const saved = localStorage.getItem('gatt-theme') || 'b';
+  setTheme(saved);
+})();
 </script>
+
+<div id="theme-switcher" style="position:fixed;bottom:20px;right:20px;display:flex;gap:4px;z-index:999;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px 6px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+  <span style="font-family:-apple-system,sans-serif;font-size:0.65rem;color:var(--muted);padding:3px 4px;align-self:center;">Theme</span>
+  <button onclick="setTheme('a')" id="th-a" style="width:26px;height:26px;border-radius:50%;border:2px solid transparent;background:#0d0d0b;color:#00ff88;font-size:0.65rem;font-weight:700;cursor:pointer;font-family:monospace;">A</button>
+  <button onclick="setTheme('b')" id="th-b" style="width:26px;height:26px;border-radius:50%;border:2px solid transparent;background:#f7f6f3;color:#171715;font-size:0.65rem;font-weight:700;cursor:pointer;font-family:Georgia,serif;">B</button>
+  <button onclick="setTheme('c')" id="th-c" style="width:26px;height:26px;border-radius:50%;border:2px solid transparent;background:#f9fafb;color:#111827;font-size:0.65rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;">C</button>
+  <button onclick="setTheme('d')" id="th-d" style="width:26px;height:26px;border-radius:50%;border:2px solid transparent;background:#0f172a;color:#38bdf8;font-size:0.65rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;">D</button>
+</div>
 </body>
 </html>
