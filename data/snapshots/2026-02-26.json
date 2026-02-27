@@ -1,0 +1,573 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-02-27T00:00:00Z",
+  "methodology_url": "https://gf691271.github.io/gatt/about.html",
+  "cite_as": "Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/",
+  "license": "CC BY 4.0 \u2014 free to use with attribution",
+  "global_summary": {
+    "total_daily_tokens_T": 151,
+    "as_of_date": "2026-02-27",
+    "confidence": "medium",
+    "last_updated": "2026-02-27",
+    "note": "Sum of 20 tracked vendors. Actual global total likely 200-300T including self-hosted/private deployments."
+  },
+  "vendors": [
+    {
+      "id": "bytedance-doubao",
+      "rank": 1,
+      "name": "Doubao (ByteDance)",
+      "country": "CN",
+      "daily_tokens_T": 63,
+      "confidence": "high",
+      "tier": 1,
+      "source": "Volcano Engine Blog Jan 2026 \u2014 50T/day average in Q3 2025, extrapolated",
+      "source_url": "https://www.volcengine.com/docs/82379/1399805",
+      "source_date": "2026-01-15",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.08,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 50,
+          "reason": "Initial estimate from Volcano Engine Q3 2025 disclosure"
+        },
+        {
+          "date": "2026-02-26",
+          "value_T": 63,
+          "reason": "Extrapolated to Feb 2026 at 8%/mo growth"
+        }
+      ]
+    },
+    {
+      "id": "google-gemini",
+      "rank": 2,
+      "name": "Google Gemini (All Surfaces)",
+      "country": "US",
+      "daily_tokens_T": 50,
+      "confidence": "medium",
+      "tier": 1,
+      "source": "Sundar Pichai Q3 2025 Earnings: '1.3 quadrillion tokens/month across all surfaces'",
+      "source_url": "https://abc.xyz/investor/",
+      "source_date": "2025-10-29",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.05,
+      "note": "All Surfaces = Search AI Overviews + Gemini App (750M MAU) + Workspace + Cloud API. API-only: ~18.5T/day.",
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 35,
+          "reason": "Initial estimate using Q4 2025 API-only metric"
+        },
+        {
+          "date": "2026-02-26",
+          "value_T": 50,
+          "reason": "Revised to All Surfaces scope for apple-to-apple comparison"
+        }
+      ]
+    },
+    {
+      "id": "openai-chatgpt",
+      "rank": 3,
+      "name": "OpenAI (ChatGPT + API)",
+      "country": "US",
+      "daily_tokens_T": 19,
+      "confidence": "medium",
+      "tier": 1,
+      "source": "Epoch AI compute proxy + $5B ARR (mid-2025)",
+      "source_date": "2025-H2",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.15,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 19,
+          "reason": "Initial estimate from $5B ARR at blended ~$2/M tokens"
+        }
+      ]
+    },
+    {
+      "id": "anthropic-claude",
+      "rank": 4,
+      "name": "Claude (Anthropic)",
+      "country": "US",
+      "daily_tokens_T": 10,
+      "confidence": "medium-low",
+      "tier": 2,
+      "source": "$14B ARR (Feb 2026), CrowdFundInsider + The Information",
+      "source_url": "https://www.crowdfundinsider.com/2026/02/263389-anthropics-380-billion-valuation-marks-a-turning-point-for-enterprise-ai/",
+      "source_date": "2026-02",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.14,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 2.5,
+          "reason": "Initial conservative estimate"
+        },
+        {
+          "date": "2026-02-26",
+          "value_T": 7,
+          "reason": "Revised based on $14B ARR analysis"
+        },
+        {
+          "date": "2026-02-27",
+          "value_T": 10,
+          "reason": "Cross-validated with 820M req/day + 18M MAU \u00d7 500K tokens/day"
+        }
+      ]
+    },
+    {
+      "id": "deepseek",
+      "rank": 5,
+      "name": "DeepSeek",
+      "country": "CN",
+      "daily_tokens_T": 7.5,
+      "confidence": "low",
+      "tier": 2,
+      "source": "HuggingFace download volume + China market share modeling",
+      "source_date": "2026-01",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.1,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 5,
+          "reason": "Initial estimate"
+        },
+        {
+          "date": "2026-02-26",
+          "value_T": 7.5,
+          "reason": "DeepSeek V3 + R1 adoption surge"
+        }
+      ]
+    },
+    {
+      "id": "microsoft-azure",
+      "rank": 6,
+      "name": "Azure OpenAI Service",
+      "country": "US",
+      "daily_tokens_T": 7,
+      "confidence": "low",
+      "tier": 2,
+      "source": "Microsoft Azure AI revenue back-calculation",
+      "source_date": "2025-Q4",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.1,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 7,
+          "reason": "Revenue \u00f7 price back-calculation"
+        }
+      ]
+    },
+    {
+      "id": "alibaba-qwen",
+      "rank": 7,
+      "name": "Qwen (Alibaba Cloud)",
+      "country": "CN",
+      "daily_tokens_T": 5,
+      "confidence": "medium",
+      "tier": 1,
+      "source": "Alibaba Cloud Q4 2025 earnings",
+      "source_date": "2025-Q4",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.08,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 5,
+          "reason": "Direct from earnings"
+        }
+      ]
+    },
+    {
+      "id": "tencent-hunyuan",
+      "rank": 8,
+      "name": "Hunyuan (Tencent)",
+      "country": "CN",
+      "daily_tokens_T": 2,
+      "confidence": "very-low",
+      "tier": 2,
+      "source": "Yuanbao 50M DAU + 900 internal apps (Feb 2026)",
+      "source_date": "2026-02",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.12,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.8,
+          "reason": "Initial estimate from industry comparison"
+        },
+        {
+          "date": "2026-02-26",
+          "value_T": 2,
+          "reason": "Yuanbao DAU + WeChat AI + internal apps"
+        }
+      ]
+    },
+    {
+      "id": "baidu-ernie",
+      "rank": 9,
+      "name": "ERNIE (Baidu)",
+      "country": "CN",
+      "daily_tokens_T": 1.6,
+      "confidence": "high",
+      "tier": 1,
+      "source": "Baidu Q4 2025 earnings",
+      "source_date": "2025-Q4",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.05,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 1.6,
+          "reason": "Direct from earnings"
+        }
+      ]
+    },
+    {
+      "id": "iflytek-spark",
+      "rank": 10,
+      "name": "Spark (iFlytek)",
+      "country": "CN",
+      "daily_tokens_T": 1.4,
+      "confidence": "medium",
+      "tier": 1,
+      "source": "iFlytek Q4 2025 earnings",
+      "source_date": "2025-Q4",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.06,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 1.4,
+          "reason": "Direct from earnings"
+        }
+      ]
+    },
+    {
+      "id": "openrouter",
+      "rank": 11,
+      "name": "OpenRouter",
+      "country": "US",
+      "daily_tokens_T": 1.0,
+      "confidence": "high",
+      "tier": 1,
+      "source": "Official platform statistics",
+      "source_date": "2026-02",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.1,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 1.0,
+          "reason": "Direct from public stats"
+        }
+      ]
+    },
+    {
+      "id": "mistral-ai",
+      "rank": 12,
+      "name": "Mistral AI",
+      "country": "FR",
+      "daily_tokens_T": 0.6,
+      "confidence": "low",
+      "tier": 2,
+      "source": "$400M ARR \u00f7 blended token price",
+      "source_date": "2025-Q4",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.08,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.6,
+          "reason": "ARR-based back-calculation"
+        }
+      ]
+    },
+    {
+      "id": "xai-grok",
+      "rank": 13,
+      "name": "Grok (xAI)",
+      "country": "US",
+      "daily_tokens_T": 0.5,
+      "confidence": "low",
+      "tier": 2,
+      "source": "134M queries/day (Feb 2026) \u00d7 avg tokens",
+      "source_date": "2026-02",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.15,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.3,
+          "reason": "Initial estimate"
+        },
+        {
+          "date": "2026-02-26",
+          "value_T": 0.5,
+          "reason": "134M queries/day + revenue cross-validation"
+        }
+      ]
+    },
+    {
+      "id": "minimax",
+      "rank": 14,
+      "name": "MiniMax",
+      "country": "CN",
+      "daily_tokens_T": 0.35,
+      "confidence": "medium",
+      "tier": 1,
+      "source": "OpenRouter + HuggingFace",
+      "source_date": "2026-02",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.08,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.35,
+          "reason": "OpenRouter + HuggingFace data"
+        }
+      ]
+    },
+    {
+      "id": "groq",
+      "rank": 15,
+      "name": "Groq",
+      "country": "US",
+      "daily_tokens_T": 0.25,
+      "confidence": "low",
+      "tier": 2,
+      "source": "2.5M devs \u00d7 usage + LPU capacity back-calc",
+      "source_date": "2026-01",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.12,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.15,
+          "reason": "Initial developer count estimate"
+        },
+        {
+          "date": "2026-02-26",
+          "value_T": 0.25,
+          "reason": "LPU capacity + valuation-proportional estimate"
+        }
+      ]
+    },
+    {
+      "id": "meta-llama",
+      "rank": 16,
+      "name": "Llama API (Meta)",
+      "country": "US",
+      "daily_tokens_T": 0.2,
+      "confidence": "low",
+      "tier": 2,
+      "source": "Meta AI growth rate statement",
+      "source_date": "2025-Q4",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.1,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.2,
+          "reason": "Growth rate back-calculation"
+        }
+      ]
+    },
+    {
+      "id": "moonshot-kimi",
+      "rank": 17,
+      "name": "Kimi (Moonshot AI)",
+      "country": "CN",
+      "daily_tokens_T": 0.17,
+      "confidence": "medium",
+      "tier": 1,
+      "source": "OpenRouter data",
+      "source_date": "2026-02",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.06,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.17,
+          "reason": "OpenRouter traffic data"
+        }
+      ]
+    },
+    {
+      "id": "amazon-bedrock",
+      "rank": 18,
+      "name": "Amazon Bedrock",
+      "country": "US",
+      "daily_tokens_T": 0.15,
+      "confidence": "low",
+      "tier": 2,
+      "source": "AWS revenue \u00f7 price estimate",
+      "source_date": "2025-Q4",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.08,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.15,
+          "reason": "Revenue \u00f7 blended price"
+        }
+      ]
+    },
+    {
+      "id": "zhipu-glm",
+      "rank": 19,
+      "name": "GLM (Zhipu AI)",
+      "country": "CN",
+      "daily_tokens_T": 0.11,
+      "confidence": "medium",
+      "tier": 1,
+      "source": "OpenRouter data",
+      "source_date": "2026-02",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.05,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.11,
+          "reason": "OpenRouter traffic data"
+        }
+      ]
+    },
+    {
+      "id": "perplexity",
+      "rank": 20,
+      "name": "Perplexity AI",
+      "country": "US",
+      "daily_tokens_T": 0.07,
+      "confidence": "low",
+      "tier": 2,
+      "source": "Query volume \u00f7 avg length",
+      "source_date": "2025-Q4",
+      "extrapolated_to": "2026-02-27",
+      "growth_rate_monthly": 0.1,
+      "revision_history": [
+        {
+          "date": "2026-02-20",
+          "value_T": 0.07,
+          "reason": "Query volume \u00d7 avg token length"
+        }
+      ]
+    }
+  ],
+  "countries": [
+    {
+      "rank": 1,
+      "country": "China",
+      "code": "CN",
+      "share_pct": 55,
+      "daily_tokens_T": 83,
+      "confidence": "medium"
+    },
+    {
+      "rank": 2,
+      "country": "United States",
+      "code": "US",
+      "share_pct": 39,
+      "daily_tokens_T": 59,
+      "confidence": "medium"
+    },
+    {
+      "rank": 3,
+      "country": "United Kingdom",
+      "code": "GB",
+      "share_pct": 2,
+      "daily_tokens_T": 3,
+      "confidence": "low"
+    },
+    {
+      "rank": 4,
+      "country": "France",
+      "code": "FR",
+      "share_pct": 1,
+      "daily_tokens_T": 1.5,
+      "confidence": "low"
+    },
+    {
+      "rank": 5,
+      "country": "Others",
+      "code": "ROW",
+      "share_pct": 3,
+      "daily_tokens_T": 4.5,
+      "confidence": "low"
+    }
+  ],
+  "global_total_T": 151,
+  "year_end_projection_T": "800-1200",
+  "last_updated": "2026-02-27",
+  "correction_log": [
+    {
+      "date": "2026-02-27",
+      "vendor": "Global",
+      "old": "136T/day",
+      "new": "151T/day",
+      "reason": "Google All Surfaces + Anthropic revision"
+    },
+    {
+      "date": "2026-02-27",
+      "vendor": "Anthropic/Claude",
+      "old": "2.5T/day",
+      "new": "10T/day",
+      "reason": "$14B ARR + 820M req/day cross-validation"
+    },
+    {
+      "date": "2026-02-26",
+      "vendor": "Google Gemini",
+      "old": "35T/day",
+      "new": "50T/day",
+      "reason": "Switched to All Surfaces scope"
+    },
+    {
+      "date": "2026-02-26",
+      "vendor": "DeepSeek",
+      "old": "5T/day",
+      "new": "7.5T/day",
+      "reason": "V3 + R1 adoption surge"
+    },
+    {
+      "date": "2026-02-26",
+      "vendor": "Groq",
+      "old": "0.15T/day",
+      "new": "0.25T/day",
+      "reason": "LPU capacity back-calc"
+    },
+    {
+      "date": "2026-02-25",
+      "vendor": "Tencent/Hunyuan",
+      "old": "dark zone",
+      "new": "2T/day",
+      "reason": "Yuanbao 50M DAU"
+    },
+    {
+      "date": "2026-02-20",
+      "vendor": "xAI/Grok",
+      "old": "dark zone",
+      "new": "0.5T/day",
+      "reason": "134M queries/day"
+    },
+    {
+      "date": "2026-02-10",
+      "vendor": "ERNIE/Baidu",
+      "old": "1T/day",
+      "new": "1.6T/day",
+      "reason": "Q4 2025 earnings"
+    },
+    {
+      "date": "2026-01-15",
+      "vendor": "Doubao/ByteDance",
+      "old": "50T/day",
+      "new": "63T/day",
+      "reason": "Volcano Engine Jan 2026 avg"
+    }
+  ],
+  "snapshot_date": "2026-02-26",
+  "snapshot_type": "daily",
+  "note": "Immutable daily snapshot. Do not modify. Source of truth for historical comparison."
+}

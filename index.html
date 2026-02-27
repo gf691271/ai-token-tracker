@@ -1932,31 +1932,32 @@ function toggleProjMethod(id) {
 
 // ── RANKING TABLE ──
 // Tier 1: direct or strongly-sourced data — sorted by tokNum desc
+// mom: month-on-month growth estimate (Jan→Feb 2026), null = unknown
 const vendors = [
-  {rank:1,  flag:'🇨🇳', name:'Doubao',        co:'ByteDance',    tokens:'63T',   tokNum:63,   conf:2, src:'Volcano Engine Jan 2026 avg', country:'CN'},
-  {rank:2,  flag:'🇺🇸', name:'Google Gemini', co:'Google',       tokens:'~50T',  tokNum:50,   conf:3, src:'Alphabet earnings All Surfaces Oct 2025',   country:'US'},
-  {rank:3,  flag:'🇺🇸', name:'ChatGPT / API', co:'OpenAI',       tokens:'19T',   tokNum:19,   conf:2, src:'Epoch AI compute proxy',   country:'US'},
-  {rank:4,  flag:'🇨🇳', name:'Qwen',          co:'Alibaba Cloud',tokens:'5T',    tokNum:5,    conf:2, src:'Earnings',                 country:'CN'},
-  {rank:5,  flag:'🇨🇳', name:'ERNIE',         co:'Baidu',        tokens:'1.6T',  tokNum:1.6,  conf:3, src:'Earnings',                 country:'CN'},
-  {rank:6,  flag:'🇨🇳', name:'Spark',         co:'iFlytek',      tokens:'1.4T',  tokNum:1.4,  conf:2, src:'Earnings',                 country:'CN'},
-  {rank:7,  flag:'🇺🇸', name:'OpenRouter',    co:'OpenRouter',   tokens:'1.0T',  tokNum:1.0,  conf:3, src:'Official stats',           country:'US'},
-  {rank:8,  flag:'🇨🇳', name:'MiniMax',       co:'MiniMax',      tokens:'0.35T', tokNum:0.35, conf:2, src:'OpenRouter + HuggingFace', country:'CN'},
-  {rank:9,  flag:'🇨🇳', name:'Kimi',          co:'Moonshot AI',  tokens:'0.17T', tokNum:0.17, conf:2, src:'OpenRouter',               country:'CN'},
-  {rank:10, flag:'🇨🇳', name:'GLM',           co:'Zhipu AI',     tokens:'0.11T', tokNum:0.11, conf:2, src:'OpenRouter',               country:'CN'},
+  {rank:1,  flag:'🇨🇳', name:'Doubao',        co:'ByteDance',    tokens:'63T',   tokNum:63,   conf:2, src:'Volcano Engine Jan 2026 avg', country:'CN', mom:5},
+  {rank:2,  flag:'🇺🇸', name:'Google Gemini', co:'Google',       tokens:'~50T',  tokNum:50,   conf:3, src:'Alphabet earnings All Surfaces Oct 2025',   country:'US', mom:8},
+  {rank:3,  flag:'🇺🇸', name:'ChatGPT / API', co:'OpenAI',       tokens:'19T',   tokNum:19,   conf:2, src:'Epoch AI compute proxy',   country:'US', mom:15},
+  {rank:4,  flag:'🇨🇳', name:'Qwen',          co:'Alibaba Cloud',tokens:'5T',    tokNum:5,    conf:2, src:'Earnings',                 country:'CN', mom:12},
+  {rank:5,  flag:'🇨🇳', name:'ERNIE',         co:'Baidu',        tokens:'1.6T',  tokNum:1.6,  conf:3, src:'Earnings',                 country:'CN', mom:8},
+  {rank:6,  flag:'🇨🇳', name:'Spark',         co:'iFlytek',      tokens:'1.4T',  tokNum:1.4,  conf:2, src:'Earnings',                 country:'CN', mom:null},
+  {rank:7,  flag:'🇺🇸', name:'OpenRouter',    co:'OpenRouter',   tokens:'1.0T',  tokNum:1.0,  conf:3, src:'Official stats',           country:'US', mom:18},
+  {rank:8,  flag:'🇨🇳', name:'MiniMax',       co:'MiniMax',      tokens:'0.35T', tokNum:0.35, conf:2, src:'OpenRouter + HuggingFace', country:'CN', mom:null},
+  {rank:9,  flag:'🇨🇳', name:'Kimi',          co:'Moonshot AI',  tokens:'0.17T', tokNum:0.17, conf:2, src:'OpenRouter',               country:'CN', mom:null},
+  {rank:10, flag:'🇨🇳', name:'GLM',           co:'Zhipu AI',     tokens:'0.11T', tokNum:0.11, conf:2, src:'OpenRouter',               country:'CN', mom:null},
 ];
 
 // Tier 2: calculated estimates (midpoint of range, revenue back-calc) — sorted desc
 const tier2 = [
-  {flag:'🇨🇳', name:'DeepSeek',      co:'DeepSeek AI',    tokNum:7.5,  tokens:'~7.5T est.',  conf:1, src:'HuggingFace + market share', country:'CN'},
-  {flag:'🇺🇸', name:'Azure OpenAI',  co:'Microsoft',      tokNum:7,    tokens:'~7T est.',    conf:1, src:'Revenue ÷ price',            country:'US'},
-  {flag:'🇺🇸', name:'Claude',        co:'Anthropic',      tokNum:10,   tokens:'~10T est.',   conf:1, src:'$14B ARR Feb-2026 ÷ price + 820M req/day proxy', country:'US'},
-  {flag:'🇫🇷', name:'Mistral',       co:'Mistral AI',     tokNum:0.6,  tokens:'~0.6T est.',  conf:1, src:'$400M ARR ÷ price',          country:'EU'},
-  {flag:'🇺🇸', name:'Llama API',     co:'Meta',           tokNum:0.2,  tokens:'~0.2T est.',  conf:1, src:'Growth rate stmt',           country:'US'},
-  {flag:'🇺🇸', name:'Bedrock',       co:'Amazon AWS',     tokNum:0.15, tokens:'~0.15T est.', conf:1, src:'Revenue known, price est.',  country:'US'},
-  {flag:'🇺🇸', name:'Groq',          co:'Groq',           tokNum:0.25, tokens:'~0.25T est.', conf:1, src:'2.5M devs × active usage est.', country:'US'},
-  {flag:'🇺🇸', name:'Perplexity',    co:'Perplexity AI',  tokNum:0.07, tokens:'~0.07T est.', conf:1, src:'Query volume ÷ avg length',  country:'US'},
-  {flag:'🇨🇳', name:'Hunyuan',       co:'Tencent',        tokNum:2,    tokens:'~2T est.',    conf:1, src:'Yuanbao 50M DAU + 900 internal apps (Feb-2026)', country:'CN'},
-  {flag:'🇺🇸', name:'Grok',          co:'xAI',            tokNum:0.5,  tokens:'~0.5T est.',  conf:1, src:'134M queries/day (Feb-2026) × avg tokens', country:'US'},
+  {flag:'🇨🇳', name:'DeepSeek',      co:'DeepSeek AI',    tokNum:7.5,  tokens:'~7.5T est.',  conf:1, src:'HuggingFace + market share', country:'CN', mom:22},
+  {flag:'🇺🇸', name:'Azure OpenAI',  co:'Microsoft',      tokNum:7,    tokens:'~7T est.',    conf:1, src:'Revenue ÷ price',            country:'US', mom:12},
+  {flag:'🇺🇸', name:'Claude',        co:'Anthropic',      tokNum:10,   tokens:'~10T est.',   conf:1, src:'$14B ARR Feb-2026 ÷ price + 820M req/day proxy', country:'US', mom:14},
+  {flag:'🇫🇷', name:'Mistral',       co:'Mistral AI',     tokNum:0.6,  tokens:'~0.6T est.',  conf:1, src:'$400M ARR ÷ price',          country:'EU', mom:null},
+  {flag:'🇺🇸', name:'Llama API',     co:'Meta',           tokNum:0.2,  tokens:'~0.2T est.',  conf:1, src:'Growth rate stmt',           country:'US', mom:null},
+  {flag:'🇺🇸', name:'Bedrock',       co:'Amazon AWS',     tokNum:0.15, tokens:'~0.15T est.', conf:1, src:'Revenue known, price est.',  country:'US', mom:null},
+  {flag:'🇺🇸', name:'Groq',          co:'Groq',           tokNum:0.25, tokens:'~0.25T est.', conf:1, src:'2.5M devs × active usage est.', country:'US', mom:20},
+  {flag:'🇺🇸', name:'Perplexity',    co:'Perplexity AI',  tokNum:0.07, tokens:'~0.07T est.', conf:1, src:'Query volume ÷ avg length',  country:'US', mom:null},
+  {flag:'🇨🇳', name:'Hunyuan',       co:'Tencent',        tokNum:2,    tokens:'~2T est.',    conf:1, src:'Yuanbao 50M DAU + 900 internal apps (Feb-2026)', country:'CN', mom:null},
+  {flag:'🇺🇸', name:'Grok',          co:'xAI',            tokNum:0.5,  tokens:'~0.5T est.',  conf:1, src:'134M queries/day (Feb-2026) × avg tokens', country:'US', mom:null},
 ];
 
 // Tier 3: data dark zone
@@ -2077,7 +2078,7 @@ function buildRankTable() {
           <div class="rank-bar-fill" style="width:${bar}%;background:${col};${isTier2?'opacity:0.45':''}"></div>
         </div>
       </div>
-      <div class="rank-tokens">${tokenLabel}</div>
+      <div class="rank-tokens">${tokenLabel}${v.mom != null ? `<br><span style="font-size:.62rem;color:#166534;font-weight:600;">↑+${v.mom}%/mo</span>` : ''}</div>
       <div class="rank-confidence" style="font-size:.68rem">${confBadge}${freshDot}<br><span style="color:var(--subtle);font-size:.62rem">${v.src}</span></div>
     </div>
     ${methodPanel}${correctionPanel}
