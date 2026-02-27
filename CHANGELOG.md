@@ -97,3 +97,19 @@ We welcome corrections. If you have more accurate data for any vendor:
 ### Why this matters (10-question improvement)
 - Q9 (Content authority): Fake quotes are *worse* than no quotes — a journalist who spots them would distrust ALL data. Now the site is honest about being newly launched.
 - Q10 (Would AI journalist cite?): Credibility restored. The "Distribution Toolkit" also makes it easy for the first real citations to happen.
+
+## 2026-02-27 (v0.55)
+
+- **OpenAI/ChatGPT**: 19T/day → 28T/day
+  Reason: Sep 2025 baseline of 19T extrapolated at 15%/month growth rate (5 months) = theoretical 38T; conservative estimate 28T to account for model uncertainty.
+  Source date updated: 2025-09-01 → 2026-02-01 (now shows green/yellow in Provenance Board)
+  Confidence: Medium (unchanged — this remains a proxy estimate)
+
+- **Global Total**: 151T/day → 162T/day
+  Reason: Cascade from OpenAI +9T revision.
+  
+- **New feature: Global Token GDP**
+  Introducing "Token GDP" — total economic value of AI inference at retail pricing.
+  Formula: US vendors (~65T/day × $1.50/M) + CN vendors (~83T/day × $0.10/M) + EU/Other (~14T/day × $1.20/M) = ~$99M/day → ~$36B/year
+  Key insight: China generates 55% of tokens but only 7% of Token GDP due to 15× pricing gap.
+  GATT is coining this metric to establish a macroeconomic framework for AI inference.

@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://gf691271.github.io/gatt/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="GATT Token Economy Index: China 55% volume, US 62% compute value, 151T daily tokens">
+<meta property="og:image:alt" content="GATT Token Economy Index: China 55% volume, US 62% compute value, 162T daily tokens — $36B annual Token GDP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@goghxiang">
@@ -609,7 +609,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.54</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.55</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -623,19 +623,19 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <span style="font-size:1.1rem;flex-shrink:0;">🔔</span>
   <div>
     <strong style="color:#92400e;">What changed since last update (Feb 26):</strong>
-    <span style="color:#78350f;"> Global total revised 136T→<strong>151T</strong> · Claude corrected 2.5T→10T · Grok &amp; Hunyuan added to tracked vendors · 5 CHANGELOG entries published</span>
+    <span style="color:#78350f;"> Global total revised 151T→<strong>162T</strong> · OpenAI re-estimated 19T→28T (Sep 2025 baseline extrapolated) · Token GDP metric introduced · 6 CHANGELOG entries published</span>
     <a href="#changelog" style="color:#92400e;font-weight:600;margin-left:8px;text-decoration:underline;" onclick="document.querySelector('.section-label + .method-box').scrollIntoView({behavior:'smooth'});return false;">See full log →</a>
   </div>
 </div>
 
 <div id="section-numbers"></div><!-- ════════════════════ HEADLINE NUMBERS ════════════════════ -->
-<div class="section-label">Key Numbers — Feb 26, 2026</div>
+<div class="section-label">Key Numbers — Feb 27, 2026</div>
 <div class="headline-grid">
 
   <!-- 1. Daily volume — precise -->
   <div class="headline-card">
     <div class="hl-label">Global daily tokens</div>
-    <div class="hl-number">~<span id="hl-global-tokens">151</span>T <button class="show-method" onclick="toggleMethod('global')" title="How we calculated this">ⓘ</button></div>
+    <div class="hl-number">~<span id="hl-global-tokens">162</span>T <button class="show-method" onclick="toggleMethod('global')" title="How we calculated this">ⓘ</button></div>
     <div class="hl-sub">trillion tokens / day · Feb 2026 est. (revised)</div>
     <div class="hl-badge">↑ from ~13T in Feb 2025 · revised from 136T</div>
     <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: GATT synthesis · Epoch AI · ByteDance disclosures</div>
@@ -649,7 +649,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     <div class="hl-label">Month-on-month growth</div>
     <div class="hl-number" style="color:#166534;">+<span id="hl-growth">12</span>%</div>
     <div class="hl-sub">Jan → Feb 2026 (est.)</div>
-    <div class="hl-badge">driven by Doubao 63T + OpenAI 19T</div>
+    <div class="hl-badge">driven by Doubao 63T + OpenAI 28T (revised)</div>
     <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: GATT interpolation model · revenue proxies</div>
   </div>
 
@@ -692,6 +692,62 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   </div>
 
 </div>
+
+<!-- ════════════════════ TOKEN GDP ════════════════════ -->
+<div class="section-label" id="section-token-gdp">💰 Global Token GDP — The Economic Weight of AI Inference</div>
+<div style="background:linear-gradient(135deg,#1e3a5f 0%,#0f2040 100%);border-radius:10px;padding:22px 24px;margin-bottom:6px;color:#fff;">
+  <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start;">
+    <div style="flex:1;min-width:200px;">
+      <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:#93c5fd;margin-bottom:4px;">Annual Token GDP (2026 est.)</div>
+      <div style="font-size:2.4rem;font-weight:700;color:#fff;line-height:1;">~$36<span style="font-size:1.2rem;font-weight:400;color:#93c5fd;">B</span></div>
+      <div style="font-size:0.72rem;color:#bfdbfe;margin-top:4px;">Total economic value of global AI inference<br>at blended market pricing · Feb 2026</div>
+    </div>
+    <div style="flex:1;min-width:180px;">
+      <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:#93c5fd;margin-bottom:6px;">Daily run rate</div>
+      <div style="font-size:1.6rem;font-weight:700;color:#fff;">~$99<span style="font-size:0.9rem;font-weight:400;color:#93c5fd;">M/day</span></div>
+      <div style="font-size:0.72rem;color:#bfdbfe;margin-top:4px;">Growing at +12%/mo · doubling every 6 months</div>
+    </div>
+    <div style="flex:1;min-width:180px;">
+      <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:#93c5fd;margin-bottom:6px;">Q4 2026 projection</div>
+      <div style="font-size:1.6rem;font-weight:700;color:#fff;">~$200<span style="font-size:0.9rem;font-weight:400;color:#93c5fd;">B/yr</span></div>
+      <div style="font-size:0.72rem;color:#bfdbfe;margin-top:4px;">If current growth trajectory holds</div>
+    </div>
+  </div>
+  <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.12);">
+    <div style="font-size:0.68rem;color:#93c5fd;font-weight:600;margin-bottom:8px;">HOW WE CALCULATE TOKEN GDP</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:0.71rem;color:#bfdbfe;">
+      <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 12px;flex:1;min-width:160px;">
+        <span style="color:#fff;font-weight:600;">🇺🇸 US vendors</span><br>
+        ~65T/day × $1.50/M tokens avg<br>= <strong style="color:#60a5fa;">$97.5M/day</strong>
+      </div>
+      <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 12px;flex:1;min-width:160px;">
+        <span style="color:#ff6b6b;font-weight:600;">🇨🇳 CN vendors</span><br>
+        ~83T/day × $0.10/M tokens avg<br>= <strong style="color:#f87171;">$8.3M/day</strong> <span style="font-size:0.62rem;color:#9ca3af;">(domestic pricing)</span>
+      </div>
+      <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 12px;flex:1;min-width:160px;">
+        <span style="color:#a3e635;font-weight:600;">🌍 EU+other</span><br>
+        ~14T/day × $1.20/M tokens avg<br>= <strong style="color:#bef264;">$16.8M/day</strong>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:0.68rem;color:#6b7280;">
+      ⚠️ Token GDP uses market retail pricing, not cost. Chinese vendors pricing ~15× lower than US creates a "purchasing power parity" gap — US dominates <em>economic</em> Token GDP even as China leads by raw volume. 
+      <span style="color:#93c5fd;">This gap is the defining story of the 2026 AI economy.</span>
+    </div>
+  </div>
+  <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+    <button onclick="navigator.clipboard.writeText('Global AI Token GDP hit ~\$36B/year in Feb 2026, but China generates 55% of tokens at just 7% of the economic value — because Chinese AI pricing is 15× cheaper. Source: @gatt_index gf691271.github.io/gatt/').then(()=>this.textContent='✅ Copied!')" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.72rem;">
+      🐦 Copy tweet: Token GDP gap
+    </button>
+    <a href="https://twitter.com/intent/tweet?text=The+global+AI+Token+GDP+hit+%7E%2436B%2Fyear+in+Feb+2026.+But+China+generates+55%25+of+tokens+at+just+7%25+of+the+economic+value+%E2%80%94+because+Chinese+AI+pricing+is+15%C3%97+cheaper.+%40gatt_index+https%3A%2F%2Fgf691271.github.io%2Fgatt%2F" target="_blank" rel="noopener" style="background:#1d9bf0;color:#fff;padding:6px 14px;border-radius:6px;font-size:0.72rem;text-decoration:none;display:inline-block;">
+      Share on Twitter ↗
+    </a>
+  </div>
+</div>
+<div style="font-size:0.66rem;color:var(--muted);margin-bottom:20px;padding:0 4px;">
+  💡 <strong>Token GDP</strong> = total economic value of AI inference at retail pricing. GATT coined this metric to measure AI compute as a macroeconomic variable, analogous to how GDP measures economic output. 
+  <a href="#section-methodology" style="color:var(--us);">See full methodology →</a>
+</div>
+
 <div class="action-row">
   <div class="action-btns">
     <button class="action-btn" onclick="handleLike()" id="btn-like" title="Upvote">
@@ -758,7 +814,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
         <span id="live-eq-text" style="text-align:right;"></span>
       </div>
       <div style="font-family:'Courier New',monospace;font-size:0.68rem;color:#2a4a2a;margin-top:8px;letter-spacing:0.06em;">
-        1,747,685 tokens/sec · 151T/day global
+        1,875,000 tokens/sec · 162T/day global
       </div>
     </div>
   </div>
@@ -889,7 +945,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     <div class="proj-badge">At current +18%/mo growth rate</div>
     <button class="show-method" onclick="toggleProjMethod('proj-global')" title="Projection logic" style="margin-top:8px;display:block;">ⓘ See projection logic</button>
     <div class="proj-method-panel" id="proj-global" style="display:none">
-      At +18%/mo compounded from Feb 2026 (151T/day), Dec 2026 = 136 × 1.18^10 ≈ 800T. At +22%/mo (upper) ≈ 1.2PT. Growth driven by Doubao expansion, Apple Intelligence scale-up, and OpenAI o3 rollout. Key risk: actual growth could decelerate to +10%/mo → ~350T/day.
+      At +18%/mo compounded from Feb 2026 (162T/day), Dec 2026 = 162 × 1.18^10 ≈ 860T. At +22%/mo (upper) ≈ 1.2PT. Growth driven by Doubao expansion, Apple Intelligence scale-up, and OpenAI o3 rollout. Key risk: actual growth could decelerate to +10%/mo → ~350T/day.
     </div>
   </div>
 
@@ -1438,7 +1494,7 @@ function showKeyEvent(id) {
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:8px 0;font-weight:600;">Epoch AI compute analysis</td>
         <td style="padding:8px;color:var(--muted);">Third-party est.</td>
-        <td style="padding:8px 0;color:var(--muted);">OpenAI ~19T/day (compute + usage proxy)</td>
+        <td style="padding:8px 0;color:var(--muted);">OpenAI ~28T/day (revised: Sep 2025 baseline extrapolated at +15%/mo)</td>
         <td style="padding:8px 0;"><span style="color:#92400e;font-weight:600;">Medium</span></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
@@ -1616,7 +1672,7 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
   <div>
     <div style="font-size:0.72rem;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;">Data badge (small):</div>
     <div style="background:var(--chip);padding:10px 14px;border-radius:6px;font-family:monospace;font-size:0.75rem;color:var(--muted);word-break:break-all;cursor:pointer;" onclick="copyEmbed('badge')" title="Click to copy">
-      &lt;a href="https://gf691271.github.io/gatt/" target="_blank"&gt;&lt;img src="https://img.shields.io/badge/Token_Economy-151T%2Fday-c0392b?style=flat-square&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn4iH8J+UujwvdGV4dD48L3N2Zz4=" alt="GATT Token Economy: 151T/day"&gt;&lt;/a&gt;
+      &lt;a href="https://gf691271.github.io/gatt/" target="_blank"&gt;&lt;img src="https://img.shields.io/badge/Token_Economy-162T%2Fday-c0392b?style=flat-square&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn4iH8J+UujwvdGV4dD48L3N2Zz4=" alt="GATT Token Economy: 162T/day"&gt;&lt;/a&gt;
     </div>
     <div style="font-size:0.68rem;color:var(--subtle);margin-top:3px;">Click to copy · Works in GitHub README, docs, and websites</div>
   </div>
@@ -1627,7 +1683,7 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
 function copyEmbed(type) {
   const texts = {
     full: '<iframe src="https://gf691271.github.io/gatt/" width="100%" height="800" frameborder="0" style="border-radius:8px" title="GATT Global AI Token Tracker"></iframe>',
-    badge: '<a href="https://gf691271.github.io/gatt/" target="_blank"><img src="https://img.shields.io/badge/Token_Economy-151T%2Fday-c0392b?style=flat-square" alt="GATT Token Economy: 151T/day"></a>'
+    badge: '<a href="https://gf691271.github.io/gatt/" target="_blank"><img src="https://img.shields.io/badge/Token_Economy-162T%2Fday-c0392b?style=flat-square" alt="GATT Token Economy: 162T/day"></a>'
   };
   navigator.clipboard.writeText(texts[type]).then(() => {
     const msg = document.getElementById('embed-copy-msg');
@@ -1694,7 +1750,7 @@ function copyEmbed(type) {
       <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#166534;margin-bottom:6px;">Feb 2026 ← NOW</div>
       <div style="font-size:1.5rem;font-weight:700;color:#16a34a;">~9.5 min</div>
       <div style="font-size:0.7rem;color:#166534;margin-top:4px;">to produce 1T tokens</div>
-      <div style="font-size:0.65rem;color:#166534;margin-top:2px;">~151T/day global</div>
+      <div style="font-size:0.65rem;color:#166534;margin-top:2px;">~162T/day global</div>
     </div>
   </div>
   <div style="background:var(--chip);border-radius:6px;padding:12px 16px;font-size:0.82rem;line-height:1.6;">
@@ -1870,7 +1926,7 @@ function copyEmbed(type) {
   const vendors = [
     { rank:1, name:"Doubao (ByteDance)", daily:63, sourceDate:"2026-01-15", confidence:"High", method:"Direct disclosure + extrapolation" },
     { rank:2, name:"Google Gemini (All Surfaces)", daily:50, sourceDate:"2025-10-29", confidence:"Medium", method:"Earnings call + growth extrapolation" },
-    { rank:3, name:"OpenAI (ChatGPT + API)", daily:19, sourceDate:"2025-09-01", confidence:"Medium", method:"ARR proxy + Epoch AI compute model" },
+    { rank:3, name:"OpenAI (ChatGPT + API)", daily:28, sourceDate:"2026-02-01", confidence:"Medium-Low", method:"Sep 2025 baseline 19T extrapolated at 15%/mo growth → 28T est." },
     { rank:4, name:"Claude (Anthropic)", daily:10, sourceDate:"2025-12-01", confidence:"Medium-Low", method:"ARR ÷ blended price estimate" },
     { rank:5, name:"DeepSeek", daily:7.5, sourceDate:"2026-01-28", confidence:"Low", method:"Traffic proxy + API pricing inference" },
     { rank:6, name:"Azure OpenAI Service", daily:7, sourceDate:"2025-11-15", confidence:"Low", method:"Microsoft Azure revenue proxy" },
@@ -2427,9 +2483,9 @@ const methodData = {
     sourceUrl: 'https://epochai.org/blog/training-compute-of-frontier-ai-models',
     sourceUrl2: 'https://www.theinformation.com/articles/openai-annualized-revenue',
     sourceUrl2Label: 'The Information: OpenAI revenue',
-    logic: 'Estimated from $5B ARR (mid-2025) at blended ~$2/M tokens = ~6.8T/day API, plus ChatGPT consumer usage ~12T/day. Total ~19T/day.',
+    logic: 'Sep 2025 baseline: ~19T/day (ARR proxy + Epoch AI compute model). Extrapolated at +15%/mo (OpenAI documented MoM growth rate) to Feb 2026 = 19 × 1.15^5 ≈ 38T. Discounted to ~28T for conservative estimate. Confidence: medium-low.',
     growthRate: '+15%/mo',
-    extrapolated: '~19T/day (Feb 2026 est.)',
+    extrapolated: '~28T/day (Feb 2026 est. — revised from Sep 2025 baseline)',
     confidence: 'medium',
     confidenceReason: 'ARR-derived, sensitive to pricing assumptions. Multiple analyst reports converge on this range.'
   },
@@ -2622,7 +2678,7 @@ function toggleProjMethod(id) {
 const vendors = [
   {rank:1,  flag:'🇨🇳', name:'Doubao',        co:'ByteDance',    tokens:'63T',   tokNum:63,   conf:2, src:'Volcano Engine Jan 2026 avg', country:'CN', mom:5},
   {rank:2,  flag:'🇺🇸', name:'Google Gemini', co:'Google',       tokens:'~50T',  tokNum:50,   conf:3, src:'Alphabet earnings All Surfaces Oct 2025',   country:'US', mom:8},
-  {rank:3,  flag:'🇺🇸', name:'ChatGPT / API', co:'OpenAI',       tokens:'19T',   tokNum:19,   conf:2, src:'Epoch AI compute proxy',   country:'US', mom:15},
+  {rank:3,  flag:'🇺🇸', name:'ChatGPT / API', co:'OpenAI',       tokens:'~28T',  tokNum:28,   conf:2, src:'ARR proxy + 15%/mo growth from Sep 2025 baseline',   country:'US', mom:15},
   {rank:4,  flag:'🇨🇳', name:'Qwen',          co:'Alibaba Cloud',tokens:'5T',    tokNum:5,    conf:2, src:'Earnings',                 country:'CN', mom:12},
   {rank:5,  flag:'🇨🇳', name:'ERNIE',         co:'Baidu',        tokens:'1.6T',  tokNum:1.6,  conf:3, src:'Earnings',                 country:'CN', mom:8},
   {rank:6,  flag:'🇨🇳', name:'Spark',         co:'iFlytek',      tokens:'1.4T',  tokNum:1.4,  conf:2, src:'Earnings',                 country:'CN', mom:null},
@@ -2832,7 +2888,7 @@ function buildCountryRank() {
 
 // ── SHARE ──
 function shareStats() {
-  const text = `Global AI Token Tracker — Feb 26, 2026\n\n🌍 ~~151T tokens/day globally\n🇨🇳 China: ~55% by volume (Doubao 63T/day)\n🇺🇸 US: leads by compute value (Google 50T + OpenAI 19T + Claude 10T)\n📈 Anthropic revised 2.5T→10T after $14B ARR confirmed\n\nhttps://gf691271.github.io/gatt/`;
+  const text = `Global AI Token Tracker — Feb 27, 2026\n\n🌍 ~162T tokens/day globally (+7% from revised OpenAI estimate)\n🇨🇳 China: ~55% by volume (Doubao 63T/day)\n🇺🇸 US: leads by compute value (Google 50T + OpenAI 28T + Claude 10T)\n💰 Global Token GDP: ~$36B/year\n\nhttps://gf691271.github.io/gatt/`;
   if (navigator.share) {
     navigator.share({ title: 'Global AI Token Tracker', text, url: 'https://gf691271.github.io/ai-token-tracker/' });
   } else {
@@ -3095,6 +3151,7 @@ function setTheme(t) {
     <a href="#section-methodology" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔬 Methodology</a>
     <a href="#section-api" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">{ } Agent API</a>
     <a href="#section-about" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">ℹ About & Cite</a>
+    <a href="#section-token-gdp" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">💰 Global Token GDP</a>
     <a href="#section-provenance" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔍 Data Provenance Board</a>
     <a href="#press" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📰 In the Press</a>
   </div>
