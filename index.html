@@ -2246,7 +2246,7 @@ function downloadCSV() {
   const rows = allRanked.map((v,i) => 
     `${i+1},"${v.name}","${v.co}","${v.country}",${v.tokNum},${v.conf===1?2:1},"${v.conf===3?'Verified':v.conf===2?'Media':'Estimated'}","${v.src}"`
   ).join('\n');
-  const csv = `# GATT Global AI Token Tracker — Data Export\n# Source: https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0\n# Updated: 2026-02-26 | Version: 0.35\n#\n${header}${rows}`;
+  const csv = `# GATT Global AI Token Tracker — Data Export\n# Source: https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0\n# Updated: 2026-02-26 | Version: 0.36\n#\n${header}${rows}`;
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
