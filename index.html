@@ -594,7 +594,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.34</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.35</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -1096,6 +1096,24 @@ function showKeyEvent(id) {
   <p><strong>4. OpenRouter signal</strong> — Platform-level weekly token data provides real-time calibration for API-accessible models.</p>
   <p><strong>5. DEC normalization</strong> — <code>DEC = tokens × price_per_1M</code>. This adjusts for tokenizer efficiency differences (Chinese text encodes fewer tokens per character in GPT-style tokenizers vs. native Chinese models). Same data, different scoreboard.</p>
   <p style="margin-top:12px;font-style:italic;color:var(--muted);">The gap between token-count rank and DEC rank is the story: China leads by volume, US leads by compute value. That gap is this tracker's thesis.</p>
+</div>
+
+<!-- ════════════════════ EXPORT DATA ════════════════════ -->
+<div class="section-label">Export Data — Download for Analysis</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;">
+  <p style="font-size:0.78rem;color:var(--muted);margin-bottom:16px;">All GATT data is open (CC BY 4.0). Download in your preferred format for research, journalism, or analysis.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;">
+    <button onclick="downloadCSV()" style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:var(--surface);border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;color:var(--text);font-family:-apple-system,sans-serif;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--text)'" onmouseout="this.style.borderColor='var(--border)'">
+      📊 Download CSV (vendors + tokens + DEC)
+    </button>
+    <a href="data/tci-latest.json" download="tci-latest.json" style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:var(--surface);border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;color:var(--text);font-family:-apple-system,sans-serif;text-decoration:none;">
+      { } Download JSON (full structured data)
+    </a>
+    <button onclick="downloadMD()" style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:var(--surface);border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;color:var(--text);font-family:-apple-system,sans-serif;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--text)'" onmouseout="this.style.borderColor='var(--border)'">
+      📝 Download Markdown (journalist-ready)
+    </button>
+  </div>
+  <p style="font-size:0.72rem;color:var(--subtle);margin-top:12px;">Attribution required: "Source: GATT Global AI Token Tracker (gf691271.github.io/gatt) by Frank Gao, CC BY 4.0"</p>
 </div>
 
 <!-- ════════════════════ AGENT API ════════════════════ -->
@@ -2150,6 +2168,36 @@ function copyShareText() {
     btn.textContent = '✓ Copied!';
     setTimeout(() => { btn.textContent = '📋 Copy shareable text'; }, 2000);
   });
+}
+
+// ── DATA EXPORT ──
+function downloadCSV() {
+  const header = 'Rank,Vendor,Company,Country,Tokens_T_day,Tier,Confidence,Source\n';
+  const allRanked = [...vendors, ...tier2].sort((a,b) => b.tokNum - a.tokNum);
+  const rows = allRanked.map((v,i) => 
+    `${i+1},"${v.name}","${v.co}","${v.country}",${v.tokNum},${v.conf===1?2:1},"${v.conf===3?'Verified':v.conf===2?'Media':'Estimated'}","${v.src}"`
+  ).join('\n');
+  const csv = `# GATT Global AI Token Tracker — Data Export\n# Source: https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0\n# Updated: 2026-02-26 | Version: 0.35\n#\n${header}${rows}`;
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'gatt-vendor-data-2026-02-26.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function downloadMD() {
+  const allRanked = [...vendors, ...tier2].sort((a,b) => b.tokNum - a.tokNum);
+  let md = `# GATT Global AI Token Tracker\n**Source:** https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0  \n**Updated:** 2026-02-26 | **Global Total:** ~151T tokens/day\n\n## Key Numbers\n- 🌍 Global daily tokens: **~151T/day** (Feb 2026)\n- 🇨🇳 China share: **~55% volume** / ~14% compute value\n- 🇺🇸 US share: **~30% volume** / ~62% compute value\n- 📈 MoM growth: **+12%** (Jan→Feb 2026)\n- 🥇 Top vendor: **Doubao** (ByteDance) ~63T/day\n\n## Vendor Ranking\n\n| # | Vendor | Company | Country | T Tokens/day | Confidence | Source |\n|---|--------|---------|---------|--------------|------------|--------|\n`;
+  allRanked.forEach((v,i) => {
+    const conf = v.conf===3?'✓ Verified':v.conf===2?'~ Media':'≈ Estimated';
+    md += `| ${i+1} | ${v.flag} ${v.name} | ${v.co} | ${v.country} | ${v.tokens} | ${conf} | ${v.src} |\n`;
+  });
+  md += `\n## Attribution\n> "According to the Global AI Token Tracker (GATT), a project by Frank Gao tracking daily AI inference consumption across 29 vendors..." \n> Source: https://gf691271.github.io/gatt/ — CC BY 4.0\n`;
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'gatt-data-2026-02-26.md'; a.click();
+  URL.revokeObjectURL(url);
 }
 
 // ── AUTO DATE ──
