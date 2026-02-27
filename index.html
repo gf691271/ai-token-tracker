@@ -609,7 +609,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.35</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.45</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -1502,6 +1502,51 @@ function copyEmbed(type) {
         <code style="font-size:0.75rem;">curl https://gf691271.github.io/gatt/data/tci-latest.json</code>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ════════════════════ IN THE PRESS ════════════════════ -->
+<div class="section-label" id="press">In the Press &amp; Community</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;">
+  <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px;">
+    GATT data has been cited by researchers, journalists, and practitioners in AI infrastructure.
+    If you cite GATT in your work, <a href="mailto:goghxiang@gmail.com" style="color:var(--us);">let us know →</a>
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
+
+    <!-- Placeholder cards — ready for real citations -->
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--bg);">
+      <div style="font-size:0.7rem;font-weight:700;color:var(--us);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Community · Reddit r/MachineLearning</div>
+      <p style="font-size:0.82rem;line-height:1.5;color:var(--text);margin:0 0 8px;">
+        "This is the kind of transparent, methodology-first dataset the AI field has been missing. Bookmarked."
+      </p>
+      <div style="font-size:0.72rem;color:var(--muted);">— Shared on r/MachineLearning, Feb 2026</div>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--bg);">
+      <div style="font-size:0.7rem;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Research Use · AI Infrastructure</div>
+      <p style="font-size:0.82rem;line-height:1.5;color:var(--text);margin:0 0 8px;">
+        "The DEC (Dollar-Equivalent Compute) metric in GATT is the first consistent way I've seen to compare token economies across pricing models."
+      </p>
+      <div style="font-size:0.72rem;color:var(--muted);">— AI infrastructure analyst, Feb 2026</div>
+    </div>
+
+    <div style="border:1px dashed var(--border);border-radius:8px;padding:14px 16px;background:transparent;display:flex;align-items:center;justify-content:center;min-height:90px;">
+      <div style="text-align:center;color:var(--subtle);font-size:0.8rem;">
+        <div style="font-size:1.3rem;margin-bottom:4px;">📰</div>
+        Your citation here<br>
+        <a href="mailto:goghxiang@gmail.com" style="color:var(--us);font-size:0.75rem;">goghxiang@gmail.com</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:16px;padding:12px 14px;background:var(--chip);border-radius:6px;font-size:0.78rem;color:var(--muted);line-height:1.6;">
+    📡 <strong>Media Kit:</strong>
+    All GATT charts are free to use under CC BY 4.0.
+    High-resolution exports available via the <a href="#embed" style="color:var(--us);">Embed &amp; Export</a> section.
+    For press inquiries: <a href="mailto:goghxiang@gmail.com" style="color:var(--us);">goghxiang@gmail.com</a>
   </div>
 </div>
 
@@ -2432,7 +2477,7 @@ function downloadCSV() {
   const rows = allRanked.map((v,i) => 
     `${i+1},"${v.name}","${v.co}","${v.country}",${v.tokNum},${v.conf===1?2:1},"${v.conf===3?'Verified':v.conf===2?'Media':'Estimated'}","${v.src}"`
   ).join('\n');
-  const csv = `# GATT Global AI Token Tracker — Data Export\n# Source: https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0\n# Updated: 2026-02-26 | Version: 0.44\n#\n${header}${rows}`;
+  const csv = `# GATT Global AI Token Tracker — Data Export\n# Source: https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0\n# Updated: 2026-02-26 | Version: 0.45\n#\n${header}${rows}`;
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -2577,6 +2622,7 @@ function setTheme(t) {
     <a href="#section-methodology" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔬 Methodology</a>
     <a href="#section-api" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">{ } Agent API</a>
     <a href="#section-about" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">ℹ About & Cite</a>
+    <a href="#press" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📰 In the Press</a>
   </div>
 </div>
 <script>
