@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Gemini — AI Token Consumption Data | GATT</title>
+<meta name="description" content="Google Gemini processes ~50T tokens/day across all surfaces (Search, Gemini App, Workspace, Cloud API). #2 globally. Full methodology and data.">
+<meta property="og:title" content="Google Gemini Token Consumption — GATT">
+<meta property="og:description" content="Google Gemini: ~50T tokens/day across all surfaces. #2 globally by volume.">
+<link rel="canonical" href="https://gf691271.github.io/gatt/vendor/google.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23171715'/><text x='50' y='68' font-size='54' font-family='Georgia,serif' font-weight='900' fill='white' text-anchor='middle'>G</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f7f6f3;--surface:#fff;--border:#e6e3dc;--text:#171715;--muted:#6f6d67;--subtle:#b5b2ac;--cn:#c0392b;--us:#2563eb;--chip:#efece6;--radius:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.6}
+.page{max-width:900px;margin:0 auto;padding:0 24px 80px}
+a{color:var(--us);text-decoration:none}a:hover{text-decoration:underline}
+.back{font-family:-apple-system,sans-serif;font-size:.82rem;display:inline-flex;align-items:center;gap:6px;padding:14px 0;color:var(--muted)}
+.vendor-hero{border-bottom:2px solid var(--text);padding:20px 0 18px}
+.vendor-hero h1{font-size:2rem;font-weight:900;font-family:-apple-system,sans-serif}
+.vendor-hero .meta{font-family:-apple-system,sans-serif;font-size:.82rem;color:var(--muted);margin-top:6px;display:flex;flex-wrap:wrap;gap:16px}
+.hero-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.hero-stat>div{text-align:center}
+.hero-stat .num{font-size:1.8rem;font-weight:700;font-family:-apple-system,sans-serif}
+.hero-stat .lbl{font-size:.72rem;color:var(--muted);font-family:-apple-system,sans-serif;text-transform:uppercase;letter-spacing:.05em}
+.section-label{font-family:-apple-system,sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);padding-top:28px;margin-top:40px;margin-bottom:20px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;font-family:-apple-system,sans-serif;font-size:.88rem;line-height:1.7}
+.card h3{font-size:.9rem;font-weight:700;margin-bottom:10px}
+.card p{color:var(--muted);margin-bottom:8px}
+.chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.data-table{width:100%;border-collapse:collapse;font-family:-apple-system,sans-serif;font-size:.82rem}
+.data-table th{text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border)}
+.related{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:12px}
+.related a{display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-family:-apple-system,sans-serif;font-size:.85rem;transition:border-color .15s}
+.related a:hover{border-color:var(--text);text-decoration:none}
+.footer{border-top:1px solid var(--border);margin-top:48px;padding-top:18px;font-family:-apple-system,sans-serif;font-size:.72rem;color:var(--muted)}
+.callout{background:#eff6ff;border-left:3px solid var(--us);padding:14px 16px;border-radius:0 var(--radius) var(--radius) 0;margin:12px 0;font-size:.82rem}
+@media(max-width:640px){.hero-stat{grid-template-columns:repeat(2,1fr);gap:12px}.hero-stat .num{font-size:1.3rem}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<a href="../" class="back">← Back to GATT Index</a>
+
+<div class="vendor-hero">
+  <h1>🇺🇸 Google Gemini <span style="font-weight:400;font-size:1rem;color:var(--muted)">· Alphabet</span></h1>
+  <div class="meta">
+    <span>Country: <strong>United States</strong></span>
+    <span>Tier: <strong>1 — Direct Disclosure</strong></span>
+    <span>Confidence: <strong style="color:#166534">High</strong></span>
+    <span>Updated: <strong>2026-02-26</strong></span>
+  </div>
+</div>
+
+<div class="hero-stat">
+  <div><div class="num" style="color:var(--us)">~50T</div><div class="lbl">Tokens/Day</div></div>
+  <div><div class="num">#2</div><div class="lbl">Global Rank</div></div>
+  <div><div class="num">750M</div><div class="lbl">Monthly Users</div></div>
+  <div><div class="num">~$53M</div><div class="lbl">DEC $/Day</div></div>
+</div>
+
+<div class="section-label">Historical Timeline</div>
+<div class="chart-wrap">
+  <canvas id="historyChart" height="180"></canvas>
+</div>
+
+<div class="section-label">All Known Data Points</div>
+<div class="card" style="padding:0;overflow:hidden">
+<table class="data-table">
+<thead><tr><th>Date</th><th>Value</th><th>Metric</th><th>Source</th><th>Confidence</th></tr></thead>
+<tbody>
+<tr><td>2025-05</td><td>480T tokens/month</td><td>All Surfaces</td><td>Sundar Pichai, Google I/O 2025</td><td style="color:#166534">✓ Official</td></tr>
+<tr><td>2025-07</td><td>980T tokens/month (33T/day)</td><td>All Surfaces</td><td>Pichai, pre-Q3 disclosure</td><td style="color:#166534">✓ Official</td></tr>
+<tr><td>2025-10</td><td>1,300T tokens/month (43T/day)</td><td>All Surfaces</td><td>Alphabet Q3 2025 Earnings Call</td><td style="color:#166534">✓ Official</td></tr>
+<tr><td>2025-Q4</td><td>10B tokens/min → 14.4T/day</td><td>API Only</td><td>Pichai Q4 earnings — "direct API use"</td><td style="color:#166534">✓ Official</td></tr>
+<tr><td>2026-02</td><td>~50T tokens/day (est.)</td><td>All Surfaces</td><td>GATT extrapolation from Q3 at +5%/mo</td><td style="color:#92400e">~ Estimated</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout">
+  ⚠️ <strong>Metric disambiguation:</strong> Google reports two different metrics. The "All Surfaces" number (~50T/day) includes Search AI Overviews, Gemini App, Workspace, and Cloud API. The "API only" number (~14.4T/day) is just direct Cloud API customers. GATT uses the "All Surfaces" number for apple-to-apple comparison with ByteDance, who also reports total service volume.
+</div>
+
+<div class="section-label">Methodology</div>
+<div class="card">
+  <h3>How We Estimate Google Gemini</h3>
+  <p><strong>Primary method: Direct financial disclosure.</strong> Sundar Pichai has disclosed tokens/minute and tokens/month figures in multiple earnings calls (Q2, Q3, Q4 2025). These are the most reliable data points for any vendor.</p>
+  <p><strong>Three disclosure datapoints:</strong> May 2025 (480T/mo), July 2025 (980T/mo), October 2025 (1,300T/mo). Growth trajectory: +104% (May→Jul), +33% (Jul→Oct) — clearly decelerating.</p>
+  <p><strong>Extrapolation:</strong> From Oct 2025 to Feb 2026 (4 months), we apply +5%/mo (conservative, reflecting deceleration trend). 43T × 1.055^4 ≈ 53T. We round to ~50T for the mid estimate.</p>
+  <p><strong>Search AI Overviews contribution:</strong> Google's unique position includes ~1.1-1.8B AI Overview triggers daily (13% of global searches). Each trigger generates ~2,000-5,000 tokens. This alone accounts for ~2-9T/day — a volume source no other vendor has.</p>
+  <p><strong>Reasoning model inflation:</strong> Gemini 2.5 Flash and other reasoning models consume ~17× more tokens per request than standard models. This "thinking token" inflation applies across all vendors but may disproportionately affect Google's all-surfaces count.</p>
+</div>
+
+<div class="section-label">Related Vendors</div>
+<div class="related">
+  <a href="doubao.html"><strong>🇨🇳 Doubao</strong><br><span style="color:var(--muted);font-size:.78rem">~63T/day · #1 globally</span></a>
+  <a href="openai.html"><strong>🇺🇸 OpenAI</strong><br><span style="color:var(--muted);font-size:.78rem">~19T/day · Same country</span></a>
+  <a href="claude.html"><strong>🇺🇸 Claude</strong><br><span style="color:var(--muted);font-size:.78rem">~10T/day · Same country</span></a>
+  <a href="deepseek.html"><strong>🇨🇳 DeepSeek</strong><br><span style="color:var(--muted);font-size:.78rem">~7.5T/day · Rising fast</span></a>
+</div>
+
+<div class="section-label">Download Data</div>
+<div class="card">
+  <code style="display:block;background:var(--chip);padding:12px;border-radius:4px;font-size:.82rem;margin:8px 0">
+    curl https://gf691271.github.io/gatt/data/tci-latest.json | jq '.vendors[] | select(.name=="Google Gemini")'
+  </code>
+  <p><a href="https://github.com/gf691271/gatt/issues/new?title=Data+correction+Google+Gemini&labels=data">✏️ Submit a correction →</a></p>
+</div>
+
+<footer class="footer">
+  <div>GATT · Global AI Token Tracker · <a href="../" style="color:inherit">Back to Index</a> · <a href="https://github.com/gf691271/gatt" style="color:inherit">GitHub</a> · CC BY 4.0</div>
+</footer>
+</div>
+
+<script>
+new Chart(document.getElementById('historyChart'), {
+  type: 'line',
+  data: {
+    labels: ['2025-05','2025-07','2025-10','2025-Q4 (API)','2026-02'],
+    datasets: [{
+      label: 'All Surfaces (T/day)',
+      data: [16, 33, 43, null, 50],
+      borderColor: '#2563eb',
+      backgroundColor: 'rgba(37,99,235,0.1)',
+      borderWidth: 2, pointRadius: 6, pointBackgroundColor: '#2563eb', pointBorderColor: '#fff', pointBorderWidth: 2, tension: 0.3, fill: true, spanGaps: true
+    },{
+      label: 'API Only (T/day)',
+      data: [null, null, null, 14.4, 18.5],
+      borderColor: '#6b7280',
+      borderDash: [5,3],
+      borderWidth: 1.5, pointRadius: 5, pointBackgroundColor: '#6b7280', pointBorderColor: '#fff', pointBorderWidth: 2, tension: 0.3, fill: false, spanGaps: true
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: true, position: 'top', labels: { font: { family: '-apple-system', size: 11 } } } },
+    scales: {
+      y: { ticks: { callback: v => v+'T' }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>

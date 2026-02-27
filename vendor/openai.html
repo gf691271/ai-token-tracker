@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenAI (ChatGPT + API) — AI Token Consumption Data | GATT</title>
+<meta name="description" content="OpenAI processes ~19T tokens/day across ChatGPT and API. #3 globally by volume. Revenue-derived estimates with full methodology.">
+<link rel="canonical" href="https://gf691271.github.io/gatt/vendor/openai.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23171715'/><text x='50' y='68' font-size='54' font-family='Georgia,serif' font-weight='900' fill='white' text-anchor='middle'>G</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f7f6f3;--surface:#fff;--border:#e6e3dc;--text:#171715;--muted:#6f6d67;--subtle:#b5b2ac;--cn:#c0392b;--us:#2563eb;--chip:#efece6;--radius:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.6}
+.page{max-width:900px;margin:0 auto;padding:0 24px 80px}
+a{color:var(--us);text-decoration:none}a:hover{text-decoration:underline}
+.back{font-family:-apple-system,sans-serif;font-size:.82rem;display:inline-flex;align-items:center;gap:6px;padding:14px 0;color:var(--muted)}
+.vendor-hero{border-bottom:2px solid var(--text);padding:20px 0 18px}
+.vendor-hero h1{font-size:2rem;font-weight:900;font-family:-apple-system,sans-serif}
+.vendor-hero .meta{font-family:-apple-system,sans-serif;font-size:.82rem;color:var(--muted);margin-top:6px;display:flex;flex-wrap:wrap;gap:16px}
+.hero-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.hero-stat>div{text-align:center}
+.hero-stat .num{font-size:1.8rem;font-weight:700;font-family:-apple-system,sans-serif}
+.hero-stat .lbl{font-size:.72rem;color:var(--muted);font-family:-apple-system,sans-serif;text-transform:uppercase;letter-spacing:.05em}
+.section-label{font-family:-apple-system,sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);padding-top:28px;margin-top:40px;margin-bottom:20px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;font-family:-apple-system,sans-serif;font-size:.88rem;line-height:1.7}
+.card h3{font-size:.9rem;font-weight:700;margin-bottom:10px}
+.card p{color:var(--muted);margin-bottom:8px}
+.chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.data-table{width:100%;border-collapse:collapse;font-family:-apple-system,sans-serif;font-size:.82rem}
+.data-table th{text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border)}
+.related{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:12px}
+.related a{display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-family:-apple-system,sans-serif;font-size:.85rem;transition:border-color .15s}
+.related a:hover{border-color:var(--text);text-decoration:none}
+.footer{border-top:1px solid var(--border);margin-top:48px;padding-top:18px;font-family:-apple-system,sans-serif;font-size:.72rem;color:var(--muted)}
+@media(max-width:640px){.hero-stat{grid-template-columns:repeat(2,1fr);gap:12px}.hero-stat .num{font-size:1.3rem}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<a href="../" class="back">← Back to GATT Index</a>
+
+<div class="vendor-hero">
+  <h1>🇺🇸 OpenAI <span style="font-weight:400;font-size:1rem;color:var(--muted)">· ChatGPT + API</span></h1>
+  <div class="meta">
+    <span>Country: <strong>United States</strong></span>
+    <span>Tier: <strong>1 — Compute Proxy</strong></span>
+    <span>Confidence: <strong style="color:#92400e">Medium</strong></span>
+    <span>Updated: <strong>2026-02-26</strong></span>
+  </div>
+</div>
+
+<div class="hero-stat">
+  <div><div class="num" style="color:var(--us)">~19T</div><div class="lbl">Tokens/Day</div></div>
+  <div><div class="num">#3</div><div class="lbl">Global Rank</div></div>
+  <div><div class="num">$12B+</div><div class="lbl">ARR (est.)</div></div>
+  <div><div class="num">~$20M</div><div class="lbl">DEC $/Day</div></div>
+</div>
+
+<div class="section-label">Historical Timeline</div>
+<div class="chart-wrap">
+  <canvas id="historyChart" height="180"></canvas>
+</div>
+
+<div class="section-label">All Known Data Points</div>
+<div class="card" style="padding:0;overflow:hidden">
+<table class="data-table">
+<thead><tr><th>Date</th><th>Value</th><th>Source</th><th>Confidence</th></tr></thead>
+<tbody>
+<tr><td>2024-Q2</td><td>~3T tokens/day (est.)</td><td>Compute infrastructure analysis</td><td style="color:var(--muted)">≈ Estimated</td></tr>
+<tr><td>2024-Q4</td><td>~8T tokens/day (est.)</td><td>$3.4B ARR ÷ price proxy</td><td style="color:var(--muted)">≈ Estimated</td></tr>
+<tr><td>2025-Q2</td><td>~12T tokens/day</td><td>Epoch AI compute analysis + $5B ARR</td><td style="color:#92400e">~ Media</td></tr>
+<tr><td>2025-H2</td><td>~500M API calls/day</td><td>Media reports</td><td style="color:#92400e">~ Media</td></tr>
+<tr><td>2026-02</td><td>~19T tokens/day</td><td>GATT synthesis: ARR + compute + Epoch AI</td><td style="color:#92400e">~ Estimated</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="section-label">Methodology</div>
+<div class="card">
+  <h3>How We Estimate OpenAI</h3>
+  <p><strong>OpenAI does not disclose token volumes.</strong> Unlike ByteDance and Google, OpenAI has never published daily or monthly token consumption figures. All estimates are derived indirectly.</p>
+  <p><strong>Method 1 — Revenue back-calculation:</strong> With ~$12B+ ARR (2026 est.) and blended API pricing of ~$2/M tokens, the API portion generates ~6.8T tokens/day. Add ChatGPT consumer usage (~12T/day estimated from ~400M MAU × avg session tokens).</p>
+  <p><strong>Method 2 — Epoch AI compute proxy:</strong> Epoch AI's infrastructure analysis estimates OpenAI's total inference compute at levels consistent with ~15-20T tokens/day. We adopt their midpoint.</p>
+  <p><strong>Method 3 — API call volume:</strong> At ~500M API calls/day with average ~15K tokens/call = 7.5T. Plus ChatGPT consumer = ~19T total.</p>
+  <p><strong>Key uncertainty:</strong> OpenAI's pricing varies 100× across models (GPT-4o mini at $0.15/M vs o1 at $15/M). Blended price assumption is the dominant source of error. Range: 12-25T/day.</p>
+</div>
+
+<div class="section-label">Related Vendors</div>
+<div class="related">
+  <a href="doubao.html"><strong>🇨🇳 Doubao</strong><br><span style="color:var(--muted);font-size:.78rem">~63T/day · #1 globally</span></a>
+  <a href="google.html"><strong>🇺🇸 Google Gemini</strong><br><span style="color:var(--muted);font-size:.78rem">~50T/day · #2 globally</span></a>
+  <a href="claude.html"><strong>🇺🇸 Claude</strong><br><span style="color:var(--muted);font-size:.78rem">~10T/day · Same country</span></a>
+  <a href="deepseek.html"><strong>🇨🇳 DeepSeek</strong><br><span style="color:var(--muted);font-size:.78rem">~7.5T/day · Rising challenger</span></a>
+</div>
+
+<div class="section-label">Download Data</div>
+<div class="card">
+  <code style="display:block;background:var(--chip);padding:12px;border-radius:4px;font-size:.82rem;margin:8px 0">
+    curl https://gf691271.github.io/gatt/data/tci-latest.json | jq '.vendors[] | select(.name=="ChatGPT / API")'
+  </code>
+  <p><a href="https://github.com/gf691271/gatt/issues/new?title=Data+correction+OpenAI&labels=data">✏️ Submit a correction →</a></p>
+</div>
+
+<footer class="footer">
+  <div>GATT · Global AI Token Tracker · <a href="../" style="color:inherit">Back to Index</a> · <a href="https://github.com/gf691271/gatt" style="color:inherit">GitHub</a> · CC BY 4.0</div>
+</footer>
+</div>
+
+<script>
+new Chart(document.getElementById('historyChart'), {
+  type: 'line',
+  data: {
+    labels: ['2024-Q2','2024-Q4','2025-Q2','2025-H2','2026-02'],
+    datasets: [{
+      label: 'OpenAI Total (T/day)',
+      data: [3, 8, 12, 16, 19],
+      borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)',
+      borderWidth: 2, pointRadius: [4,4,5,5,6],
+      pointBackgroundColor: ['#f59e0b','#f59e0b','#92400e','#92400e','#2563eb'],
+      pointBorderColor: '#fff', pointBorderWidth: 2, tension: 0.3, fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { ticks: { callback: v => v+'T' }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>

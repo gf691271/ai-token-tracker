@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude (Anthropic) — AI Token Consumption Data | GATT</title>
+<meta name="description" content="Anthropic's Claude processes ~10T tokens/day estimated from $14B ARR. Revenue-derived methodology with full confidence analysis.">
+<link rel="canonical" href="https://gf691271.github.io/gatt/vendor/claude.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23171715'/><text x='50' y='68' font-size='54' font-family='Georgia,serif' font-weight='900' fill='white' text-anchor='middle'>G</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f7f6f3;--surface:#fff;--border:#e6e3dc;--text:#171715;--muted:#6f6d67;--subtle:#b5b2ac;--cn:#c0392b;--us:#2563eb;--chip:#efece6;--radius:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.6}
+.page{max-width:900px;margin:0 auto;padding:0 24px 80px}
+a{color:var(--us);text-decoration:none}a:hover{text-decoration:underline}
+.back{font-family:-apple-system,sans-serif;font-size:.82rem;display:inline-flex;align-items:center;gap:6px;padding:14px 0;color:var(--muted)}
+.vendor-hero{border-bottom:2px solid var(--text);padding:20px 0 18px}
+.vendor-hero h1{font-size:2rem;font-weight:900;font-family:-apple-system,sans-serif}
+.vendor-hero .meta{font-family:-apple-system,sans-serif;font-size:.82rem;color:var(--muted);margin-top:6px;display:flex;flex-wrap:wrap;gap:16px}
+.hero-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.hero-stat>div{text-align:center}
+.hero-stat .num{font-size:1.8rem;font-weight:700;font-family:-apple-system,sans-serif}
+.hero-stat .lbl{font-size:.72rem;color:var(--muted);font-family:-apple-system,sans-serif;text-transform:uppercase;letter-spacing:.05em}
+.section-label{font-family:-apple-system,sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);padding-top:28px;margin-top:40px;margin-bottom:20px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;font-family:-apple-system,sans-serif;font-size:.88rem;line-height:1.7}
+.card h3{font-size:.9rem;font-weight:700;margin-bottom:10px}
+.card p{color:var(--muted);margin-bottom:8px}
+.chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.data-table{width:100%;border-collapse:collapse;font-family:-apple-system,sans-serif;font-size:.82rem}
+.data-table th{text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border)}
+.related{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:12px}
+.related a{display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-family:-apple-system,sans-serif;font-size:.85rem;transition:border-color .15s}
+.related a:hover{border-color:var(--text);text-decoration:none}
+.footer{border-top:1px solid var(--border);margin-top:48px;padding-top:18px;font-family:-apple-system,sans-serif;font-size:.72rem;color:var(--muted)}
+.callout{background:#fef3c7;border-left:3px solid #d97706;padding:14px 16px;border-radius:0 var(--radius) var(--radius) 0;margin:12px 0;font-size:.82rem}
+@media(max-width:640px){.hero-stat{grid-template-columns:repeat(2,1fr);gap:12px}.hero-stat .num{font-size:1.3rem}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<a href="../" class="back">← Back to GATT Index</a>
+
+<div class="vendor-hero">
+  <h1>🇺🇸 Claude <span style="font-weight:400;font-size:1rem;color:var(--muted)">· Anthropic</span></h1>
+  <div class="meta">
+    <span>Country: <strong>United States</strong></span>
+    <span>Tier: <strong>2 — Revenue-Derived</strong></span>
+    <span>Confidence: <strong style="color:#92400e">Medium</strong></span>
+    <span>Updated: <strong>2026-02-26</strong></span>
+  </div>
+</div>
+
+<div class="hero-stat">
+  <div><div class="num" style="color:var(--us)">~10T</div><div class="lbl">Tokens/Day</div></div>
+  <div><div class="num">#4</div><div class="lbl">Global Rank</div></div>
+  <div><div class="num">$14B</div><div class="lbl">ARR</div></div>
+  <div><div class="num">~$10.6M</div><div class="lbl">DEC $/Day</div></div>
+</div>
+
+<div class="callout">
+  ⚠️ <strong>No direct disclosure.</strong> Anthropic has never published token consumption figures. All estimates are derived from ARR ($14B as of Feb 2026), API request volume (820M/day, Jun 2025), and pricing assumptions. Range: 4-12T/day.
+</div>
+
+<div class="section-label">Historical Timeline — ARR as Proxy</div>
+<div class="chart-wrap">
+  <canvas id="historyChart" height="180"></canvas>
+</div>
+
+<div class="section-label">All Known Data Points</div>
+<div class="card" style="padding:0;overflow:hidden">
+<table class="data-table">
+<thead><tr><th>Date</th><th>Value</th><th>Type</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>2024-12</td><td>$1B ARR</td><td>Revenue</td><td>Multiple reports</td></tr>
+<tr><td>2025-06</td><td>$4B ARR / 820M API req/day</td><td>Revenue + Usage</td><td>TechCrunch / Anthropic blog</td></tr>
+<tr><td>2025-08</td><td>$5B ARR</td><td>Revenue</td><td>TechCrunch Nov 2025</td></tr>
+<tr><td>2025-11</td><td>$9B ARR (projected)</td><td>Revenue</td><td>TechCrunch Nov 2025</td></tr>
+<tr><td>2026-02</td><td>$14B ARR / $380B valuation</td><td>Revenue</td><td>CrowdFundInsider, MarketBeat</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="section-label">Methodology</div>
+<div class="card">
+  <h3>How We Estimate Claude</h3>
+  <p><strong>Primary method: ARR ÷ blended price.</strong> With $14B ARR, assuming 70% API revenue ($9.8B/yr), at ~$3/M blended token price: $9.8B ÷ $3/M ÷ 365 = ~9T/day.</p>
+  <p><strong>Cross-validation — MAU method:</strong> 18M MAU × avg 500K tokens/day (enterprise-heavy usage) = ~9T/day. Consistent with ARR method.</p>
+  <p><strong>Cross-validation — Request volume:</strong> 820M API requests/day (Jun 2025) × avg 10K tokens/request = 8.2T/day. Extrapolated to Feb 2026 at +8%/mo = ~12T. This gives the upper bound.</p>
+  <p><strong>Key uncertainty:</strong> Blended pricing. Claude Code (long-context, high-token) vs Haiku (cheap, low-token) creates a wide range. At $1.5/M → 18T/day. At $6/M → 4.5T/day. We use $3/M as midpoint.</p>
+  <p><strong>Claude Code factor:</strong> Claude Code ($2.5B ARR sub-product) drives extremely high per-user token consumption due to large context windows. Estimated 30-40% of total tokens.</p>
+  <p><strong>GATT estimate: ~7-10T/day, midpoint ~10T.</strong></p>
+</div>
+
+<div class="section-label">Related Vendors</div>
+<div class="related">
+  <a href="openai.html"><strong>🇺🇸 OpenAI</strong><br><span style="color:var(--muted);font-size:.78rem">~19T/day · Direct competitor</span></a>
+  <a href="google.html"><strong>🇺🇸 Google Gemini</strong><br><span style="color:var(--muted);font-size:.78rem">~50T/day · Same country</span></a>
+  <a href="doubao.html"><strong>🇨🇳 Doubao</strong><br><span style="color:var(--muted);font-size:.78rem">~63T/day · #1 globally</span></a>
+  <a href="deepseek.html"><strong>🇨🇳 DeepSeek</strong><br><span style="color:var(--muted);font-size:.78rem">~7.5T/day · Open-source rival</span></a>
+</div>
+
+<div class="section-label">Download Data</div>
+<div class="card">
+  <code style="display:block;background:var(--chip);padding:12px;border-radius:4px;font-size:.82rem;margin:8px 0">
+    curl https://gf691271.github.io/gatt/data/tci-latest.json | jq '.vendors[] | select(.name=="Claude")'
+  </code>
+  <p><a href="https://github.com/gf691271/gatt/issues/new?title=Data+correction+Claude&labels=data">✏️ Submit a correction →</a></p>
+</div>
+
+<footer class="footer">
+  <div>GATT · Global AI Token Tracker · <a href="../" style="color:inherit">Back to Index</a> · <a href="https://github.com/gf691271/gatt" style="color:inherit">GitHub</a> · CC BY 4.0</div>
+</footer>
+</div>
+
+<script>
+new Chart(document.getElementById('historyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Dec 2024','Jun 2025','Aug 2025','Nov 2025','Feb 2026'],
+    datasets: [{
+      label: 'ARR ($B)',
+      data: [1, 4, 5, 9, 14],
+      backgroundColor: ['rgba(37,99,235,0.3)','rgba(37,99,235,0.4)','rgba(37,99,235,0.5)','rgba(37,99,235,0.7)','rgba(37,99,235,0.9)'],
+      borderColor: '#2563eb', borderWidth: 1, borderRadius: 4
+    },{
+      label: 'Est. Tokens/Day (T)',
+      data: [1, 4, 5, 7, 10],
+      type: 'line',
+      borderColor: '#d97706', backgroundColor: 'transparent',
+      borderWidth: 2, pointRadius: 5, pointBackgroundColor: '#d97706', pointBorderColor: '#fff', pointBorderWidth: 2, tension: 0.3, yAxisID: 'y2'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: true, position: 'top', labels: { font: { family: '-apple-system', size: 11 } } } },
+    scales: {
+      y: { position: 'left', ticks: { callback: v => '$'+v+'B' }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      y2: { position: 'right', ticks: { callback: v => v+'T' }, grid: { display: false } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
