@@ -547,7 +547,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.24</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.25</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -722,6 +722,51 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   ⚠️ Country shares are modeled estimates based on vendor HQ + known deployment geography. Confidence: Low–Medium.
   Sources: China NDB 2025 · OpenRouter State of AI · GATT methodology.
 </div>
+
+<!-- Rising Powers Spotlight -->
+<div class="section-label">Rising Powers — The Next Billion Tokens</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;" class="rising-powers-grid">
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 14px;">
+    <div style="font-size:1.6rem;margin-bottom:4px;">🇮🇳</div>
+    <div style="font-weight:700;font-size:0.95rem;margin-bottom:6px;">India</div>
+    <div style="font-size:0.75rem;color:var(--muted);line-height:1.6;margin-bottom:10px;">
+      Today: 0.6% of global tokens. But India has 1.4 billion people, the world's largest English-speaking tech workforce, and a national AI mission backed by $1B+ in government compute.<br><br>
+      <strong style="color:var(--text);">The question isn't whether India rises. It's how fast.</strong> Sarvam AI, Krutrim, and BharatGPT are building the stack. When Indian-language models hit scale — Hindi, Bengali, Tamil — this number moves fast.
+    </div>
+    <div style="font-size:0.68rem;background:#fef9c3;color:#92400e;padding:6px 8px;border-radius:4px;font-weight:600;">
+      🎯 2026 projection: 1.5–3% of global volume if govt AI infra deploys on schedule
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 14px;">
+    <div style="font-size:1.6rem;margin-bottom:4px;">🇸🇦</div>
+    <div style="font-weight:700;font-size:0.95rem;margin-bottom:6px;">Saudi Arabia</div>
+    <div style="font-size:0.75rem;color:var(--muted);line-height:1.6;margin-bottom:10px;">
+      The Arab world's AI capital race is already underway. Saudi Arabia is spending $100B+ on AI infrastructure through Vision 2030 and NEOM. SDAIA's Arabic NLP program is state-funded at a scale that dwarfs most national AI budgets.<br><br>
+      <strong style="color:var(--text);">Arabic is 420M speakers and growing.</strong> Arabic tokenizers are inefficient in current LLMs — the first Arabic-native model at scale will unlock massive latent demand.
+    </div>
+    <div style="font-size:0.68rem;background:#fef9c3;color:#92400e;padding:6px 8px;border-radius:4px;font-weight:600;">
+      🎯 Arabic NLP fastest-growing region in GATT tracking. Watch for Aramco AI, SDAIA Hala announcements.
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 14px;">
+    <div style="font-size:1.6rem;margin-bottom:4px;">🇧🇷</div>
+    <div style="font-weight:700;font-size:0.95rem;margin-bottom:6px;">Brazil</div>
+    <div style="font-size:0.75rem;color:var(--muted);line-height:1.6;margin-bottom:10px;">
+      215 million people. The 9th largest economy. The internet's largest Portuguese-speaking market. And right now, Brazil generates just 0.4% of global AI tokens.<br><br>
+      <strong style="color:var(--text);">That gap is opportunity.</strong> Maritaca AI and Sabiá LLM are building Brazilian Portuguese models. President Lula's AI investment pledge ($5B+ over 4 years) is the catalyst. Latin America's AI wave starts here.
+    </div>
+    <div style="font-size:0.68rem;background:#dcfce7;color:#166534;padding:6px 8px;border-radius:4px;font-weight:600;">
+      🎯 LatAm's sleeping giant. Watch for Petrobras AI, Embrapa data licensing, federal university LLMs.
+    </div>
+  </div>
+
+</div>
+<style>
+@media (max-width:640px) { .rising-powers-grid { grid-template-columns: 1fr !important; } }
+</style>
 
 <!-- ════════════════════ DATA SOURCES ════════════════════ -->
 <div class="section-label">Data Sources</div>
@@ -1613,10 +1658,10 @@ function buildCountryRank() {
     {flag:'🇯🇵', name:'Japan',         pct:3,  vol:'~3.6T', conf:'Low',    note:'SoftBank + NTT AI · govt initiatives',            col:'#6b7280'},
     {flag:'🇫🇷',  name:'France',        pct:1.5,vol:'~1.8T', conf:'Low',    note:'Mistral AI HQ · EU AI sovereignty play',           col:'#6b7280'},
     {flag:'🇨🇦',  name:'Canada',        pct:1,  vol:'~1.2T', conf:'Low',    note:'Cohere + academic labs · punching above weight',   col:'#6b7280'},
-    {flag:'🇮🇳',  name:'India',         pct:0.6,vol:'~0.8T', conf:'Low',    note:'0.6% of China\'s volume — India\'s AI moment is still ahead', col:'#f59e0b'},
+    {flag:'🇮🇳',  name:'India',         pct:0.6,vol:'~0.8T', conf:'Low',    note:'0.6% of China\'s volume today — but 1.4B people + IIT talent + govt AI mission = the biggest upside in this table', col:'#f59e0b'},
     {flag:'🇰🇷',  name:'South Korea',   pct:0.5,vol:'~0.6T', conf:'Low',    note:'Samsung + Naver HyperCLOVA',                       col:'#6b7280'},
-    {flag:'🇧🇷',  name:'Brazil',        pct:0.4,vol:'~0.5T', conf:'Low',    note:'Portuguese LLMs emerging · LatAm\'s largest market',col:'#22c55e'},
-    {flag:'🇸🇦',  name:'Saudi Arabia',  pct:0.25,vol:'~0.3T',conf:'Low',    note:'Arabic NLP boom — fastest-growing region',          col:'#f59e0b'},
+    {flag:'🇧🇷',  name:'Brazil',        pct:0.4,vol:'~0.5T', conf:'Low',    note:'0.4% now — but 215M people, Portuguese-first internet, and Lula\'s AI investment push. LatAm\'s sleeping giant wakes up.', col:'#22c55e'},
+    {flag:'🇸🇦',  name:'Saudi Arabia',  pct:0.25,vol:'~0.3T',conf:'Low',    note:'Arabic NLP fastest-growing globally. $100B+ Saudi AI investment. The Arab world\'s AI capital race is on.', col:'#f59e0b'},
     {flag:'🌍',  name:'Others',        pct:0.75,vol:'~0.9T', conf:'Low',    note:'Israel, UAE, Singapore, etc.',                     col:'#9ca3af'},
   ];
 
