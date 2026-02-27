@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://gf691271.github.io/gatt/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="GATT Token Economy Index: China 55% volume, US 62% compute value, 162T daily tokens — $36B annual Token GDP">
+<meta property="og:image:alt" content="GATT Token Economy Index: China 51% volume, US 80% Token GDP, 162T daily tokens — $45B annual Token GDP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@goghxiang">
@@ -609,7 +609,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.55</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.56</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -623,7 +623,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <span style="font-size:1.1rem;flex-shrink:0;">🔔</span>
   <div>
     <strong style="color:#92400e;">What changed since last update (Feb 26):</strong>
-    <span style="color:#78350f;"> Global total revised 151T→<strong>162T</strong> · OpenAI re-estimated 19T→28T (Sep 2025 baseline extrapolated) · Token GDP metric introduced · 6 CHANGELOG entries published</span>
+    <span style="color:#78350f;"> Global total revised 151T→<strong>162T</strong> · OpenAI re-estimated 19T→28T (Sep 2025 baseline extrapolated) · Token GDP math corrected ($36B→$45B, $99M→$122M) · Volume vs GDP chart added · 7 CHANGELOG entries</span>
     <a href="#changelog" style="color:#92400e;font-weight:600;margin-left:8px;text-decoration:underline;" onclick="document.querySelector('.section-label + .method-box').scrollIntoView({behavior:'smooth'});return false;">See full log →</a>
   </div>
 </div>
@@ -699,12 +699,12 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start;">
     <div style="flex:1;min-width:200px;">
       <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:#93c5fd;margin-bottom:4px;">Annual Token GDP (2026 est.)</div>
-      <div style="font-size:2.4rem;font-weight:700;color:#fff;line-height:1;">~$36<span style="font-size:1.2rem;font-weight:400;color:#93c5fd;">B</span></div>
+      <div style="font-size:2.4rem;font-weight:700;color:#fff;line-height:1;">~$45<span style="font-size:1.2rem;font-weight:400;color:#93c5fd;">B</span></div>
       <div style="font-size:0.72rem;color:#bfdbfe;margin-top:4px;">Total economic value of global AI inference<br>at blended market pricing · Feb 2026</div>
     </div>
     <div style="flex:1;min-width:180px;">
       <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:#93c5fd;margin-bottom:6px;">Daily run rate</div>
-      <div style="font-size:1.6rem;font-weight:700;color:#fff;">~$99<span style="font-size:0.9rem;font-weight:400;color:#93c5fd;">M/day</span></div>
+      <div style="font-size:1.6rem;font-weight:700;color:#fff;">~$122<span style="font-size:0.9rem;font-weight:400;color:#93c5fd;">M/day</span></div>
       <div style="font-size:0.72rem;color:#bfdbfe;margin-top:4px;">Growing at +12%/mo · doubling every 6 months</div>
     </div>
     <div style="flex:1;min-width:180px;">
@@ -713,32 +713,47 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <div style="font-size:0.72rem;color:#bfdbfe;margin-top:4px;">If current growth trajectory holds</div>
     </div>
   </div>
+
+  <!-- The Great Divergence Chart: Volume Share vs GDP Share -->
+  <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.12);">
+    <div style="font-size:0.68rem;color:#fbbf24;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">⚡ The Great Divergence: Volume vs. Economic Value</div>
+    <div style="font-size:0.66rem;color:#64748b;margin-bottom:12px;">China generates <strong style="color:#f87171;">51%</strong> of global AI tokens but captures only <strong style="color:#fbbf24;">7%</strong> of Token GDP — because Chinese AI pricing is 15× cheaper than US.</div>
+    <canvas id="gdpDivergenceChart" width="600" height="160" style="width:100%;max-width:600px;display:block;border-radius:6px;"></canvas>
+    <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:5px;font-size:0.62rem;color:#bfdbfe;"><span style="width:10px;height:10px;background:#3b82f6;border-radius:2px;display:inline-block;"></span>Volume Share (% of 162T tokens/day)</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:0.62rem;color:#bfdbfe;"><span style="width:10px;height:10px;background:#fbbf24;border-radius:2px;display:inline-block;"></span>GDP Share (% of $122M/day)</div>
+    </div>
+  </div>
+
   <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.12);">
     <div style="font-size:0.68rem;color:#93c5fd;font-weight:600;margin-bottom:8px;">HOW WE CALCULATE TOKEN GDP</div>
     <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:0.71rem;color:#bfdbfe;">
       <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 12px;flex:1;min-width:160px;">
         <span style="color:#fff;font-weight:600;">🇺🇸 US vendors</span><br>
-        ~65T/day × $1.50/M tokens avg<br>= <strong style="color:#60a5fa;">$97.5M/day</strong>
+        ~65T/day × $1.50/M tokens avg<br>= <strong style="color:#60a5fa;">$97.5M/day</strong> <span style="font-size:0.62rem;color:#9ca3af;">(80% of GDP)</span>
       </div>
       <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 12px;flex:1;min-width:160px;">
         <span style="color:#ff6b6b;font-weight:600;">🇨🇳 CN vendors</span><br>
-        ~83T/day × $0.10/M tokens avg<br>= <strong style="color:#f87171;">$8.3M/day</strong> <span style="font-size:0.62rem;color:#9ca3af;">(domestic pricing)</span>
+        ~83T/day × $0.10/M tokens avg<br>= <strong style="color:#f87171;">$8.3M/day</strong> <span style="font-size:0.62rem;color:#9ca3af;">(7% of GDP, domestic pricing)</span>
       </div>
       <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 12px;flex:1;min-width:160px;">
         <span style="color:#a3e635;font-weight:600;">🌍 EU+other</span><br>
-        ~14T/day × $1.20/M tokens avg<br>= <strong style="color:#bef264;">$16.8M/day</strong>
+        ~14T/day × $1.20/M tokens avg<br>= <strong style="color:#bef264;">$16.8M/day</strong> <span style="font-size:0.62rem;color:#9ca3af;">(14% of GDP)</span>
       </div>
     </div>
-    <div style="margin-top:10px;font-size:0.68rem;color:#6b7280;">
+    <div style="margin-top:8px;font-size:0.65rem;color:#475569;padding:6px 0;border-top:1px solid rgba(255,255,255,0.06);">
+      ∑ $97.5M + $8.3M + $16.8M = <strong style="color:#93c5fd;">$122.6M/day</strong> → ~<strong style="color:#93c5fd;">$45B/year</strong> (2026 baseline)
+    </div>
+    <div style="margin-top:6px;font-size:0.68rem;color:#6b7280;">
       ⚠️ Token GDP uses market retail pricing, not cost. Chinese vendors pricing ~15× lower than US creates a "purchasing power parity" gap — US dominates <em>economic</em> Token GDP even as China leads by raw volume. 
       <span style="color:#93c5fd;">This gap is the defining story of the 2026 AI economy.</span>
     </div>
   </div>
   <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-    <button onclick="navigator.clipboard.writeText('Global AI Token GDP hit ~\$36B/year in Feb 2026, but China generates 55% of tokens at just 7% of the economic value — because Chinese AI pricing is 15× cheaper. Source: @gatt_index gf691271.github.io/gatt/').then(()=>this.textContent='✅ Copied!')" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.72rem;">
-      🐦 Copy tweet: Token GDP gap
+    <button onclick="navigator.clipboard.writeText('China generates 51% of the world\'s AI tokens but captures only 7% of Token GDP (~$45B/year) — because Chinese AI pricing is 15× cheaper than US. This is the defining economic story of AI in 2026. Source: @gatt_index gf691271.github.io/gatt/').then(()=>this.textContent='✅ Copied!')" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.72rem;">
+      🐦 Copy tweet: Volume vs GDP gap
     </button>
-    <a href="https://twitter.com/intent/tweet?text=The+global+AI+Token+GDP+hit+%7E%2436B%2Fyear+in+Feb+2026.+But+China+generates+55%25+of+tokens+at+just+7%25+of+the+economic+value+%E2%80%94+because+Chinese+AI+pricing+is+15%C3%97+cheaper.+%40gatt_index+https%3A%2F%2Fgf691271.github.io%2Fgatt%2F" target="_blank" rel="noopener" style="background:#1d9bf0;color:#fff;padding:6px 14px;border-radius:6px;font-size:0.72rem;text-decoration:none;display:inline-block;">
+    <a href="https://twitter.com/intent/tweet?text=China+generates+51%25+of+the+world%27s+AI+tokens+but+captures+only+7%25+of+Token+GDP+(%7E%2445B%2Fyear).+Chinese+AI+pricing+is+15%C3%97+cheaper+than+US.+This+is+the+defining+economic+story+of+AI+in+2026.+%40gatt_index+https%3A%2F%2Fgf691271.github.io%2Fgatt%2F" target="_blank" rel="noopener" style="background:#1d9bf0;color:#fff;padding:6px 14px;border-radius:6px;font-size:0.72rem;text-decoration:none;display:inline-block;">
       Share on Twitter ↗
     </a>
   </div>
@@ -747,6 +762,76 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   💡 <strong>Token GDP</strong> = total economic value of AI inference at retail pricing. GATT coined this metric to measure AI compute as a macroeconomic variable, analogous to how GDP measures economic output. 
   <a href="#section-methodology" style="color:var(--us);">See full methodology →</a>
 </div>
+<script>
+(function(){
+  function drawGDPChart(){
+    var canvas = document.getElementById('gdpDivergenceChart');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var W = canvas.offsetWidth || 560;
+    var H = 160;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.height = H + 'px';
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0,0,W,H);
+
+    var regions = [
+      { label:'🇺🇸 US',       vol: 40.1, gdp: 79.5 },
+      { label:'🇨🇳 China',    vol: 51.2, gdp: 6.8  },
+      { label:'🌍 EU+other',  vol: 8.6,  gdp: 13.7 }
+    ];
+
+    var padL = 90, padR = 50, padT = 12, barH = 12, gap = 5, groupGap = 20;
+    var chartW = W - padL - padR;
+
+    regions.forEach(function(r, i){
+      var y0 = padT + i * (barH*2 + gap + groupGap);
+
+      // Region label
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = 'bold 11px system-ui,sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(r.label, padL - 8, y0 + barH - 1);
+
+      // Volume bar (blue) — background track
+      ctx.fillStyle = 'rgba(59,130,246,0.15)';
+      ctx.fillRect(padL, y0, chartW, barH);
+      ctx.fillStyle = '#3b82f6';
+      ctx.fillRect(padL, y0, r.vol/100 * chartW, barH);
+      // Volume label
+      ctx.fillStyle = '#93c5fd';
+      ctx.font = '10px system-ui,sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(r.vol + '%', padL + r.vol/100 * chartW + 4, y0 + barH - 1);
+
+      // GDP bar (gold)
+      ctx.fillStyle = 'rgba(251,191,36,0.12)';
+      ctx.fillRect(padL, y0 + barH + gap, chartW, barH);
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillRect(padL, y0 + barH + gap, r.gdp/100 * chartW, barH);
+      // GDP label
+      ctx.fillStyle = '#fde68a';
+      ctx.font = '10px system-ui,sans-serif';
+      ctx.fillText(r.gdp + '%', padL + r.gdp/100 * chartW + 4, y0 + barH*2 + gap - 1);
+
+      // Sub-labels
+      ctx.fillStyle = '#475569';
+      ctx.font = '9px system-ui,sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('Vol', padL - 8, y0 + barH - 1 + 10);
+      ctx.fillText('GDP', padL - 8, y0 + barH*2 + gap - 1 + 10);
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', drawGDPChart);
+  } else {
+    setTimeout(drawGDPChart, 0);
+  }
+  window.addEventListener('resize', drawGDPChart);
+})();
+</script>
 
 <div class="action-row">
   <div class="action-btns">
@@ -2888,7 +2973,7 @@ function buildCountryRank() {
 
 // ── SHARE ──
 function shareStats() {
-  const text = `Global AI Token Tracker — Feb 27, 2026\n\n🌍 ~162T tokens/day globally (+7% from revised OpenAI estimate)\n🇨🇳 China: ~55% by volume (Doubao 63T/day)\n🇺🇸 US: leads by compute value (Google 50T + OpenAI 28T + Claude 10T)\n💰 Global Token GDP: ~$36B/year\n\nhttps://gf691271.github.io/gatt/`;
+  const text = `Global AI Token Tracker — Feb 27, 2026\n\n🌍 ~162T tokens/day globally (+7% from revised OpenAI estimate)\n🇨🇳 China: ~55% by volume (Doubao 63T/day)\n🇺🇸 US: leads by compute value (Google 50T + OpenAI 28T + Claude 10T)\n💰 Global Token GDP: ~$45B/year\n\nhttps://gf691271.github.io/gatt/`;
   if (navigator.share) {
     navigator.share({ title: 'Global AI Token Tracker', text, url: 'https://gf691271.github.io/ai-token-tracker/' });
   } else {

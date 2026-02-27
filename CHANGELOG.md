@@ -1,5 +1,31 @@
 # GATT Data Changelog
 
+## 2026-02-27 (v0.56 — Token GDP Math Fix + Divergence Chart)
+
+- **Critical arithmetic fix**: Token GDP numbers corrected
+  - Daily: $99M → $122.6M/day (=$97.5M+$8.3M+$16.8M — was previously rounded incorrectly)
+  - Annual: $36B → $45B/year ($122.6M × 365 = $44.7B ≈ $45B)
+  - Previous headline figures were inconsistent with the shown breakdown — now fully auditable
+- **New visualization**: "The Great Divergence — Volume vs GDP Share"
+  - Canvas bar chart: US / China / EU+other, volume bar vs GDP bar side-by-side
+  - Visually shows China's paradox: 51% of tokens → only 7% of economic value
+  - Most shareable data story on the site — designed for screenshot + tweet
+- **China narrative corrected**: 55% → 51% volume share (83T/162T = 51.2%)
+- **GDP share labels added** to each calculation card: US 80%, CN 7%, EU+other 14%
+- **Sum row added**: explicit $97.5M + $8.3M + $16.8M = $122.6M/day shown for full audit trail
+- **Updated tweet copy**: corrected numbers, sharper narrative
+- **10Q improvement**: #2 (data inconsistency fixed — biggest trust risk) + #3 (new chart = screenshot-able)
+- **Autonomous iteration**: Overnight agent v2, 2026-02-27 ~01:15 PST
+
+---
+
+## 2026-02-27 (v0.55 — OpenAI Fix + Token GDP Introduction)
+
+- OpenAI revised 19T→28T; Global total 151T→162T; Token GDP metric introduced
+- See prior changelog entry for details
+
+---
+
 ## 2026-02-27 (v0.54 — Data Provenance Board)
 
 - **New section**: "🔍 Data Provenance Board" — full transparency table for all 20 vendors
