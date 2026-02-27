@@ -1144,6 +1144,78 @@ function showKeyEvent(id) {
   <p style="margin-top:12px;font-style:italic;color:var(--muted);">The gap between token-count rank and DEC rank is the story: China leads by volume, US leads by compute value. That gap is this tracker's thesis.</p>
 </div>
 
+<!-- ════════════════════ DEC CALCULATOR ════════════════════ -->
+<div class="section-label">DEC Calculator — What Would Your AI Bill Look Like?</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;">
+  <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin-bottom:16px;">
+    See the China vs US compute value gap in your own numbers. <strong>DEC = tokens × price/M.</strong>
+    The same workload costs 4–10× more in the US than in China — and generates proportionally more economic value.
+  </p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="calc-grid">
+    <div>
+      <label style="font-size:0.78rem;font-weight:700;color:var(--muted);display:block;margin-bottom:6px;">Daily requests:</label>
+      <input type="number" id="calc-requests" value="1000000" min="1" oninput="calcDEC()"
+        style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:0.9rem;font-family:-apple-system,sans-serif;background:var(--surface);color:var(--text);">
+      <div style="font-size:0.7rem;color:var(--subtle);margin-top:3px;">e.g. 1,000,000 = 1M requests/day</div>
+    </div>
+    <div>
+      <label style="font-size:0.78rem;font-weight:700;color:var(--muted);display:block;margin-bottom:6px;">Avg tokens per request:</label>
+      <input type="number" id="calc-tokens" value="500" min="1" oninput="calcDEC()"
+        style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:0.9rem;font-family:-apple-system,sans-serif;background:var(--surface);color:var(--text);">
+      <div style="font-size:0.7rem;color:var(--subtle);margin-top:3px;">e.g. 500 = avg chatbot exchange</div>
+    </div>
+  </div>
+  <div id="calc-result" style="margin-top:16px;background:var(--chip);border-radius:var(--radius);padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;" class="calc-result-grid">
+  </div>
+  <script>
+  function calcDEC() {
+    const requests = parseFloat(document.getElementById('calc-requests').value) || 0;
+    const tokens = parseFloat(document.getElementById('calc-tokens').value) || 0;
+    const totalTokens = requests * tokens; // total tokens/day
+    const totalM = totalTokens / 1e6; // millions of tokens
+    // Pricing
+    const cnPrice = 0.14; // $/M (Doubao avg)
+    const usPrice = 1.06; // $/M (US blended avg)
+    const cnCost = totalM * cnPrice;
+    const usCost = totalM * usPrice;
+    const ratio = usPrice / cnPrice;
+    const totalT = totalTokens / 1e12;
+    function fmt(n) {
+      if (n >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+      if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+      return '$' + n.toFixed(2);
+    }
+    function fmtT(n) {
+      if (n >= 1) return n.toFixed(2) + 'T';
+      if (n >= 0.001) return (n*1000).toFixed(1) + 'B';
+      return (n*1e6).toFixed(0) + 'M';
+    }
+    document.getElementById('calc-result').innerHTML = `
+      <div style="text-align:center;">
+        <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:4px;">Daily tokens</div>
+        <div style="font-size:1.4rem;font-weight:700;">${fmtT(totalT)}</div>
+        <div style="font-size:0.7rem;color:var(--muted);">${(totalTokens/1e6).toFixed(1)}M tokens/day</div>
+      </div>
+      <div style="text-align:center;border-left:1px solid var(--border);border-right:1px solid var(--border);padding:0 12px;">
+        <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#c0392b;margin-bottom:4px;">🇨🇳 China price</div>
+        <div style="font-size:1.4rem;font-weight:700;color:#c0392b;">${fmt(cnCost)}/day</div>
+        <div style="font-size:0.7rem;color:var(--muted);">~$0.14/M tokens · ${fmt(cnCost*365)}/year</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#2563eb;margin-bottom:4px;">🇺🇸 US price</div>
+        <div style="font-size:1.4rem;font-weight:700;color:#2563eb;">${fmt(usCost)}/day</div>
+        <div style="font-size:0.7rem;color:var(--muted);">~$1.06/M tokens · ${fmt(usCost*365)}/year · <strong>${ratio.toFixed(1)}×</strong> China</div>
+      </div>`;
+  }
+  // Init on load
+  window.addEventListener('DOMContentLoaded', calcDEC);
+  </script>
+  <style>
+    @media (max-width:640px) { .calc-grid { grid-template-columns: 1fr !important; } .calc-result-grid { grid-template-columns: 1fr !important; } }
+  </style>
+  <p style="font-size:0.72rem;color:var(--subtle);margin-top:10px;">CN price: Doubao avg ~$0.14/M · US price: blended API avg ~$1.06/M (GPT-4o, Gemini Pro, Claude 3.5). Actual prices vary by model and use case.</p>
+</div>
+
 <!-- ════════════════════ EXPORT DATA ════════════════════ -->
 <div class="section-label">Export Data — Download for Analysis</div>
 <div class="method-box" style="font-family:-apple-system,sans-serif;">
