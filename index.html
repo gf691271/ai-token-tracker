@@ -439,7 +439,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.15</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.16</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -455,37 +455,41 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <!-- 1. Daily volume — precise -->
   <div class="headline-card">
     <div class="hl-label">Global daily tokens</div>
-    <div class="hl-number">~107T</div>
+    <div class="hl-number">~120T</div>
     <div class="hl-sub">trillion tokens / day · Feb 2026 est.</div>
     <div class="hl-badge">↑ from ~13T in Feb 2025</div>
+    <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: GATT synthesis · Epoch AI · ByteDance disclosures</div>
   </div>
 
   <!-- 2. MoM growth -->
   <div class="headline-card">
     <div class="hl-label">Month-on-month growth</div>
-    <div class="hl-number" style="color:#166534;">+23%</div>
+    <div class="hl-number" style="color:#166534;">+12%</div>
     <div class="hl-sub">Jan → Feb 2026 (est.)</div>
-    <div class="hl-badge">driven by Doubao + DeepSeek R2</div>
+    <div class="hl-badge">driven by Doubao 63T + OpenAI 19T</div>
+    <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: GATT interpolation model · revenue proxies</div>
   </div>
 
   <!-- 3. China vs US -->
   <div class="headline-card">
     <div class="hl-label">China vs US</div>
     <div class="hl-number" style="font-size:1.5rem; line-height:1.2;">
-      <span class="cn">55%</span><span style="color:var(--muted);font-size:1rem;font-weight:400;"> vol</span>
+      <span class="cn">~55%</span><span style="color:var(--muted);font-size:1rem;font-weight:400;"> vol</span>
       &nbsp;<span style="color:var(--muted);font-weight:300;">vs</span>&nbsp;
       <span class="us">~14%</span><span style="color:var(--muted);font-size:1rem;font-weight:400;"> val</span>
     </div>
     <div class="hl-sub">China leads volume · US leads compute value</div>
     <div class="hl-badge">tokenizer gap: CN models count more tokens/char</div>
+    <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: OpenRouter State of AI · China NDB estimates</div>
   </div>
 
   <!-- 4. Top vendor -->
   <div class="headline-card">
     <div class="hl-label">Top vendor by volume</div>
     <div class="hl-number cn" style="font-size:1.7rem">Doubao</div>
-    <div class="hl-sub">~50T tokens/day · ByteDance 🇨🇳</div>
-    <div class="hl-badge">+417× in 18 months · #1 globally</div>
+    <div class="hl-sub">~63T tokens/day avg · ByteDance 🇨🇳</div>
+    <div class="hl-badge">+500× in 18 months · #1 globally</div>
+    <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: Volcano Engine Jan 2026 avg · ByteDance blog</div>
   </div>
 
   <!-- 5. 2026 projection -->
@@ -550,7 +554,80 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 
 <!-- ════════════════════ COUNTRY RANKING ════════════════════ -->
 <div class="section-label">Country Ranking — Token Volume Share</div>
-<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;padding:4px 0" id="countryRank"></div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;padding:4px 0" id="countryRank">
+  <!-- Static country data with confidence labels (populated here AND by JS fallback) -->
+</div>
+<div style="font-family:-apple-system,sans-serif;font-size:0.7rem;color:var(--muted);margin-top:8px;padding:0 4px;">
+  ⚠️ Country shares are modeled estimates based on vendor HQ + known deployment geography. Confidence: Low–Medium.
+  Sources: China NDB 2025 · OpenRouter State of AI · GATT methodology.
+</div>
+
+<!-- ════════════════════ DATA SOURCES ════════════════════ -->
+<div class="section-label">Data Sources</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;font-size:0.82rem;">
+  <p style="margin-bottom:10px;color:var(--muted);font-size:0.78rem;">All figures are synthesized from public disclosures, third-party analyses, and GATT proprietary estimation methodology. No figures are financial or investment advice.</p>
+  <table style="width:100%;border-collapse:collapse;">
+    <thead>
+      <tr style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);">
+        <td style="padding:6px 0;border-bottom:1px solid var(--border);">Source</td>
+        <td style="padding:6px 8px;border-bottom:1px solid var(--border);">Type</td>
+        <td style="padding:6px 0;border-bottom:1px solid var(--border);">Vendors / Data</td>
+        <td style="padding:6px 0;border-bottom:1px solid var(--border);">Confidence</td>
+      </tr>
+    </thead>
+    <tbody style="font-size:0.78rem;">
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 0;font-weight:600;">ByteDance / Volcano Engine disclosures</td>
+        <td style="padding:8px;color:var(--muted);">Official blog</td>
+        <td style="padding:8px 0;color:var(--muted);">Doubao 50T Dec-2025, 63T Jan-2026 avg</td>
+        <td style="padding:8px 0;"><span style="color:#166534;font-weight:600;">High</span></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 0;font-weight:600;">Google Cloud Next 2025 keynote</td>
+        <td style="padding:8px;color:var(--muted);">Earnings / event</td>
+        <td style="padding:8px 0;color:var(--muted);">Gemini API 35T tokens/day Jul-2025</td>
+        <td style="padding:8px 0;"><span style="color:#166534;font-weight:600;">High</span></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 0;font-weight:600;">Epoch AI compute analysis</td>
+        <td style="padding:8px;color:var(--muted);">Third-party est.</td>
+        <td style="padding:8px 0;color:var(--muted);">OpenAI ~19T/day (compute + usage proxy)</td>
+        <td style="padding:8px 0;"><span style="color:#92400e;font-weight:600;">Medium</span></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 0;font-weight:600;">Anthropic revenue proxy ($3B ARR, May 2025)</td>
+        <td style="padding:8px;color:var(--muted);">Revenue ÷ price</td>
+        <td style="padding:8px 0;color:var(--muted);">Claude ~0.4T/day lower bound est.</td>
+        <td style="padding:8px 0;"><span style="color:#92400e;font-weight:600;">Medium</span></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 0;font-weight:600;">OpenRouter State of AI (weekly)</td>
+        <td style="padding:8px;color:var(--muted);">Platform data</td>
+        <td style="padding:8px 0;color:var(--muted);">API-accessible model traffic calibration</td>
+        <td style="padding:8px 0;"><span style="color:#166534;font-weight:600;">High</span></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 0;font-weight:600;">China National Data Bureau (NDB)</td>
+        <td style="padding:8px;color:var(--muted);">Official data</td>
+        <td style="padding:8px 0;color:var(--muted);">China total >30T/day by mid-2025</td>
+        <td style="padding:8px 0;"><span style="color:#166534;font-weight:600;">High</span></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 0;font-weight:600;">Industry analysts (Goldman Sachs, Morgan Stanley)</td>
+        <td style="padding:8px;color:var(--muted);">Analyst est.</td>
+        <td style="padding:8px 0;color:var(--muted);">AI inference market $106–126B in 2025</td>
+        <td style="padding:8px 0;"><span style="color:#92400e;font-weight:600;">Medium</span></td>
+      </tr>
+      <tr>
+        <td style="padding:8px 0;font-weight:600;">GATT proprietary methodology</td>
+        <td style="padding:8px;color:var(--muted);">Synthesis</td>
+        <td style="padding:8px 0;color:var(--muted);">Interpolation + DEC normalization + multi-source fusion</td>
+        <td style="padding:8px 0;"><span style="color:var(--muted);font-weight:600;">Model est.</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin-top:12px;font-size:0.72rem;color:var(--muted);">Last data refresh: 2026-02-26. If you have better data, <a href="https://github.com/gf691271/gatt/issues/new?title=Data+correction&labels=data" style="color:inherit;text-decoration:underline;">submit a correction →</a></p>
+</div>
 
 <!-- ════════════════════ METHODOLOGY ════════════════════ -->
 <div class="section-label">Methodology — How We Estimate</div>
@@ -646,16 +723,18 @@ const cnAnchors = [
   {date:'2025-05-01', v:16.4},
   {date:'2025-09-01', v:30},
   {date:'2025-12-01', v:50},
-  {date:'2026-02-26', v:55}
+  {date:'2026-01-15', v:63},  // Volcano Engine Jan 2026 avg
+  {date:'2026-02-26', v:66}   // GATT interpolated
 ];
 const usAnchors = [
   {date:'2024-05-01', v:6},
   {date:'2024-12-01', v:12},
   {date:'2025-03-01', v:17},
   {date:'2025-06-01', v:22},
-  {date:'2025-10-01', v:28},
-  {date:'2025-12-01', v:31},
-  {date:'2026-02-26', v:34}
+  {date:'2025-07-01', v:25},  // Google 35T + OpenAI growing
+  {date:'2025-10-01', v:30},
+  {date:'2025-12-01', v:34},
+  {date:'2026-02-26', v:36}   // Google 35T + OpenAI 19T + others
 ];
 const rowAnchors = [
   {date:'2024-05-01', v:1},
@@ -826,7 +905,7 @@ function initChart() {
               type: 'line', scaleID: 'x',
               value: chartDates.findIndex(d => d >= '2025-12-01'),
               borderColor: 'rgba(192,57,43,0.2)', borderWidth: 1, borderDash: [4,3],
-              label: { display: true, content: 'Doubao 50T', position: 'start',
+              label: { display: true, content: 'Doubao 50-63T', position: 'start',
                 font: { size: 9, family: '-apple-system, sans-serif' },
                 color: '#c0392b', backgroundColor: 'transparent', padding: 2 }
             }
@@ -901,9 +980,9 @@ function setView(v) {
 // ── RANKING TABLE ──
 // Tier 1: direct or strongly-sourced data — sorted by tokNum desc
 const vendors = [
-  {rank:1,  flag:'🇨🇳', name:'Doubao',        co:'ByteDance',    tokens:'50T',   tokNum:50,   conf:2, src:'Media / ByteDance blog',   country:'CN'},
-  {rank:2,  flag:'🇺🇸', name:'Google Gemini', co:'Google',       tokens:'33T',   tokNum:33,   conf:3, src:'Earnings call',            country:'US'},
-  {rank:3,  flag:'🇺🇸', name:'ChatGPT / API', co:'OpenAI',       tokens:'13T',   tokNum:13,   conf:2, src:'DevDay 2024',               country:'US'},
+  {rank:1,  flag:'🇨🇳', name:'Doubao',        co:'ByteDance',    tokens:'63T',   tokNum:63,   conf:2, src:'Volcano Engine Jan 2026 avg', country:'CN'},
+  {rank:2,  flag:'🇺🇸', name:'Google Gemini', co:'Google',       tokens:'35T',   tokNum:35,   conf:3, src:'Google Cloud Next 2025',   country:'US'},
+  {rank:3,  flag:'🇺🇸', name:'ChatGPT / API', co:'OpenAI',       tokens:'19T',   tokNum:19,   conf:2, src:'Epoch AI compute proxy',   country:'US'},
   {rank:4,  flag:'🇨🇳', name:'Qwen',          co:'Alibaba Cloud',tokens:'5T',    tokNum:5,    conf:2, src:'Earnings',                 country:'CN'},
   {rank:5,  flag:'🇨🇳', name:'ERNIE',         co:'Baidu',        tokens:'1.6T',  tokNum:1.6,  conf:3, src:'Earnings',                 country:'CN'},
   {rank:6,  flag:'🇨🇳', name:'Spark',         co:'iFlytek',      tokens:'1.4T',  tokNum:1.4,  conf:2, src:'Earnings',                 country:'CN'},
@@ -940,7 +1019,7 @@ const tier3 = [
   {name:'Together AI',          flag:'🇺🇸', co:'Together AI',     reason:'No public data'},
 ];
 
-const maxTok = 50;
+const maxTok = 63;
 function confLabel(c) {
   if (c >= 3) return '<span class="conf-3">✓ Verified</span>';
   if (c === 2) return '<span class="conf-2">~ Media</span>';
@@ -959,7 +1038,7 @@ function buildRankTable() {
 
   allRanked.forEach(v => {
     globalRank++;
-    const bar = Math.min((v.tokNum / 50 * 100), 100).toFixed(1);
+    const bar = Math.min((v.tokNum / maxTok * 100), 100).toFixed(1);
     const col = v.country === 'CN' ? 'var(--cn)' : v.country === 'EU' ? '#4f7942' : 'var(--us)';
     const isTier2 = v.conf === 1;
     const tokenLabel = isTier2 ? `<span style="color:var(--muted)">${v.tokens}</span>` : `<strong>${v.tokens}</strong>`;
@@ -997,33 +1076,37 @@ function buildRankTable() {
 }
 
 // ── COUNTRY RANKING ──
+// Static estimates with confidence labels — based on vendor HQ + deployment geography
+// Sources: China NDB 2025, OpenRouter State of AI, GATT methodology
 function buildCountryRank() {
   const el = document.getElementById('countryRank');
   if (!el) return;
-  const all = [...vendors, ...tier2];
-  const byCountry = {};
-  all.forEach(v => {
-    const c = v.country || 'Other';
-    byCountry[c] = (byCountry[c] || 0) + v.tokNum;
-  });
-  const sorted = Object.entries(byCountry).sort((a,b) => b[1]-a[1]);
-  const total = sorted.reduce((s,[,v]) => s+v, 0);
-  const flags = {CN:'🇨🇳', US:'🇺🇸', EU:'🇪🇺', CA:'🇨🇦', Other:'🌐'};
-  const labels = {CN:'China', US:'United States', EU:'Europe', CA:'Canada', Other:'Other'};
+
+  const staticCountries = [
+    {flag:'🇨🇳', name:'China',         pct:55, vol:'~66T',  conf:'Medium', note:'Doubao dominant · NDB official 30T/d mid-2025',   col:'var(--cn)'},
+    {flag:'🇺🇸', name:'United States', pct:30, vol:'~36T',  conf:'Medium', note:'Google + OpenAI + Microsoft Azure',                col:'var(--us)'},
+    {flag:'🇬🇧', name:'United Kingdom',pct:4,  vol:'~4.8T', conf:'Low',    note:'DeepMind + AWS UK · model est.',                   col:'#6b7280'},
+    {flag:'🇩🇪', name:'Germany',       pct:3,  vol:'~3.6T', conf:'Low',    note:'Aleph Alpha + enterprise deployments',             col:'#6b7280'},
+    {flag:'🇯🇵', name:'Japan',         pct:3,  vol:'~3.6T', conf:'Low',    note:'SoftBank + NTT AI · govt initiatives',            col:'#6b7280'},
+    {flag:'🌍',  name:'Others',        pct:5,  vol:'~6T',   conf:'Low',    note:'Canada, France, India, Korea, etc.',               col:'#9ca3af'},
+  ];
+
   let html = '';
-  sorted.forEach(([c, v], i) => {
-    const pct = (v/total*100).toFixed(1);
-    const col = c==='CN' ? 'var(--cn)' : c==='US' ? 'var(--us)' : '#6b7280';
+  staticCountries.forEach((c, i) => {
+    const confColor = c.conf === 'Medium' ? '#92400e' : '#6b7280';
     html += `<div class="country-row">
       <div class="rank-num">${i+1}</div>
       <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:1.1rem">${flags[c]||'🌐'}</span>
-        <span style="font-weight:600;font-size:.9rem">${labels[c]||c}</span>
+        <span style="font-size:1.1rem">${c.flag}</span>
+        <div>
+          <span style="font-weight:600;font-size:.9rem">${c.name}</span>
+          <div style="font-size:.62rem;color:var(--muted)">${c.note}</div>
+        </div>
       </div>
-      <div style="font-weight:700;font-size:.9rem">${v.toFixed(1)}T</div>
+      <div style="font-weight:700;font-size:.9rem">${c.vol}</div>
       <div style="flex:1;padding-left:12px">
-        <div style="height:6px;border-radius:3px;background:${col};width:${pct}%;opacity:0.75"></div>
-        <div style="font-size:.68rem;color:var(--muted);margin-top:2px">${pct}% of tracked volume</div>
+        <div style="height:6px;border-radius:3px;background:${c.col};width:${c.pct}%;opacity:0.75;max-width:100%"></div>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:2px">${c.pct}% est. · <span style="color:${confColor};font-weight:600">${c.conf} confidence</span></div>
       </div>
     </div>`;
   });
@@ -1032,7 +1115,7 @@ function buildCountryRank() {
 
 // ── SHARE ──
 function shareStats() {
-  const text = `Global AI Token Tracker — Feb 26, 2026\n\n🌍 ~100T tokens/day globally\n🇨🇳 China: 55% by volume (55T/day)\n🇺🇸 US: leads by compute value ($35M DEC/day)\n📈 Doubao grew 417× in 18 months\n\nhttps://gf691271.github.io/ai-token-tracker/`;
+  const text = `Global AI Token Tracker — Feb 26, 2026\n\n🌍 ~120T tokens/day globally\n🇨🇳 China: ~55% by volume (Doubao 63T/day)\n🇺🇸 US: leads by compute value (Google 35T + OpenAI 19T)\n📈 Doubao grew 500× in 18 months\n\nhttps://gf691271.github.io/gatt/`;
   if (navigator.share) {
     navigator.share({ title: 'Global AI Token Tracker', text, url: 'https://gf691271.github.io/ai-token-tracker/' });
   } else {
