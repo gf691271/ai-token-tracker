@@ -594,7 +594,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.32</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.33</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -876,6 +876,12 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 
 <!-- ════════════════════ TREND CHART ════════════════════ -->
 <div class="section-label">Daily Trend — Token Consumption Over Time</div>
+<!-- Key Events Timeline (shown below chart) -->
+<div id="key-event-info" style="display:none;background:#fffbeb;border:1px solid #fde68a;border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;font-family:-apple-system,sans-serif;font-size:0.82rem;">
+  <button onclick="document.getElementById('key-event-info').style.display='none'" style="float:right;background:none;border:none;cursor:pointer;font-size:1rem;color:var(--muted);">×</button>
+  <strong id="key-event-title" style="color:#92400e;"></strong>
+  <p id="key-event-desc" style="color:var(--muted);margin-top:6px;line-height:1.6;"></p>
+</div>
 <div class="chart-controls">
   <div class="toggle-group">
     <button class="toggle-btn cn-btn active" id="btn-cn" onclick="toggleSeries('cn')">🇨🇳 China</button>
@@ -890,6 +896,53 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 <div class="chart-wrap">
   <canvas id="trendChart" height="200"></canvas>
 </div>
+
+<!-- Key Events Timeline below chart -->
+<div style="margin-top:12px;font-family:-apple-system,sans-serif;font-size:0.72rem;color:var(--muted);">
+  <strong style="text-transform:uppercase;letter-spacing:0.06em;font-size:0.65rem;">Key events:</strong>
+  <span style="margin-left:6px;">Click to learn more →</span>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+    <button onclick="showKeyEvent('doubao4t')" style="border:1px solid #fca5a5;background:#fef2f2;color:#c0392b;border-radius:4px;padding:3px 8px;font-size:0.7rem;font-family:-apple-system,sans-serif;cursor:pointer;font-weight:600;">Dec 2024 · Doubao 4T/day</button>
+    <button onclick="showKeyEvent('deepseekr1')" style="border:1px solid #bfdbfe;background:#eff6ff;color:#2563eb;border-radius:4px;padding:3px 8px;font-size:0.7rem;font-family:-apple-system,sans-serif;cursor:pointer;font-weight:600;">Jan 2025 · DeepSeek R1 release</button>
+    <button onclick="showKeyEvent('doubao50t')" style="border:1px solid #fca5a5;background:#fef2f2;color:#c0392b;border-radius:4px;padding:3px 8px;font-size:0.7rem;font-family:-apple-system,sans-serif;cursor:pointer;font-weight:600;">Dec 2025 · Doubao 50-63T/day</button>
+    <button onclick="showKeyEvent('gemini35t')" style="border:1px solid #a7f3d0;background:#f0fdf4;color:#166534;border-radius:4px;padding:3px 8px;font-size:0.7rem;font-family:-apple-system,sans-serif;cursor:pointer;font-weight:600;">Jul 2025 · Google Gemini 35T/day</button>
+    <button onclick="showKeyEvent('claudecorr')" style="border:1px solid #e9d5ff;background:#faf5ff;color:#7c3aed;border-radius:4px;padding:3px 8px;font-size:0.7rem;font-family:-apple-system,sans-serif;cursor:pointer;font-weight:600;">Feb 2026 · Claude correction 2.5T→10T</button>
+  </div>
+</div>
+
+<script>
+const keyEvents = {
+  doubao4t: {
+    title: 'Dec 2024 — Doubao crosses 4T tokens/day',
+    desc: 'ByteDance\'s Doubao AI assistant crossed 4T tokens/day in December 2024, up from just 120B/day in May 2024 — a 33× increase in 7 months. This was the first public confirmation that a Chinese AI product had scaled to a level comparable with OpenAI. It marked the beginning of China\'s AI token dominance.'
+  },
+  deepseekr1: {
+    title: 'Jan 2025 — DeepSeek R1 shocks the world',
+    desc: 'DeepSeek released R1 on January 20, 2025, claiming performance on par with OpenAI o1 at a fraction of the training cost. NVIDIA lost $600B in market cap in a single day. The release supercharged global developer adoption of open-weight Chinese models and drove a surge in token consumption globally.'
+  },
+  doubao50t: {
+    title: 'Dec 2025 – Jan 2026 — Doubao 50T → 63T/day',
+    desc: 'ByteDance disclosed that Doubao processed 50T tokens/day on average in December 2025, rising to 63T/day average in January 2026. At this level, Doubao alone accounts for ~42% of all estimated global AI token consumption — more than the entire US market combined. Volcano Engine officially confirmed the January figure.'
+  },
+  gemini35t: {
+    title: 'Jul 2025 — Google Gemini All Surfaces reaches 35T/day',
+    desc: 'At Google Cloud Next 2025, Sundar Pichai disclosed that Gemini across all surfaces (Search AI, Workspace, API, Pixel) was processing 1 quadrillion tokens per month, equivalent to ~33T/day. This was the first "All Surfaces" disclosure, meaning Google\'s total AI token consumption was far larger than API-only estimates had suggested.'
+  },
+  claudecorr: {
+    title: 'Feb 2026 — Claude corrected from 2.5T to 10T/day',
+    desc: 'GATT corrected the Claude estimate from 2.5T to ~10T/day after Bloomberg confirmed Anthropic reached $14B ARR by February 2026 (up from ~$1B in late 2024 — a 14× increase). Cross-validation with Anthropic\'s own 820M API requests/day figure (Jun 2025) supported the higher estimate. The 2.5T figure had relied on a stale 2024 ARR proxy.'
+  }
+};
+function showKeyEvent(id) {
+  const ev = keyEvents[id];
+  if (!ev) return;
+  const box = document.getElementById('key-event-info');
+  document.getElementById('key-event-title').textContent = ev.title;
+  document.getElementById('key-event-desc').textContent = ev.desc;
+  box.style.display = 'block';
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
 
 <!-- ════════════════════ RANKING ════════════════════ -->
 <div class="section-label">Vendor Ranking — Daily Tokens</div>
