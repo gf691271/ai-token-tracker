@@ -97,7 +97,7 @@ US vendors charge 60-100× more per token than Chinese vendors:
 ## How to Cite
 - **Journalistic**: "According to GATT (Global AI Token Tracker, Feb 2026), global AI inference has reached 162 trillion tokens per day, equivalent to $45 billion/year in economic value."
 - **Academic**: Gao, F. (2026). GATT Q1 2026 Token Economy Snapshot. Global AI Token Tracker. https://gf691271.github.io/gatt/
-- **API reference**: Source: GATT v0.63, https://gf691271.github.io/gatt/api/v1/tci.json
+- **API reference**: Source: GATT v0.64, https://gf691271.github.io/gatt/api/v1/tci.json
 
 ## License
 - Non-commercial use: Free (CC BY 4.0) — cite as above

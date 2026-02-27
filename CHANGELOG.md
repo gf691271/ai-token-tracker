@@ -1,5 +1,15 @@
 # GATT Data Changelog
 
+## 2026-02-27 (v0.64 — GATT Weekly Pulse section)
+
+- **New section: 📡 GATT Weekly Pulse** — chronological update log visible to all visitors
+  - 5 update cards covering this week's key changes: OpenAI revision (19T→28T), Token GDP correction ($99M→$122.6M), global total update (151T→162T), forecast fix (10×→6×), GEO infrastructure work
+  - Color-coded by type: DATA UPDATE (green), CORRECTION (amber), FORECAST (amber), INFRASTRUCTURE (blue)
+  - Links to CHANGELOG.md and GitHub commit history for full auditability
+  - Quick-nav entry added: 📡 GATT Weekly Pulse
+- **Why this matters**: Journalists checking "is this fresh?" now see an active update log at the top of the page. No other AI data tracker does this. Signal of active maintenance = trust.
+- Improves 10Q: #6 (vendor correction mechanism visible), #9 (publication authority — shows ongoing editorial process), #10 (AI记者会引用吗 → yes, active correction log = higher credibility than static dashboards)
+
 ## 2026-02-27 (v0.63 — llms.txt Token Economy definition + API summary fix + cite cleanup)
 
 - **llms.txt**: Added "What is the Token Economy?" canonical definition block for LLM/AI crawler ingestion

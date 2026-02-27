@@ -637,7 +637,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.63</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.64</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -729,6 +729,78 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   </div>
   <div style="font-size:0.62rem;color:#475569;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px;">
     📌 How to cite: <em>"According to GATT's Q1 2026 Token Economy report, global AI inference reached 162 trillion tokens/day — equivalent to $45 billion/year in economic value."</em> · Source: <a href="https://gf691271.github.io/gatt/" style="color:#60a5fa;">gf691271.github.io/gatt</a> · CC BY 4.0
+  </div>
+</div>
+
+<div id="section-pulse" style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:28px;font-family:-apple-system,sans-serif;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+    <div>
+      <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:3px;">Live Update Log</div>
+      <div style="font-size:1.05rem;font-weight:700;">📡 GATT Weekly Pulse — What Changed This Week</div>
+    </div>
+    <div style="font-size:0.68rem;color:var(--muted);background:var(--bg);border:1px solid var(--border);padding:4px 10px;border-radius:20px;">Week of Feb 24–27, 2026</div>
+  </div>
+  <div style="display:grid;gap:10px;">
+    <!-- Update entries -->
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:8px;">
+      <div style="min-width:36px;text-align:center;font-size:1.1rem;margin-top:1px;">📊</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px;">
+          <span style="font-size:0.78rem;font-weight:700;">OpenAI Token Estimate Revised</span>
+          <span style="font-size:0.62rem;background:rgba(34,197,94,0.12);color:#22c55e;padding:2px 6px;border-radius:10px;font-weight:600;">DATA UPDATE</span>
+          <span style="font-size:0.62rem;color:var(--muted);">Feb 27 · v0.55</span>
+        </div>
+        <div style="font-size:0.73rem;color:var(--muted);line-height:1.5;">Previous estimate: 19T/day (May 2025 baseline). Revised to <strong>28T/day</strong> using Sep 2025 Bloomberg figure extrapolated at 15%/month. Confidence: Medium-Low. Source: Bloomberg Sep 2025.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:8px;">
+      <div style="min-width:36px;text-align:center;font-size:1.1rem;margin-top:1px;">🧮</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px;">
+          <span style="font-size:0.78rem;font-weight:700;">Token GDP Math Corrected</span>
+          <span style="font-size:0.62rem;background:rgba(34,197,94,0.12);color:#22c55e;padding:2px 6px;border-radius:10px;font-weight:600;">CORRECTION</span>
+          <span style="font-size:0.62rem;color:var(--muted);">Feb 27 · v0.56</span>
+        </div>
+        <div style="font-size:0.73rem;color:var(--muted);line-height:1.5;">Daily Token GDP corrected from $99M → <strong>$122.6M/day</strong> ($45B/yr). Addition error in three-region sum (US $97.5M + CN $8.3M + EU $16.8M). Annual figure: $36B → $45B.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.2);border-radius:8px;">
+      <div style="min-width:36px;text-align:center;font-size:1.1rem;margin-top:1px;">🌍</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px;">
+          <span style="font-size:0.78rem;font-weight:700;">Global Total Updated: 151T → 162T/day</span>
+          <span style="font-size:0.62rem;background:rgba(99,102,241,0.12);color:#818cf8;padding:2px 6px;border-radius:10px;font-weight:600;">DATA UPDATE</span>
+          <span style="font-size:0.62rem;color:var(--muted);">Feb 27 · v0.55</span>
+        </div>
+        <div style="font-size:0.73rem;color:var(--muted);line-height:1.5;">OpenAI revision (+9T) cascades to global total. All derivative stats (China share %, Token GDP) recalculated. China share: 55% → 51%.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:8px;">
+      <div style="min-width:36px;text-align:center;font-size:1.1rem;margin-top:1px;">📅</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px;">
+          <span style="font-size:0.78rem;font-weight:700;">Year-End Forecast Corrected: ~10× → ~6×</span>
+          <span style="font-size:0.62rem;background:rgba(245,158,11,0.12);color:#f59e0b;padding:2px 6px;border-radius:10px;font-weight:600;">FORECAST</span>
+          <span style="font-size:0.62rem;color:var(--muted);">Feb 27 · v0.62</span>
+        </div>
+        <div style="font-size:0.73rem;color:var(--muted);line-height:1.5;">1,000T ÷ 162T = 6.2×. Previous "10×" claim was not supported by arithmetic. Growth trajectory maintained at 20%/month. Year-end target: ~1,000T/day unchanged.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:rgba(14,165,233,0.06);border:1px solid rgba(14,165,233,0.2);border-radius:8px;">
+      <div style="min-width:36px;text-align:center;font-size:1.1rem;margin-top:1px;">🤖</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px;">
+          <span style="font-size:0.78rem;font-weight:700;">GEO Layer: robots.txt + sitemap + llms.txt rebuilt</span>
+          <span style="font-size:0.62rem;background:rgba(14,165,233,0.12);color:#0ea5e9;padding:2px 6px;border-radius:10px;font-weight:600;">INFRASTRUCTURE</span>
+          <span style="font-size:0.62rem;color:var(--muted);">Feb 27 · v0.58–v0.63</span>
+        </div>
+        <div style="font-size:0.73rem;color:var(--muted);line-height:1.5;">Explicit AI crawler rules (GPTBot, ClaudeBot, Gemini, Perplexity) with zero crawl delay. llms.txt now includes Token Economy canonical definition + Q1 2026 report + cite formats. API summary data inconsistency fixed (v0.63).</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+    <div style="font-size:0.68rem;color:var(--muted);">All corrections are logged in <a href="https://github.com/gf691271/gatt/blob/main/CHANGELOG.md" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">CHANGELOG.md</a> with methodology notes. Transparency over perfection.</div>
+    <a href="https://github.com/gf691271/gatt/commits/main" target="_blank" rel="noopener" style="font-size:0.68rem;color:var(--accent);text-decoration:none;font-weight:600;">📜 Full commit history →</a>
   </div>
 </div>
 
@@ -3551,6 +3623,7 @@ function setTheme(t) {
     <a href="#section-blackhole" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🕳️ Black Hole Vendor Methodology</a>
     <a href="#section-definition" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📖 Token Economy Definition</a>
     <a href="#section-q1-report" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📋 Q1 2026 Quarterly Report</a>
+    <a href="#section-pulse" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📡 GATT Weekly Pulse</a>
     <a href="#press" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📰 In the Press</a>
   </div>
 </div>
