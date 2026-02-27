@@ -5,14 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GATT — Global AI Token Tracker</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23171715'/><text x='50' y='68' font-size='54' font-family='Georgia,serif' font-weight='900' fill='white' text-anchor='middle'>G</text></svg>">
-<meta name="description" content="Daily estimates of global AI token consumption by vendor, country, and region. The most complete open dataset tracking AI compute at scale.">
+<meta name="description" content="GATT tracks daily AI token consumption across 29 vendors, 18 countries. China 55% volume vs US 62% value — the Token Economy gap measured daily.">
+<meta name="keywords" content="AI token consumption, global AI usage, token economy, ByteDance Doubao, OpenAI tokens, AI inference data, China AI, US AI, AI compute">
+<meta name="author" content="Frank Gao">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gf691271.github.io/gatt/">
+
 <meta property="og:type" content="website">
-<meta property="og:title" content="Global AI Token Tracker — Daily Estimates">
-<meta property="og:description" content="China vs US vs World. Daily token consumption estimates from 30+ AI vendors. Updated 2026-02-26.">
-<meta property="og:url" content="https://gf691271.github.io/ai-token-tracker/">
+<meta property="og:title" content="GATT — Global AI Token Tracker | Token Economy Index">
+<meta property="og:description" content="China runs 55% of global AI tokens. US runs 30%. But in compute value, it flips. Daily estimates from 29 vendors. The most complete open dataset.">
+<meta property="og:url" content="https://gf691271.github.io/gatt/">
+<meta property="og:site_name" content="GATT — Global AI Token Tracker">
+<meta property="og:image" content="https://gf691271.github.io/gatt/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="GATT Token Economy Index: China 55% volume, US 62% compute value, 136T daily tokens">
+
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Global AI Token Tracker">
-<meta name="twitter:description" content="By token count, China leads. By compute value, US leads. The data behind the gap.">
+<meta name="twitter:site" content="@aiyinshuangke">
+<meta name="twitter:creator" content="@aiyinshuangke">
+<meta name="twitter:title" content="GATT — Global AI Token Tracker">
+<meta name="twitter:description" content="China leads by token volume 2×. US leads by compute value 4×. The gap is the story. Daily data from 29 vendors. #TokenEconomy">
+<meta name="twitter:image" content="https://gf691271.github.io/gatt/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "GATT Global AI Token Tracker",
+  "description": "Daily estimates of global AI token consumption across 29 vendors and 18 countries. Tracks the Token Economy — AI inference as commodity, currency, and geopolitical signal.",
+  "url": "https://gf691271.github.io/gatt/",
+  "creator": {
+    "@type": "Person",
+    "name": "Frank Gao",
+    "url": "https://linkedin.com/in/frankgao"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "dateModified": "2026-02-26",
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://gf691271.github.io/gatt/data/tci-latest.json"
+    }
+  ],
+  "keywords": ["AI tokens", "token economy", "AI inference", "ByteDance", "OpenAI", "China AI", "US AI", "global AI usage"],
+  "spatialCoverage": "Global",
+  "temporalCoverage": "2024-05/2026-02"
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
@@ -547,7 +588,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.26</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.27</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;

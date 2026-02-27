@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Left accent line -->
+  <rect x="0" y="0" width="6" height="630" fill="#38bdf8"/>
+  
+  <!-- GATT title -->
+  <text x="80" y="120" font-family="Georgia, serif" font-size="96" font-weight="900" fill="white" opacity="0.95">GATT</text>
+  <text x="80" y="165" font-family="-apple-system, sans-serif" font-size="24" fill="#94a3b8">Global AI Token Tracker — Token Economy Index</text>
+  
+  <!-- Divider -->
+  <line x1="80" y1="195" x2="1120" y2="195" stroke="#334155" stroke-width="1"/>
+  
+  <!-- Key stats row -->
+  <!-- China block -->
+  <rect x="80" y="230" width="300" height="140" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="100" y="268" font-family="-apple-system, sans-serif" font-size="13" fill="#94a3b8" font-weight="700" letter-spacing="2">CHINA VOLUME</text>
+  <text x="100" y="330" font-family="Georgia, serif" font-size="64" font-weight="700" fill="#ef4444">55%</text>
+  <text x="100" y="358" font-family="-apple-system, sans-serif" font-size="15" fill="#64748b">~66T tokens/day · Doubao #1</text>
+  
+  <!-- US block -->
+  <rect x="410" y="230" width="300" height="140" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="430" y="268" font-family="-apple-system, sans-serif" font-size="13" fill="#94a3b8" font-weight="700" letter-spacing="2">US COMPUTE VALUE</text>
+  <text x="430" y="330" font-family="Georgia, serif" font-size="64" font-weight="700" fill="#3b82f6">62%</text>
+  <text x="430" y="358" font-family="-apple-system, sans-serif" font-size="15" fill="#64748b">Google + OpenAI + Anthropic</text>
+  
+  <!-- Global block -->
+  <rect x="740" y="230" width="380" height="140" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="760" y="268" font-family="-apple-system, sans-serif" font-size="13" fill="#94a3b8" font-weight="700" letter-spacing="2">GLOBAL DAILY TOKENS</text>
+  <text x="760" y="330" font-family="Georgia, serif" font-size="64" font-weight="700" fill="#38bdf8">136T</text>
+  <text x="760" y="358" font-family="-apple-system, sans-serif" font-size="15" fill="#64748b">+12% MoM · Feb 2026</text>
+  
+  <!-- Thesis line -->
+  <rect x="80" y="400" width="1040" height="2" fill="#1e40af" opacity="0.4"/>
+  <text x="80" y="448" font-family="Georgia, serif" font-size="22" fill="#e2e8f0" font-style="italic">"China leads by token volume 2× · US leads by compute value 4× · The gap is the story."</text>
+  
+  <!-- Bottom row -->
+  <text x="80" y="530" font-family="-apple-system, sans-serif" font-size="18" fill="#64748b">29 Vendors · 18 Countries · 80+ Models · Open Data CC BY 4.0</text>
+  <text x="80" y="570" font-family="-apple-system, sans-serif" font-size="20" fill="#38bdf8" font-weight="600">gf691271.github.io/gatt</text>
+  
+  <!-- Twitter handle -->
+  <text x="1020" y="570" font-family="-apple-system, sans-serif" font-size="16" fill="#475569">@aiyinshuangke</text>
+</svg>
