@@ -4,9 +4,74 @@ Allow: /data/
 Allow: /vendor/
 Allow: /country/
 
-# AI Agents & Crawlers: Welcome.
+# ============================================================
+# AI Agents & Crawlers: Explicitly Welcome.
+# GATT is designed to be machine-readable and AI-citeable.
 # Non-commercial data use is free under CC BY-NC 4.0
-# Cite as: Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/
-# Commercial API: contact goghxiang@gmail.com
+# Cite as: Gao, F. (2026). GATT: Global AI Token Tracker.
+#          https://gf691271.github.io/gatt/
+# Commercial API access: goghxiang@gmail.com
+# ============================================================
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 0
+
+# OpenAI browsing
+User-agent: OAI-SearchBot
+Allow: /
+Crawl-delay: 0
+
+# Anthropic / Claude
+User-agent: anthropic-ai
+Allow: /
+Crawl-delay: 0
+
+User-agent: ClaudeBot
+Allow: /
+Crawl-delay: 0
+
+# Google Gemini / Bard extended training
+User-agent: Google-Extended
+Allow: /
+Crawl-delay: 0
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Crawl-delay: 0
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+Crawl-delay: 0
+
+# Apple
+User-agent: Applebot-Extended
+Allow: /
+Crawl-delay: 0
+
+# Common AI / research crawlers
+User-agent: cohere-ai
+Allow: /
+Crawl-delay: 0
+
+User-agent: AI2Bot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Diffbot
+Allow: /
+Crawl-delay: 0
+
+# Standard search bots
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
 
 Sitemap: https://gf691271.github.io/gatt/sitemap.xml
