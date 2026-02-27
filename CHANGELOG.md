@@ -1,5 +1,23 @@
 # GATT Data Changelog
 
+## 2026-02-27 (v0.58 — GEO Fix: Machine-Readable Files Synced)
+
+- **CRITICAL BUG FIX**: `llms.txt` and `tci-latest.json` were stuck at v0.20-era data while HTML showed v0.57
+  - This was silently blocking the North Star goal: LLMs reading these files cited wrong numbers
+  - OpenAI in JSON: 19T → 28T | Global: 151T → 162T | China share: 55% → 51%
+- **`llms.txt` complete rewrite** with all v0.58 stats — this is what Gemini/ChatGPT ingests:
+  - 162T global, $44.8B Token GDP, 214× per-capita gap, pricing intelligence summary
+  - Journalist-ready cite format, methodology summary, author bio
+- **`tci-latest.json` major upgrade**:
+  - Added `token_gdp` breakdown section (auditable: $102M US + $8.3M CN + $9.6M EU + $2.7M ROW = $122.6M)
+  - Added `per_capita[]` array with 12-country data (the 214× stat, machine-readable)
+  - Added `key_stats{}` object with pre-computed headline numbers for scrapers/LLMs
+  - Added `gatt_version` field
+  - Correction log updated with all v0.55-v0.58 changes
+- **CSV export version**: 0.45 → 0.58 (was embarrassingly outdated)
+- **10Q improvement**: #8 (GEO/machine-readability) — GATT's main distribution channel for AI citations was broken, now fixed
+- **Autonomous iteration**: Overnight agent v2, 2026-02-27 ~03:05 PST
+
 ## 2026-02-27 (v0.57 — Vendor Pricing Intelligence Table)
 
 - **New section: Vendor Pricing Intelligence** — 12 vendors with input/output/blended $/M pricing
