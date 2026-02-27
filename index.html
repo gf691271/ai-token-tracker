@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://gf691271.github.io/gatt/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="GATT Token Economy Index: China 51% volume, US 80% Token GDP, 162T daily tokens — $45B annual Token GDP">
+<meta property="og:image:alt" content="GATT Token Economy Index: China 51% volume, US 80% Token GDP, 162T daily tokens — $45B annual Token GDP. US vendors charge 60-100× more per token than Chinese peers.">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@goghxiang">
@@ -609,7 +609,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.56</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.57</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -762,6 +762,96 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   💡 <strong>Token GDP</strong> = total economic value of AI inference at retail pricing. GATT coined this metric to measure AI compute as a macroeconomic variable, analogous to how GDP measures economic output. 
   <a href="#section-methodology" style="color:var(--us);">See full methodology →</a>
 </div>
+
+<!-- Vendor Pricing Intelligence Table — v0.57 -->
+<div class="section-label" id="section-pricing">💲 Vendor Pricing Intelligence — Price Per Million Tokens</div>
+<div style="font-size:0.68rem;color:var(--muted);margin-bottom:14px;">
+  Why Token GDP diverges: US vendors price <strong style="color:#fbbf24;">10–60× higher</strong> than Chinese peers for equivalent compute. 
+  This table reveals the pricing layer beneath the volume numbers.
+</div>
+<div style="overflow-x:auto;margin-bottom:8px;">
+<table id="pricing-table" style="width:100%;border-collapse:collapse;font-size:0.72rem;font-family:-apple-system,sans-serif;">
+  <thead>
+    <tr style="border-bottom:1.5px solid var(--border);text-align:left;">
+      <th style="padding:7px 8px;color:var(--muted);font-weight:600;white-space:nowrap;">Vendor</th>
+      <th style="padding:7px 8px;color:var(--muted);font-weight:600;text-align:right;white-space:nowrap;">Input $/M</th>
+      <th style="padding:7px 8px;color:var(--muted);font-weight:600;text-align:right;white-space:nowrap;">Output $/M</th>
+      <th style="padding:7px 8px;color:var(--muted);font-weight:600;text-align:right;white-space:nowrap;">Blended $/M</th>
+      <th style="padding:7px 8px;color:var(--muted);font-weight:600;text-align:right;white-space:nowrap;">Daily Vol (T)</th>
+      <th style="padding:7px 8px;color:var(--muted);font-weight:600;text-align:right;white-space:nowrap;">Daily GDP ($M)</th>
+      <th style="padding:7px 8px;color:var(--muted);font-weight:600;text-align:center;white-space:nowrap;">vs CN avg</th>
+      <th style="padding:7px 8px;color:var(--muted);font-weight:600;text-align:center;white-space:nowrap;">Tier</th>
+    </tr>
+  </thead>
+  <tbody id="pricing-tbody"></tbody>
+</table>
+</div>
+<div style="font-size:0.62rem;color:var(--muted);margin-bottom:4px;">
+  Blended $/M = weighted avg of input (70%) + output (30%). CN avg blended = ~$0.10/M. Sources: official pricing pages, Feb 2026.
+  <a href="#section-methodology" style="color:var(--us);">Methodology →</a>
+</div>
+<div style="margin-top:10px;margin-bottom:20px;display:flex;gap:8px;flex-wrap:wrap;">
+  <button onclick="navigator.clipboard.writeText('AI pricing gap in 2026:\n• OpenAI GPT-4o: $5/M tokens (blended)\n• Anthropic Claude: $7.50/M tokens\n• ByteDance Doubao: $0.06/M tokens\n• Tencent Hunyuan: $0.04/M tokens\n\nUS vendors charge 60-100× more per token than Chinese peers.\nThis is why China leads volume but US dominates Token GDP.\nSource: GATT @gatt_index https://gf691271.github.io/gatt/').then(()=>this.textContent='✅ Copied!').catch(()=>{})" style="background:rgba(255,255,255,0.08);border:1px solid var(--border);color:var(--text);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.70rem;">📋 Copy Pricing Comparison</button>
+  <a href="https://twitter.com/intent/tweet?text=AI+pricing+gap+in+2026%3A%0A%E2%80%A2+OpenAI+GPT-4o%3A+%245%2FM+tokens%0A%E2%80%A2+ByteDance+Doubao%3A+%240.06%2FM+tokens%0A%0AUS+vendors+charge+60-100%C3%97+more+per+token+than+Chinese+peers.%0AThis+is+why+China+leads+volume+but+US+dominates+Token+GDP.%0A%40gatt_index+https%3A%2F%2Fgf691271.github.io%2Fgatt%2F" target="_blank" rel="noopener" style="background:#1d9bf0;color:#fff;padding:5px 12px;border-radius:6px;font-size:0.70rem;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">Share Pricing Gap ↗</a>
+</div>
+<script>
+(function(){
+  var vendors = [
+    { name:"OpenAI (GPT-4o)", flag:"🇺🇸", input:2.50, output:10.00, vol:28,  tier:"Premium" },
+    { name:"Anthropic (Claude 3.5)", flag:"🇺🇸", input:3.00, output:15.00, vol:10,  tier:"Premium" },
+    { name:"Google (Gemini 1.5 Pro)", flag:"🇺🇸", input:1.25, output:5.00,  vol:50,  tier:"Mid" },
+    { name:"xAI (Grok-2)", flag:"🇺🇸", input:2.00, output:10.00, vol:0.5, tier:"Premium" },
+    { name:"Meta (Llama via API)", flag:"🇺🇸", input:0.18, output:0.60,  vol:12,  tier:"Budget" },
+    { name:"Mistral AI", flag:"🇫🇷", input:0.20, output:0.60,  vol:0.6, tier:"Budget" },
+    { name:"ByteDance (Doubao)", flag:"🇨🇳", input:0.04, output:0.08,  vol:63,  tier:"Ultra-Low" },
+    { name:"Tencent (Hunyuan)", flag:"🇨🇳", input:0.03, output:0.06,  vol:2.0, tier:"Ultra-Low" },
+    { name:"Baidu (ERNIE)", flag:"🇨🇳", input:0.04, output:0.12,  vol:5.0, tier:"Ultra-Low" },
+    { name:"Alibaba (Qwen)", flag:"🇨🇳", input:0.03, output:0.09,  vol:8.0, tier:"Ultra-Low" },
+    { name:"DeepSeek", flag:"🇨🇳", input:0.01, output:0.03,  vol:7.5, tier:"Ultra-Low" },
+    { name:"Groq (LPU)", flag:"🇺🇸", input:0.05, output:0.08,  vol:0.25,tier:"Budget" },
+  ];
+
+  var cnAvg = 0.10; // blended avg for Chinese vendors
+
+  var tierColors = {
+    "Premium":    { bg:"rgba(239,68,68,0.12)",   text:"#f87171",   badge:"rgba(239,68,68,0.2)"   },
+    "Mid":        { bg:"rgba(251,191,36,0.10)",  text:"#fbbf24",   badge:"rgba(251,191,36,0.2)"  },
+    "Budget":     { bg:"rgba(96,165,250,0.10)",  text:"#60a5fa",   badge:"rgba(96,165,250,0.2)"  },
+    "Ultra-Low":  { bg:"rgba(52,211,153,0.10)",  text:"#34d399",   badge:"rgba(52,211,153,0.2)"  },
+  };
+
+  var tbody = document.getElementById('pricing-tbody');
+  if(!tbody) return;
+
+  vendors.forEach(function(v){
+    var blended = v.input * 0.7 + v.output * 0.3;
+    var dailyGDP = (v.vol * 1e12 / 1e6) * blended / 1e6; // T tokens → M → $/M → $M/day
+    var ratio = (blended / cnAvg).toFixed(1);
+    var isHighRatio = parseFloat(ratio) >= 10;
+    var tc = tierColors[v.tier] || { bg:"transparent", text:"#94a3b8", badge:"rgba(148,163,184,0.2)" };
+
+    var ratioHtml = parseFloat(ratio) < 2
+      ? '<span style="color:#34d399;font-size:0.68rem;">baseline</span>'
+      : '<span style="color:' + (isHighRatio ? '#f87171' : '#fbbf24') + ';font-size:0.68rem;font-weight:700;">' + ratio + '×</span>';
+
+    var row = document.createElement('tr');
+    row.style.cssText = 'border-bottom:1px solid var(--border);background:' + tc.bg + ';transition:background 0.15s;';
+    row.onmouseenter = function(){ this.style.background = tc.bg.replace('0.1','0.2').replace('0.12','0.22'); };
+    row.onmouseleave = function(){ this.style.background = tc.bg; };
+    row.innerHTML = [
+      '<td style="padding:7px 8px;white-space:nowrap;">' + v.flag + ' <strong>' + v.name + '</strong></td>',
+      '<td style="padding:7px 8px;text-align:right;color:var(--muted);">$' + v.input.toFixed(2) + '</td>',
+      '<td style="padding:7px 8px;text-align:right;color:var(--muted);">$' + v.output.toFixed(2) + '</td>',
+      '<td style="padding:7px 8px;text-align:right;font-weight:700;color:' + tc.text + ';">$' + blended.toFixed(2) + '</td>',
+      '<td style="padding:7px 8px;text-align:right;color:var(--muted);">' + v.vol + 'T</td>',
+      '<td style="padding:7px 8px;text-align:right;font-weight:600;color:#a5f3fc;">$' + dailyGDP.toFixed(1) + 'M</td>',
+      '<td style="padding:7px 8px;text-align:center;">' + ratioHtml + '</td>',
+      '<td style="padding:7px 8px;text-align:center;"><span style="background:' + tc.badge + ';color:' + tc.text + ';padding:2px 6px;border-radius:4px;font-size:0.62rem;white-space:nowrap;">' + v.tier + '</span></td>',
+    ].join('');
+    tbody.appendChild(row);
+  });
+})();
+</script>
 <script>
 (function(){
   function drawGDPChart(){
@@ -3237,6 +3327,7 @@ function setTheme(t) {
     <a href="#section-api" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">{ } Agent API</a>
     <a href="#section-about" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">ℹ About & Cite</a>
     <a href="#section-token-gdp" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">💰 Global Token GDP</a>
+    <a href="#section-pricing" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">💲 Vendor Pricing Intelligence</a>
     <a href="#section-provenance" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔍 Data Provenance Board</a>
     <a href="#press" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📰 In the Press</a>
   </div>

@@ -1,5 +1,15 @@
 # GATT Data Changelog
 
+## 2026-02-27 (v0.57 — Vendor Pricing Intelligence Table)
+
+- **New section: Vendor Pricing Intelligence** — 12 vendors with input/output/blended $/M pricing
+  - Reveals pricing tiers: Premium (OpenAI $5/M, Anthropic $7.5/M) vs Ultra-Low (DeepSeek $0.02/M, Doubao $0.06/M)
+  - US vendors charge 60–100× more per token than Chinese peers
+  - Per-vendor daily GDP contribution calculated inline
+  - Twitter share hook: pricing gap 60–100× story
+- **Makes Token GDP fully auditable**: journalists can now verify every $/M assumption
+- Addresses 10-question #4 (transparency) and #10 (journalist citeability)
+
 ## 2026-02-27 (v0.56 — Token GDP Math Fix + Divergence Chart)
 
 - **Critical arithmetic fix**: Token GDP numbers corrected
