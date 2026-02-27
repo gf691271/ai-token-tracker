@@ -439,7 +439,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.16</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.17</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -455,7 +455,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <!-- 1. Daily volume — precise -->
   <div class="headline-card">
     <div class="hl-label">Global daily tokens</div>
-    <div class="hl-number">~120T</div>
+    <div class="hl-number">~136T</div>
     <div class="hl-sub">trillion tokens / day · Feb 2026 est.</div>
     <div class="hl-badge">↑ from ~13T in Feb 2025</div>
     <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: GATT synthesis · Epoch AI · ByteDance disclosures</div>
@@ -505,7 +505,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     <div class="hl-label">Data dark space</div>
     <div class="hl-number" style="color:#6f6d67;">11<span style="font-size:1rem;font-weight:400;color:var(--muted);"> / 29</span></div>
     <div class="hl-sub">vendors with zero public data</div>
-    <div class="hl-badge">incl. xAI, Tencent, Mistral, Baidu</div>
+    <div class="hl-badge">incl. Mistral, Baidu + others (xAI &amp; Tencent upgraded to Tier 2)</div>
   </div>
 
 </div>
@@ -595,9 +595,9 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
         <td style="padding:8px 0;"><span style="color:#92400e;font-weight:600;">Medium</span></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
-        <td style="padding:8px 0;font-weight:600;">Anthropic revenue proxy ($3B ARR, May 2025)</td>
-        <td style="padding:8px;color:var(--muted);">Revenue ÷ price</td>
-        <td style="padding:8px 0;color:var(--muted);">Claude ~0.4T/day lower bound est.</td>
+        <td style="padding:8px 0;font-weight:600;">Anthropic $14B ARR (Feb 2026) + 820M API req/day (Jun 2025)</td>
+        <td style="padding:8px;color:var(--muted);">Revenue ÷ price + request proxy</td>
+        <td style="padding:8px 0;color:var(--muted);">Claude ~10T/day est. (prev. 2.5T used stale $3B ARR)</td>
         <td style="padding:8px 0;"><span style="color:#92400e;font-weight:600;">Medium</span></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
@@ -652,7 +652,7 @@ GET https://gf691271.github.io/ai-token-tracker/api/v1/tci.json
 {
   <span class="api-key">"meta"</span>: { <span class="api-key">"updated"</span>: <span class="api-str">"2026-02-26"</span>, <span class="api-key">"methodology"</span>: <span class="api-str">"DEC = tokens × price/1M"</span> },
   <span class="api-key">"summary"</span>: {
-    <span class="api-key">"global_daily_tokens_T"</span>: <span class="api-val">100</span>,
+    <span class="api-key">"global_daily_tokens_T"</span>: <span class="api-val">136</span>,
     <span class="api-key">"china_share_pct"</span>: <span class="api-val">55</span>,
     <span class="api-key">"confirmed_data"</span>: <span class="api-val">11</span>,
     <span class="api-key">"dark_zone"</span>: <span class="api-val">11</span>
@@ -996,18 +996,19 @@ const vendors = [
 const tier2 = [
   {flag:'🇨🇳', name:'DeepSeek',      co:'DeepSeek AI',    tokNum:7.5,  tokens:'~7.5T est.',  conf:1, src:'HuggingFace + market share', country:'CN'},
   {flag:'🇺🇸', name:'Azure OpenAI',  co:'Microsoft',      tokNum:7,    tokens:'~7T est.',    conf:1, src:'Revenue ÷ price',            country:'US'},
-  {flag:'🇺🇸', name:'Claude',        co:'Anthropic',      tokNum:2.5,  tokens:'~2.5T est.',  conf:1, src:'Revenue ÷ price',            country:'US'},
-  {flag:'🇫🇷', name:'Mistral',       co:'Mistral AI',     tokNum:0.3,  tokens:'~0.3T est.',  conf:1, src:'Blog + OpenRouter',          country:'EU'},
+  {flag:'🇺🇸', name:'Claude',        co:'Anthropic',      tokNum:10,   tokens:'~10T est.',   conf:1, src:'$14B ARR Feb-2026 ÷ price + 820M req/day proxy', country:'US'},
+  {flag:'🇫🇷', name:'Mistral',       co:'Mistral AI',     tokNum:0.6,  tokens:'~0.6T est.',  conf:1, src:'$400M ARR ÷ price',          country:'EU'},
   {flag:'🇺🇸', name:'Llama API',     co:'Meta',           tokNum:0.2,  tokens:'~0.2T est.',  conf:1, src:'Growth rate stmt',           country:'US'},
   {flag:'🇺🇸', name:'Bedrock',       co:'Amazon AWS',     tokNum:0.15, tokens:'~0.15T est.', conf:1, src:'Revenue known, price est.',  country:'US'},
-  {flag:'🇺🇸', name:'Groq',          co:'Groq',           tokNum:0.12, tokens:'~0.12T est.', conf:1, src:'Speed benchmark data',       country:'US'},
+  {flag:'🇺🇸', name:'Groq',          co:'Groq',           tokNum:0.25, tokens:'~0.25T est.', conf:1, src:'2.5M devs × active usage est.', country:'US'},
   {flag:'🇺🇸', name:'Perplexity',    co:'Perplexity AI',  tokNum:0.07, tokens:'~0.07T est.', conf:1, src:'Query volume ÷ avg length',  country:'US'},
+  {flag:'🇨🇳', name:'Hunyuan',       co:'Tencent',        tokNum:2,    tokens:'~2T est.',    conf:1, src:'Yuanbao 50M DAU + 900 internal apps (Feb-2026)', country:'CN'},
+  {flag:'🇺🇸', name:'Grok',          co:'xAI',            tokNum:0.5,  tokens:'~0.5T est.',  conf:1, src:'134M queries/day (Feb-2026) × avg tokens', country:'US'},
 ];
 
 // Tier 3: data dark zone
 const tier3 = [
-  {name:'Hunyuan',              flag:'🇨🇳', co:'Tencent',         reason:'WeChat ecosystem — no public disclosure'},
-  {name:'Grok',                 flag:'🇺🇸', co:'xAI',             reason:'Private company + X platform closed'},
+  {name:'Ollama',               flag:'🌐',  co:'Ollama',          reason:'Local inference — no telemetry'},
   {name:'Ollama',               flag:'🌐',  co:'Ollama',          reason:'Local inference — no telemetry'},
   {name:'LM Studio',            flag:'🌐',  co:'LM Studio',       reason:'Local inference — no telemetry'},
   {name:'NIM',                  flag:'🇺🇸', co:'NVIDIA',          reason:'Enterprise private deployment'},
@@ -1115,7 +1116,7 @@ function buildCountryRank() {
 
 // ── SHARE ──
 function shareStats() {
-  const text = `Global AI Token Tracker — Feb 26, 2026\n\n🌍 ~120T tokens/day globally\n🇨🇳 China: ~55% by volume (Doubao 63T/day)\n🇺🇸 US: leads by compute value (Google 35T + OpenAI 19T)\n📈 Doubao grew 500× in 18 months\n\nhttps://gf691271.github.io/gatt/`;
+  const text = `Global AI Token Tracker — Feb 26, 2026\n\n🌍 ~136T tokens/day globally\n🇨🇳 China: ~55% by volume (Doubao 63T/day)\n🇺🇸 US: leads by compute value (Google 35T + OpenAI 19T + Claude 10T)\n📈 Anthropic revised 2.5T→10T after $14B ARR confirmed\n\nhttps://gf691271.github.io/gatt/`;
   if (navigator.share) {
     navigator.share({ title: 'Global AI Token Tracker', text, url: 'https://gf691271.github.io/ai-token-tracker/' });
   } else {
