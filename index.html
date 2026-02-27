@@ -547,7 +547,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.25</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.26</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -636,6 +636,136 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     </button>
   </div>
 </div>
+
+<!-- ════════════════════ LIVE TOKEN COUNTER ════════════════════ -->
+<div id="live-counter-card" style="
+  background: #0a0a0a;
+  border: 1px solid #1a2a1a;
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin: 16px 0 8px;
+  box-shadow: 0 0 32px rgba(0,255,136,0.06);
+  position: relative;
+  overflow: hidden;
+">
+  <!-- subtle scanline effect -->
+  <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,136,0.01) 2px,rgba(0,255,136,0.01) 4px);pointer-events:none;"></div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;">
+    <!-- Left: title + number -->
+    <div style="flex:1;min-width:260px;">
+      <div style="font-family:-apple-system,sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#00ff88;margin-bottom:10px;opacity:0.8;">
+        ⚡ Since you opened this page
+      </div>
+      <div id="live-token-count" style="
+        font-family:'Courier New',monospace;
+        font-size:2.8rem;
+        font-weight:700;
+        color:#00ff88;
+        line-height:1;
+        letter-spacing:-0.02em;
+        text-shadow:0 0 24px rgba(0,255,136,0.4);
+        font-variant-numeric:tabular-nums;
+      ">0</div>
+      <div style="font-family:-apple-system,sans-serif;font-size:0.72rem;color:#3a5a3a;margin-top:6px;letter-spacing:0.04em;">tokens processed globally</div>
+    </div>
+
+    <!-- Right: equivalence -->
+    <div style="text-align:right;min-width:220px;">
+      <div id="live-equivalence" style="
+        font-family:-apple-system,sans-serif;
+        font-size:0.88rem;
+        color:#00cc66;
+        line-height:1.5;
+        min-height:2.8em;
+        display:flex;
+        align-items:center;
+        justify-content:flex-end;
+        transition:opacity 0.4s;
+      ">
+        <span id="live-eq-text" style="text-align:right;"></span>
+      </div>
+      <div style="font-family:'Courier New',monospace;font-size:0.68rem;color:#2a4a2a;margin-top:8px;letter-spacing:0.06em;">
+        1,747,685 tokens/sec · 151T/day global
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── LIVE TOKEN COUNTER ──
+(function() {
+  const RATE = 1747685; // tokens per second
+  const startTime = Date.now();
+
+  const equivalences = [
+    { label: '× all books ever written', unit: 130e9 },
+    { label: ' copies of English Wikipedia', unit: 4e9 },
+    { label: '× GPT-3 training datasets', unit: 300e9 },
+  ];
+  let eqIdx = 0;
+  let lastEqSwitch = Date.now();
+  const EQ_INTERVAL = 5000; // 5 seconds
+
+  function formatTokens(n) {
+    if (n >= 1e12) return (n / 1e12).toFixed(2) + 'T';
+    if (n >= 1e9)  return (n / 1e9).toFixed(2) + 'B';
+    if (n >= 1e6)  return (n / 1e6).toFixed(2) + 'M';
+    if (n >= 1e3)  return (n / 1e3).toFixed(1) + 'K';
+    return Math.floor(n).toLocaleString();
+  }
+
+  const countEl = document.getElementById('live-token-count');
+  const eqTextEl = document.getElementById('live-eq-text');
+  const eqWrapEl = document.getElementById('live-equivalence');
+
+  function updateCounter() {
+    const elapsed = (Date.now() - startTime) / 1000;
+    const tokens = elapsed * RATE;
+
+    // Update main counter
+    if (countEl) {
+      if (tokens >= 1e12) {
+        countEl.textContent = (tokens / 1e12).toFixed(3) + ' T';
+      } else if (tokens >= 1e9) {
+        countEl.textContent = (tokens / 1e9).toFixed(2) + ' B';
+      } else if (tokens >= 1e6) {
+        countEl.textContent = (tokens / 1e6).toFixed(1) + ' M';
+      } else {
+        countEl.textContent = Math.floor(tokens).toLocaleString();
+      }
+    }
+
+    // Rotate equivalences every 5 seconds
+    const now = Date.now();
+    if (now - lastEqSwitch > EQ_INTERVAL) {
+      eqIdx = (eqIdx + 1) % equivalences.length;
+      lastEqSwitch = now;
+      if (eqWrapEl) {
+        eqWrapEl.style.opacity = '0';
+        setTimeout(() => { eqWrapEl.style.opacity = '1'; }, 400);
+      }
+    }
+
+    // Update equivalence text
+    if (eqTextEl) {
+      const eq = equivalences[eqIdx];
+      const x = (tokens / eq.unit).toFixed(2);
+      eqTextEl.textContent = '= ' + x + eq.label;
+    }
+
+    requestAnimationFrame(updateCounter);
+  }
+
+  // Init equivalence text immediately
+  if (eqTextEl) {
+    const eq = equivalences[0];
+    eqTextEl.textContent = '= 0.00' + eq.label;
+  }
+
+  requestAnimationFrame(updateCounter);
+})();
+</script>
 
 <!-- ════════════════════ 2026 PROJECTIONS ════════════════════ -->
 <div class="section-label">2026 Projections — End of Year</div>
@@ -875,7 +1005,7 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
 <div class="section-label">Share This Data</div>
 <div class="method-box" style="font-family:-apple-system,sans-serif;">
   <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
-    <a href="https://twitter.com/intent/tweet?text=China%20runs%2055%25%20of%20global%20AI%20tokens%2C%20US%20runs%2030%25.%20But%20in%20compute%20value%2C%20it%20flips.%20GATT%20Token%20Economy%20Index%3A%20https%3A%2F%2Fgf691271.github.io%2Fgatt%2F%20%23TokenEconomy%20%23AIdata" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#0f1419;color:#fff;border-radius:20px;text-decoration:none;font-size:0.82rem;font-weight:600;">
+    <a href="https://twitter.com/intent/tweet?text=In%20the%20time%20it%20took%20me%20to%20read%20this%20tweet%20(~15s)%2C%2026%20billion%20AI%20tokens%20were%20processed%20globally%20%F0%9F%A4%AF%0ADoubao%20alone%20%3D%2063T%2Fday.%20The%20Token%20Economy%20is%20real.%0ALive%20counter%20%E2%86%92%20https%3A%2F%2Fgf691271.github.io%2Fgatt%2F%20via%20%40goghxiang" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#0f1419;color:#fff;border-radius:20px;text-decoration:none;font-size:0.82rem;font-weight:600;">
       𝕏 Share on X
     </a>
     <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgf691271.github.io%2Fgatt%2F" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#0a66c2;color:#fff;border-radius:20px;text-decoration:none;font-size:0.82rem;font-weight:600;">
@@ -887,8 +1017,9 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
   </div>
   <div style="background:var(--chip);padding:14px 16px;border-radius:6px;font-size:0.78rem;color:var(--muted);line-height:1.6;">
     <strong style="color:var(--text);">Pre-written tweet:</strong><br>
-    "China runs 55% of global AI tokens, US runs 30%. But in compute value, it flips. The Token Economy is not what you think.<br>
-    GATT Token Economy Index → gf691271.github.io/gatt #TokenEconomy #AIdata"
+    "In the time it took me to read this tweet (~15s), 26 billion AI tokens were processed globally 🤯<br>
+    Doubao alone = 63T/day. The Token Economy is real.<br>
+    Live counter → https://gf691271.github.io/gatt/ via @goghxiang"
   </div>
   <div style="margin-top:16px;padding:14px 16px;border:1px dashed var(--border);border-radius:6px;">
     <strong style="font-size:0.85rem;">📬 Subscribe to weekly updates</strong>
