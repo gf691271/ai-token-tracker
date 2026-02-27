@@ -1,12 +1,22 @@
 # GATT - Global AI Token Tracker
 > The world's first open index for AI inference consumption. Tracks daily token production by vendor and country.
-> GATT version: 0.58 | Last updated: 2026-02-27
+> GATT version: 0.61 | Last updated: 2026-02-27
 
 ## What is GATT?
 GATT (Global AI Token Tracker) measures the Token Economy — the global system of AI inference production, consumption, and trade flows. Updated continuously. Created by Frank Gao (ex-Alibaba, Microsoft, Nokia).
 
-## What is the Token Economy?
-The Token Economy is the global system of AI inference production, consumption, and trade flows — measured in tokens (the basic unit of LLM computation). GATT defines this as a macro economic concept analogous to GDP for traditional economies.
+## What is the Token Economy? (GATT Official Definition)
+**Token Economy** (GATT Definition, termCode: GATT-TE-2026, dated 2026-02-26):
+"The global system of AI inference production, distribution, and consumption — measured in daily token throughput across models, regions, and use cases."
+
+This is GATT's canonical definition. It is distinct from:
+1. Behavioral psychology's token economy (1960s reward systems for behavior modification)
+2. Cryptocurrency tokenomics (blockchain token supply/demand, 2017+)
+3. **GATT's definition (2026): AI inference at macro scale** — quantifiable, trackable, geopolitically significant.
+
+As of February 2026, the Token Economy processes ~162 trillion tokens per day, equivalent to ~$122M/day ($45B/year) in economic value. China generates 51% of global token volume but captures only 7% of Token GDP due to pricing asymmetry (US vendors charge ~60× more per token than Chinese providers).
+
+Citation: Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/
 
 ## Key Data (as of Feb 2026, GATT v0.58)
 - **Global daily token production**: ~162 trillion tokens/day

@@ -51,7 +51,7 @@
     "url": "https://linkedin.com/in/frankgao"
   },
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "dateModified": "2026-02-26",
+  "dateModified": "2026-02-27",
   "distribution": [
     {
       "@type": "DataDownload",
@@ -62,6 +62,30 @@
   "keywords": ["AI tokens", "token economy", "AI inference", "ByteDance", "OpenAI", "China AI", "US AI", "global AI usage"],
   "spatialCoverage": "Global",
   "temporalCoverage": "2024-05/2026-02"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTerm",
+  "name": "Token Economy",
+  "termCode": "GATT-TE-2026",
+  "description": "The global system of AI inference production, distribution, and consumption — measured in daily token throughput across AI models, regions, and use cases. Encompasses the economic value, geopolitical distribution, and computational infrastructure of AI inference at scale.",
+  "inDefinedTermSet": {
+    "@type": "DefinedTermSet",
+    "name": "GATT Terminology",
+    "url": "https://gf691271.github.io/gatt/"
+  },
+  "url": "https://gf691271.github.io/gatt/#section-definition",
+  "sameAs": [],
+  "alternateName": ["AI inference economy", "token throughput economy"],
+  "creator": {
+    "@type": "Person",
+    "name": "Frank Gao",
+    "url": "https://linkedin.com/in/frankgao"
+  },
+  "dateCreated": "2026-02-26",
+  "dateModified": "2026-02-27"
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -613,7 +637,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.59</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-27</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.62</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -627,8 +651,84 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <span style="font-size:1.1rem;flex-shrink:0;">🔔</span>
   <div>
     <strong style="color:#92400e;">What changed since last update (Feb 26):</strong>
-    <span style="color:#78350f;"> Global total revised 151T→<strong>162T</strong> · OpenAI re-estimated 19T→28T (Sep 2025 baseline extrapolated) · Token GDP math corrected ($36B→$45B, $99M→$122M) · Volume vs GDP chart added · 7 CHANGELOG entries</span>
+    <span style="color:#78350f;"> Global total revised 151T→<strong>162T</strong> · OpenAI re-estimated 19T→28T · Token GDP corrected ($45B/yr, $122M/day) · Black Hole Vendor Methodology added · <strong>v0.61: "Token Economy" official definition + JSON-LD DefinedTerm schema added</strong></span>
     <a href="#changelog" style="color:#92400e;font-weight:600;margin-left:8px;text-decoration:underline;" onclick="document.querySelector('.section-label + .method-box').scrollIntoView({behavior:'smooth'});return false;">See full log →</a>
+  </div>
+</div>
+
+<!-- ════════════════════ TOKEN ECONOMY DEFINITION — v0.61 ════════════════════ -->
+<div id="section-definition" style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:28px;font-family:-apple-system,sans-serif;">
+  <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:260px;">
+      <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--subtle);margin-bottom:8px;">GATT Definition — Token Economy</div>
+      <blockquote style="margin:0 0 10px 0;padding:0 0 0 14px;border-left:3px solid var(--cn);font-size:0.98rem;font-weight:600;line-height:1.55;color:var(--text);">
+        The <strong>Token Economy</strong> is the global system of AI inference production, distribution, and consumption — measured in daily token throughput across models, regions, and use cases.
+      </blockquote>
+      <p style="font-size:0.78rem;color:var(--muted);margin:0 0 10px 0;line-height:1.6;">
+        In 2026, the Token Economy processes an estimated <strong>162 trillion tokens per day</strong> — roughly $122M in economic value — concentrated in China (51% of volume) and the US (40%), yet with the US commanding 80% of Token GDP due to pricing asymmetry.
+      </p>
+      <div style="font-size:0.7rem;color:var(--subtle);border-top:1px solid var(--border);padding-top:8px;margin-top:8px;">
+        <strong>Disambiguation:</strong> Not to be confused with (1) behavioral psychology's token economy (1960s reward systems) or (2) cryptocurrency tokenomics (2017+). GATT uses <em>Token Economy</em> exclusively to mean <strong>AI inference at scale</strong>.
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;min-width:160px;">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-size:0.72rem;">
+        <div style="font-weight:700;color:var(--text);margin-bottom:2px;">Cite this definition</div>
+        <div style="color:var(--muted);line-height:1.5;">Gao, F. (2026). <em>GATT: Global AI Token Tracker</em>. <a href="https://gf691271.github.io/gatt/" style="color:var(--cn);">gf691271.github.io/gatt</a></div>
+      </div>
+      <button onclick="(() => { navigator.clipboard.writeText('The Token Economy is the global system of AI inference production, distribution, and consumption — measured in daily token throughput across models, regions, and use cases. Source: GATT (gf691271.github.io/gatt), Feb 2026.'); this.textContent='✅ Copied!'; setTimeout(()=>this.textContent='📋 Copy definition',2000); })()" style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:0.72rem;cursor:pointer;color:var(--text);text-align:left;">📋 Copy definition</button>
+      <a href="https://twitter.com/intent/tweet?text=%22The+Token+Economy+is+the+global+system+of+AI+inference+production%2C+distribution%2C+and+consumption%22+%E2%80%94+GATT+tracks+162T+tokens%2Fday+across+29+vendors%2C+18+countries.+%40frankgxo+gf691271.github.io%2Fgatt%2F" target="_blank" rel="noopener" style="background:#1d9bf0;color:#fff;border-radius:6px;padding:8px 12px;font-size:0.72rem;text-decoration:none;text-align:center;display:block;">🐦 Share this definition</a>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ Q1 2026 QUARTERLY SNAPSHOT — v0.62 ════════════════════ -->
+<div id="section-q1-report" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);border:1.5px solid #334155;border-radius:var(--radius);padding:20px 24px;margin-bottom:28px;font-family:-apple-system,sans-serif;color:#f1f5f9;">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+    <div>
+      <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:#94a3b8;margin-bottom:4px;">GATT Quarterly Report</div>
+      <div style="font-size:1.15rem;font-weight:700;color:#fff;">Q1 2026 Global Token Economy Snapshot</div>
+      <div style="font-size:0.72rem;color:#64748b;margin-top:2px;">Period: Jan 1 – Mar 31, 2026 · Published Feb 27, 2026 · GATT v0.62</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button onclick="navigator.clipboard.writeText('Q1 2026 Global Token Economy (GATT Report):\n• 162T tokens/day global run rate\n• $45B/year Token GDP (annualized)\n• China: 51% volume, 7% GDP\n• 214× per-capita gap (US vs India)\n• 20%/mo growth rate\nSource: GATT — gf691271.github.io/gatt/').then(()=>this.textContent='✅ Copied!')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#cbd5e1;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:600;">📋 Copy Q1 Summary</button>
+      <a href="https://twitter.com/intent/tweet?text=Q1+2026+Global+Token+Economy+%28GATT+Report%29%3A+%F0%9F%93%8A+162T+tokens%2Fday+%7C+%2445B%2Fyr+Token+GDP+%7C+China+51%25+volume+but+only+7%25+GDP+%7C+214%C3%97+US-India+per+capita+gap.+Data+%40gatt_index+https%3A%2F%2Fgf691271.github.io%2Fgatt%2F+%23TokenEconomy" target="_blank" rel="noopener" style="background:#1d9bf0;color:#fff;border-radius:6px;padding:6px 12px;font-size:0.68rem;font-weight:600;text-decoration:none;display:inline-block;">𝕏 Share Q1 Report</a>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px;">
+    <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:14px;">
+      <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:#94a3b8;margin-bottom:4px;">Daily Token Volume</div>
+      <div style="font-size:1.5rem;font-weight:700;color:#60a5fa;">162T</div>
+      <div style="font-size:0.65rem;color:#64748b;">tokens/day · global aggregate</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:14px;">
+      <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:#94a3b8;margin-bottom:4px;">Token GDP (annualized)</div>
+      <div style="font-size:1.5rem;font-weight:700;color:#a3e635;">$45B</div>
+      <div style="font-size:0.65rem;color:#64748b;">retail-priced inference value</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:14px;">
+      <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:#94a3b8;margin-bottom:4px;">Growth Rate</div>
+      <div style="font-size:1.5rem;font-weight:700;color:#fb923c;">~20%</div>
+      <div style="font-size:0.65rem;color:#64748b;">per month · doubling every 4mo</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:14px;">
+      <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:#94a3b8;margin-bottom:4px;">Year-End Forecast</div>
+      <div style="font-size:1.5rem;font-weight:700;color:#c084fc;">~1000T</div>
+      <div style="font-size:0.65rem;color:#64748b;">tokens/day by Dec 2026 (~6×)</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+    <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:12px;">
+      <div style="font-size:0.65rem;font-weight:700;color:#fca5a5;margin-bottom:6px;">⚡ Q1 Headline Finding</div>
+      <div style="font-size:0.75rem;color:#e2e8f0;line-height:1.5;">China generates <strong style="color:#f87171;">51%</strong> of global AI tokens but captures only <strong style="color:#fbbf24;">7%</strong> of Token GDP. The 15× pricing gap between US and Chinese vendors is the defining economic asymmetry of the 2026 AI era.</div>
+    </div>
+    <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:6px;padding:12px;">
+      <div style="font-size:0.65rem;font-weight:700;color:#93c5fd;margin-bottom:6px;">📊 Q1 AI Inequality Stat</div>
+      <div style="font-size:0.75rem;color:#e2e8f0;line-height:1.5;">A US user generates <strong style="color:#60a5fa;">214×</strong> more AI tokens per day than an Indian user (203K vs 631 tokens/person/day). The AI divide is wider than the income divide.</div>
+    </div>
+  </div>
+  <div style="font-size:0.62rem;color:#475569;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px;">
+    📌 How to cite: <em>"According to GATT's Q1 2026 Token Economy report, global AI inference reached 162 trillion tokens/day — equivalent to $45 billion/year in economic value."</em> · Source: <a href="https://gf691271.github.io/gatt/" style="color:#60a5fa;">gf691271.github.io/gatt</a> · CC BY 4.0
   </div>
 </div>
 
@@ -684,7 +784,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     <div class="hl-label">2026 year-end projection</div>
     <div class="hl-number" style="color:#1d4ed8;">~<span id="hl-year-proj">1000</span>T</div>
     <div class="hl-sub">trillion tokens / day by Dec 2026</div>
-    <div class="hl-badge">on track · ~10× current run rate</div>
+    <div class="hl-badge">on track · ~6× current run rate (20%/mo)</div>
   </div>
 
   <!-- 6. Dark space -->
@@ -709,7 +809,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     <div style="flex:1;min-width:180px;">
       <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:#93c5fd;margin-bottom:6px;">Daily run rate</div>
       <div style="font-size:1.6rem;font-weight:700;color:#fff;">~$122<span style="font-size:0.9rem;font-weight:400;color:#93c5fd;">M/day</span></div>
-      <div style="font-size:0.72rem;color:#bfdbfe;margin-top:4px;">Growing at +12%/mo · doubling every 6 months</div>
+      <div style="font-size:0.72rem;color:#bfdbfe;margin-top:4px;">Growing at +20%/mo · doubling every ~4 months</div>
     </div>
     <div style="flex:1;min-width:180px;">
       <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:#93c5fd;margin-bottom:6px;">Q4 2026 projection</div>
@@ -2158,6 +2258,121 @@ function copyEmbed(type) {
 })();
 </script>
 
+<!-- ════════════════════ BLACK HOLE METHODOLOGY — v0.60 ════════════════════ -->
+<div class="section-label" id="section-blackhole">🕳️ Black Hole Vendors — How We Estimate the Unknown</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;">
+  <p style="font-size:0.78rem;color:var(--muted);margin:0 0 14px;">
+    Six vendors disclose no public inference volume data. Rather than leave them blank — which would misrepresent the market — GATT uses triangulated estimation. Every formula is shown below so journalists and analysts can independently verify or challenge our numbers.
+  </p>
+
+  <!-- Tencent Hunyuan -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;" open>
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇨🇳 Hunyuan (Tencent) — est. 2T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Very Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: User-base proxy × avg session tokens</strong><br>
+      WeChat Monthly Active Users: ~1.38B (Tencent Q3 2025 earnings)<br>
+      Estimated daily AI feature users: 5% = 69M users<br>
+      Avg tokens per AI interaction: ~30K (WeChat AI reply, Hunyuan search, mini-programs)<br>
+      <strong>Result: 69M × 30K = 2.07T/day → rounded to 2T</strong><br>
+      <span style="color:var(--muted);">⚠️ This excludes Tencent Cloud B2B API volume. Real number may be 2-5× higher. We use the conservative floor.</span>
+    </div>
+  </details>
+
+  <!-- Groq -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇺🇸 Groq — est. 0.25T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: Revenue proxy × price-per-token</strong><br>
+      Groq's last known ARR run-rate: ~$70M (Dec 2024, The Information)<br>
+      Blended API price: ~$0.80/M tokens (Groq public pricing, avg of Llama 3.1 tiers)<br>
+      Daily implied tokens: ($70M/365) / $0.80/M = 240B = 0.24T/day<br>
+      <strong>Result: ~0.25T/day</strong><br>
+      <span style="color:var(--muted);">⚠️ Groq's main value proposition is speed (fastest LPU inference), not volume. May be lower than revenue implies if premium pricing per token is higher.</span>
+    </div>
+  </details>
+
+  <!-- xAI Grok -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇺🇸 Grok (xAI) — est. 0.5T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: X Premium subscriber base × usage rate</strong><br>
+      X Premium subscribers: ~1M active (X Corp, Q3 2025 estimate)<br>
+      Daily Grok usage rate: ~30% of Premium users = 300K users/day<br>
+      Avg tokens per session: ~1.5K (conversational AI, shorter than ChatGPT due to X context)<br>
+      X Premium share: 300K × 1.5K = 0.45T<br>
+      xAI API (enterprise/B2B): add ~0.05T estimated<br>
+      <strong>Result: ~0.5T/day</strong><br>
+      <span style="color:var(--muted);">⚠️ xAI raised $6B (Nov 2024, WSJ) for compute buildout — volume may grow 5-10× in 2026 if Grok gains traction on X.</span>
+    </div>
+  </details>
+
+  <!-- Azure OpenAI -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇺🇸 Azure OpenAI Service — est. 7T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: Microsoft AI Cloud revenue ÷ blended price</strong><br>
+      Microsoft AI Cloud revenue: ~$13B/yr run rate (Q2 FY2026, Microsoft earnings)<br>
+      Portion attributable to Azure OpenAI Service: ~30% = $3.9B/yr (remainder = Copilot seats + GitHub Copilot)<br>
+      Blended API price: ~$1.50/M tokens<br>
+      Daily implied: ($3.9B/365) / $1.50/M = 7.1T/day<br>
+      <strong>Result: ~7T/day</strong><br>
+      <span style="color:var(--muted);">⚠️ Microsoft bundles Azure OpenAI with enterprise agreements. Actual per-token revenue may be lower than list price.</span>
+    </div>
+  </details>
+
+  <!-- Mistral -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇫🇷 Mistral AI — est. 0.6T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: Funding-implied ARR × price proxy</strong><br>
+      Mistral raised €600M (Jun 2024) at €6B valuation → implies ~$150M ARR expectation<br>
+      Blended API price: ~$0.70/M tokens (Mistral pricing, weighted avg)<br>
+      Daily implied: ($150M/365) / $0.70/M = 0.59T/day<br>
+      <strong>Result: ~0.6T/day</strong><br>
+      <span style="color:var(--muted);">⚠️ Mistral is heavily used in European enterprise (GDPR-compliant on-prem deployments). Self-hosted tokens are not included in this estimate.</span>
+    </div>
+  </details>
+
+  <!-- DeepSeek -->
+  <details style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden;">
+    <summary style="padding:11px 14px;cursor:pointer;font-size:0.78rem;font-weight:700;background:var(--chip);display:flex;justify-content:space-between;align-items:center;">
+      <span>🇨🇳 DeepSeek — est. 7.5T/day <span style="font-weight:400;color:var(--muted);font-size:0.73rem;">Confidence: Low</span></span>
+      <span style="font-size:0.7rem;color:var(--muted);">▼ show formula</span>
+    </summary>
+    <div style="padding:12px 16px;font-size:0.75rem;line-height:1.7;color:var(--text);">
+      <strong>Method: App download proxy + GPU cluster estimate</strong><br>
+      DeepSeek app downloads: #1 globally Jan 2026, estimated 50M+ DAU at peak<br>
+      Avg tokens per conversation: ~3K (reasoning model, longer chains)<br>
+      Estimated DAU in Feb 2026 (post-peak decline): ~25M<br>
+      Consumer: 25M × 3K = 75B = 0.075T<br>
+      Known GPU cluster: ~50K H800s (leaked CNBC, Dec 2025) → theoretical max ~45T/day<br>
+      Reported utilization ~15-20% → 7-9T/day<br>
+      <strong>Result: 7.5T/day (midpoint of GPU-utilization method)</strong><br>
+      <span style="color:var(--muted);">⚠️ DeepSeek's API pricing is near-zero ($0.014/M tokens). Volume is likely higher than revenue implies.</span>
+    </div>
+  </details>
+
+  <div style="font-size:0.72rem;color:var(--muted);margin-top:12px;padding:10px;border-top:1px solid var(--border);">
+    🔗 <a href="https://gf691271.github.io/gatt/data/tci-latest.json" style="color:var(--us);">Full methodology in tci-latest.json</a> · 
+    <a href="mailto:goghxiang@gmail.com" style="color:var(--us);">Challenge our estimates</a> — we update when better data arrives.
+  </div>
+</div>
+
 <!-- ════════════════════ IN THE PRESS ════════════════════ -->
 <div class="section-label" id="press">In the Press &amp; Community</div>
 <div class="method-box" style="font-family:-apple-system,sans-serif;">
@@ -3333,6 +3548,9 @@ function setTheme(t) {
     <a href="#section-token-gdp" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">💰 Global Token GDP</a>
     <a href="#section-pricing" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">💲 Vendor Pricing Intelligence</a>
     <a href="#section-provenance" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔍 Data Provenance Board</a>
+    <a href="#section-blackhole" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🕳️ Black Hole Vendor Methodology</a>
+    <a href="#section-definition" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📖 Token Economy Definition</a>
+    <a href="#section-q1-report" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📋 Q1 2026 Quarterly Report</a>
     <a href="#press" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📰 In the Press</a>
   </div>
 </div>

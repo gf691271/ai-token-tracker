@@ -1,5 +1,21 @@
 # GATT Data Changelog
 
+## 2026-02-27 (v0.61 — Token Economy Definition + DefinedTerm JSON-LD)
+
+- **"Token Economy" Definition section** added to page (above Key Numbers):
+  - Canonical 1-sentence definition: "The global system of AI inference production, distribution, and consumption — measured in daily token throughput across models, regions, and use cases."
+  - Three-way disambiguation: behavioral psych (1960s) / crypto tokenomics (2017+) / AI inference (GATT 2026)
+  - Cite this data format + copy-to-clipboard button + Twitter share hook
+  - Quick-nav entry added: 📖 Token Economy Definition
+- **`DefinedTerm` JSON-LD schema** added to `<head>` (alongside existing Dataset schema):
+  - `@type: DefinedTerm` with termCode, inDefinedTermSet, creator, dateCreated/Modified
+  - Now compliant with schema.org vocabulary for concept definitions
+  - Google and AI crawlers can now extract GATT's definition as a named concept
+- **North Star alignment**: This is the first concrete step toward GATT owning the "Token Economy" definition slot in search and AI responses
+- Improves 10-Question check: #9 (content authority), #10 (AI journalist引用), #4 (definition transparency)
+
+
+
 ## 2026-02-27 (v0.58 — GEO Fix: Machine-Readable Files Synced)
 
 - **CRITICAL BUG FIX**: `llms.txt` and `tci-latest.json` were stuck at v0.20-era data while HTML showed v0.57
@@ -167,3 +183,32 @@ We welcome corrections. If you have more accurate data for any vendor:
   Formula: US vendors (~65T/day × $1.50/M) + CN vendors (~83T/day × $0.10/M) + EU/Other (~14T/day × $1.20/M) = ~$99M/day → ~$36B/year
   Key insight: China generates 55% of tokens but only 7% of Token GDP due to 15× pricing gap.
   GATT is coining this metric to establish a macroeconomic framework for AI inference.
+
+## v0.60 — 2026-02-27 05:05 PST (夜间自主迭代 #15)
+
+### 新增
+- **🕳️ Black Hole Vendor Methodology 区块**: 6个无公开数据厂商（Tencent/Groq/xAI/Azure/Mistral/DeepSeek）逐一展示估算公式
+  - 每个厂商：方法名称 + 数据来源 + 具体运算步骤 + 结果 + 风险注释
+  - `<details>` 展开设计，默认Tencent打开作为示范
+  - 链接到tci-latest.json供机器验证
+- **JSON-LD dateModified 修复**: "2026-02-26" → "2026-02-27"（AI爬虫现在认为数据是今日更新）
+- **gatt_version 同步**: tci-latest.json 0.58 → 0.60
+- **今日快照**: data/snapshots/2026-02-27.json（不可变历史存档）
+- **Quick-nav**: 新增「🕳️ Black Hole Vendor Methodology」跳转
+
+### 改善10问
+- **Q2（哪个厂商数字最不可信）**: 现在每个黑洞厂商都有公开可验证的公式，记者可挑战或确认
+- **Q4（推算逻辑对记者是否透明）**: 从"只在JSON里有source字段"升级到"主页有逐步运算展示"
+- **Q10（AI记者会引用吗）**: "黑洞厂商如何估算"是记者最想知道的 — 现在有完整答案且可引用
+
+## v0.62 — 2026-02-27 07:05 PST (Overnight Iteration 17)
+### Fixed
+- **Year-end forecast math bug**: `~10× current run rate` → `~6× current run rate (20%/mo)`. 1000T ÷ 162T = 6.2×, not 10×. The "10×" label was a credibility-killing error visible to any journalist doing basic math.
+- **Growth rate consistency**: Token GDP section showed "12%/mo" but forecast implied 20%/mo. Standardized to 20%/mo (consistent with 1000T by Dec 2026 projection). Note: 12%/mo conservative → ~503T/day; 20%/mo aggressive → ~1003T/day. Now explicitly showing the 20%/mo assumption.
+### Added
+- **Q1 2026 Token Economy Snapshot**: Quarterly report section with cite-ready format. Gives journalists a structured, quotable metric: "Q1 2026 Global Token Economy: 162T tokens/day, $45B/year Token GDP." Now GATT is a *recurring publication*, not just a dashboard.
+- Quick-nav entry: 📋 Q1 2026 Quarterly Report
+### Improves 10-Question Score
+- Q2 (数据可信度): 年末预测倍数与实际数字一致，消除速算就能发现的错误
+- Q9 (内容权威性): 季报格式让GATT从"数据网站"升级为"定期出版物"
+- Q10 (AI记者会引用吗): 现在有标准引用格式："According to GATT's Q1 2026 Token Economy report..."
