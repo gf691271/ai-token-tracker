@@ -542,6 +542,21 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   gap: 8px;
 }
 
+/* ── PRINT STYLES ── */
+@media print {
+  #theme-switcher, #quick-nav, .btn-share, .btn-like, #btn-copy-share,
+  .show-method, .correction-badge, .lang-switcher { display: none !important; }
+  body { background: white; color: black; }
+  .page { max-width: 100%; padding: 0 20px; }
+  .site-header { border-bottom: 2px solid black; }
+  .section-label { border-top: 1px solid #ccc; page-break-before: always; }
+  .rank-row-wrapper { page-break-inside: avoid; }
+  .proj-card { page-break-inside: avoid; }
+  a { color: black; text-decoration: none; }
+  a[href]::after { content: " (" attr(href) ")"; font-size: 0.65rem; color: #666; }
+  canvas { max-width: 100%; }
+}
+
 @media (max-width: 640px) {
   .page { padding: 0 16px 60px; }
   /* Token Economy 3-col → 1-col on mobile */
@@ -2417,7 +2432,7 @@ function downloadCSV() {
   const rows = allRanked.map((v,i) => 
     `${i+1},"${v.name}","${v.co}","${v.country}",${v.tokNum},${v.conf===1?2:1},"${v.conf===3?'Verified':v.conf===2?'Media':'Estimated'}","${v.src}"`
   ).join('\n');
-  const csv = `# GATT Global AI Token Tracker — Data Export\n# Source: https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0\n# Updated: 2026-02-26 | Version: 0.36\n#\n${header}${rows}`;
+  const csv = `# GATT Global AI Token Tracker — Data Export\n# Source: https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0\n# Updated: 2026-02-26 | Version: 0.44\n#\n${header}${rows}`;
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
