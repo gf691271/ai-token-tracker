@@ -28,8 +28,8 @@
 <meta property="og:image:alt" content="GATT Token Economy Index: China 55% volume, US 62% compute value, 151T daily tokens">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@aiyinshuangke">
-<meta name="twitter:creator" content="@aiyinshuangke">
+<meta name="twitter:site" content="@goghxiang">
+<meta name="twitter:creator" content="@goghxiang">
 <meta name="twitter:title" content="GATT — Global AI Token Tracker">
 <meta name="twitter:description" content="China leads by token volume 2×. US leads by compute value 4×. The gap is the story. Daily data from 29 vendors. #TokenEconomy">
 <meta name="twitter:image" content="https://gf691271.github.io/gatt/og-image.png">
@@ -1162,7 +1162,7 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
   <div style="margin-top:16px;padding:14px 16px;border:1px dashed var(--border);border-radius:6px;">
     <strong style="font-size:0.85rem;">📬 Subscribe to weekly updates</strong>
     <p style="font-size:0.78rem;color:var(--muted);margin:6px 0 0;">Get the latest Token Economy data every Monday.<br>
-    Email <a href="mailto:aiyinshuangke@gmail.com?subject=Subscribe%20to%20GATT%20Weekly" style="color:var(--us);font-weight:600;">aiyinshuangke@gmail.com</a> with subject "Subscribe"</p>
+    Email <a href="mailto:goghxiang@gmail.com?subject=Subscribe%20to%20GATT%20Weekly" style="color:var(--us);font-weight:600;">goghxiang@gmail.com</a> with subject "Subscribe"</p>
   </div>
 </div>
 
@@ -1273,8 +1273,8 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
       </p>
       <div style="margin-top:10px;display:flex;gap:12px;font-size:0.78rem;">
         <a href="https://linkedin.com/in/frankgao" target="_blank" style="color:var(--us);text-decoration:none;font-weight:600;">LinkedIn →</a>
-        <a href="https://twitter.com/aiyinshuangke" target="_blank" style="color:var(--text);text-decoration:none;font-weight:600;">𝕏 @aiyinshuangke →</a>
-        <a href="mailto:aiyinshuangke@gmail.com" style="color:var(--muted);text-decoration:none;">Media inquiries →</a>
+        <a href="https://twitter.com/goghxiang" target="_blank" style="color:var(--text);text-decoration:none;font-weight:600;">𝕏 @goghxiang →</a>
+        <a href="mailto:goghxiang@gmail.com" style="color:var(--muted);text-decoration:none;">Media inquiries →</a>
       </div>
     </div>
     <div style="flex:1;min-width:260px;">
@@ -1351,8 +1351,10 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
 
 <!-- ════════════════════ FOOTER ════════════════════ -->
 <footer class="site-footer">
-  <div>GATT · Global AI Token Tracker · Open data · CC BY 4.0 · <a href="https://github.com/gf691271/gatt" style="color:inherit">GitHub</a></div>
-  <div>All figures are estimates. Not financial advice. Last updated 2026-02-26.</div>
+  <div>GATT · Global AI Token Tracker · Open Data · CC BY 4.0 · <a href="https://github.com/gf691271/gatt" style="color:inherit">GitHub</a></div>
+  <div style="margin:6px 0;">Cite: Gao, F. (2026). GATT: Global AI Token Tracker. <a href="https://gf691271.github.io/gatt/" style="color:inherit">gf691271.github.io/gatt</a></div>
+  <div style="margin:4px 0;"><a href="about.html" style="color:inherit">About &amp; Methodology</a> · <a href="CHANGELOG.md" style="color:inherit">Data Changelog</a> · <span style="color:var(--subtle)">API docs coming soon</span></div>
+  <div style="margin-top:6px;">All figures are estimates. Not financial advice. Last updated 2026-02-27.</div>
 </footer>
 
 </div><!-- /page -->
@@ -1770,6 +1772,33 @@ const corrections = {
       new: '~0.5T/day est.',
       reason: 'xAI reported 134M queries/day (Feb 2026). At avg ~3.7K tokens/query → ~0.5T/day. Promoted from Tier 3 to Tier 2.',
       source: 'xAI / Elon Musk X post citing 134M queries/day (Feb 2026)'
+    }
+  ],
+  'Google Gemini': [
+    {
+      date: '2026-02-26',
+      old: '35T/day (API-only)',
+      new: '~50T/day (All Surfaces)',
+      reason: 'Switched to All Surfaces scope per Q3 2025 earnings.',
+      source: 'Alphabet Q3 2025 Earnings Call'
+    }
+  ],
+  'DeepSeek': [
+    {
+      date: '2026-02-26',
+      old: '~5T/day',
+      new: '~7.5T/day',
+      reason: 'V3 + R1 adoption surge.',
+      source: 'HuggingFace + market modeling'
+    }
+  ],
+  'Groq': [
+    {
+      date: '2026-02-26',
+      old: '~0.15T/day',
+      new: '~0.25T/day',
+      reason: 'LPU capacity back-calc + valuation estimate.',
+      source: 'Groq $750M funding round (Sep 2025)'
     }
   ],
   'ERNIE': [
