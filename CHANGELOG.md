@@ -1,5 +1,21 @@
 # GATT Data Changelog
 
+## 2026-02-27 (v0.54 — Data Provenance Board)
+
+- **New section**: "🔍 Data Provenance Board" — full transparency table for all 20 vendors
+  - Shows: source date, days since last verification, confidence level (color-coded), estimation method
+  - Stale sources (>120 days) highlighted in red — journalists can instantly spot extrapolated estimates
+  - Fresh sources (≤60 days) shown in green — high-signal data marked clearly
+  - Direct link to full provenance JSON
+  - Quick-nav added: "🔍 Data Provenance Board"
+- **Why**: Addresses 10-question audit item #4 (inference logic transparency for journalists/analysts)
+  - Previously: readers had to click into about.html to understand how numbers were derived
+  - Now: single-glance table on dashboard shows data freshness for every vendor
+  - Expected impact: makes GATT more citable — journalists can verify staleness before citing
+- **Autonomous iteration**: Overnight agent v2, 2026-02-27 ~23:10 PST
+
+---
+
 ## 2026-02-26 (v0.51 — Per Capita Ranking)
 
 - **New section**: "AI Inequality — Tokens Per Person, Per Day"

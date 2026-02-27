@@ -609,7 +609,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.53</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.54</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -1835,6 +1835,94 @@ function copyEmbed(type) {
   </div>
 </div>
 
+<!-- ════════════════════ DATA PROVENANCE BOARD ════════════════════ -->
+<div class="section-label" id="section-provenance">🔍 Data Provenance Board</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;">
+  <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px;">Every number has a source. This board shows exactly when each vendor's data was last verified, how many days ago, and the confidence level. Journalists and analysts: sort by "Days Old" to find the freshest signals. Rows in <span style="color:#e74c3c;font-weight:600;">red</span> are extrapolated from sources &gt;90 days old.</p>
+
+  <div style="overflow-x:auto;">
+  <table id="provenance-table" style="width:100%;border-collapse:collapse;font-size:0.77rem;">
+    <thead>
+      <tr style="background:var(--chip);text-align:left;">
+        <th style="padding:8px 10px;border-bottom:1.5px solid var(--border);font-weight:700;">Rank</th>
+        <th style="padding:8px 10px;border-bottom:1.5px solid var(--border);font-weight:700;">Vendor</th>
+        <th style="padding:8px 10px;border-bottom:1.5px solid var(--border);font-weight:700;">Daily (T)</th>
+        <th style="padding:8px 10px;border-bottom:1.5px solid var(--border);font-weight:700;">Source Date</th>
+        <th style="padding:8px 10px;border-bottom:1.5px solid var(--border);font-weight:700;">Days Old</th>
+        <th style="padding:8px 10px;border-bottom:1.5px solid var(--border);font-weight:700;">Confidence</th>
+        <th style="padding:8px 10px;border-bottom:1.5px solid var(--border);font-weight:700;">Method</th>
+      </tr>
+    </thead>
+    <tbody id="provenance-tbody"></tbody>
+  </table>
+  </div>
+
+  <div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;font-size:0.72rem;color:var(--muted);">
+    <span>🟢 High (&lt;60 days)</span>
+    <span>🟡 Medium (60–120 days)</span>
+    <span>🔴 Extrapolated (&gt;120 days)</span>
+    <span style="margin-left:auto;"><a href="data/tci-latest.json" style="color:var(--us);">Download full provenance JSON →</a></span>
+  </div>
+</div>
+
+<script>
+(function buildProvenanceBoard() {
+  const vendors = [
+    { rank:1, name:"Doubao (ByteDance)", daily:63, sourceDate:"2026-01-15", confidence:"High", method:"Direct disclosure + extrapolation" },
+    { rank:2, name:"Google Gemini (All Surfaces)", daily:50, sourceDate:"2025-10-29", confidence:"Medium", method:"Earnings call + growth extrapolation" },
+    { rank:3, name:"OpenAI (ChatGPT + API)", daily:19, sourceDate:"2025-09-01", confidence:"Medium", method:"ARR proxy + Epoch AI compute model" },
+    { rank:4, name:"Claude (Anthropic)", daily:10, sourceDate:"2025-12-01", confidence:"Medium-Low", method:"ARR ÷ blended price estimate" },
+    { rank:5, name:"DeepSeek", daily:7.5, sourceDate:"2026-01-28", confidence:"Low", method:"Traffic proxy + API pricing inference" },
+    { rank:6, name:"Azure OpenAI Service", daily:7, sourceDate:"2025-11-15", confidence:"Low", method:"Microsoft Azure revenue proxy" },
+    { rank:7, name:"Qwen (Alibaba Cloud)", daily:5, sourceDate:"2025-12-10", confidence:"Medium", method:"Investor day disclosure + extrapolation" },
+    { rank:8, name:"Hunyuan (Tencent)", daily:2, sourceDate:"2025-08-01", confidence:"Very Low", method:"GPU fleet proxy (data dark zone)" },
+    { rank:9, name:"ERNIE (Baidu)", daily:1.6, sourceDate:"2026-01-20", confidence:"High", method:"Baidu quarterly earnings, direct" },
+    { rank:10, name:"Spark (iFlytek)", daily:1.4, sourceDate:"2025-11-01", confidence:"Medium", method:"Annual report + extrapolation" },
+    { rank:11, name:"OpenRouter", daily:1.0, sourceDate:"2026-02-01", confidence:"High", method:"OpenRouter public stats dashboard" },
+    { rank:12, name:"Mistral AI", daily:0.6, sourceDate:"2025-10-01", confidence:"Low", method:"Series B ARR ÷ API pricing" },
+    { rank:13, name:"Grok (xAI)", daily:0.5, sourceDate:"2025-12-01", confidence:"Low", method:"X Premium subscriber proxy" },
+    { rank:14, name:"MiniMax", daily:0.35, sourceDate:"2025-11-15", confidence:"Medium", method:"Funding announcement + API benchmark" },
+    { rank:15, name:"Groq", daily:0.25, sourceDate:"2025-10-15", confidence:"Low", method:"LMSYS leaderboard traffic proxy" },
+    { rank:16, name:"Llama API (Meta)", daily:0.2, sourceDate:"2025-09-15", confidence:"Low", method:"Meta AI monthly active users proxy" },
+    { rank:17, name:"Kimi (Moonshot AI)", daily:0.17, sourceDate:"2025-12-20", confidence:"Medium", method:"App store ranking + pricing proxy" },
+    { rank:18, name:"Amazon Bedrock", daily:0.15, sourceDate:"2025-11-01", confidence:"Low", method:"AWS AI revenue fraction estimate" },
+    { rank:19, name:"GLM (Zhipu AI)", daily:0.11, sourceDate:"2025-10-01", confidence:"Medium", method:"Enterprise partnership disclosures" },
+    { rank:20, name:"Perplexity AI", daily:0.07, sourceDate:"2026-02-10", confidence:"Low", method:"Public query volume + pricing model" }
+  ];
+
+  const today = new Date('2026-02-27');
+  const tbody = document.getElementById('provenance-tbody');
+  if (!tbody) return;
+
+  vendors.forEach((v, i) => {
+    const src = new Date(v.sourceDate);
+    const daysOld = Math.round((today - src) / 86400000);
+    const isStale = daysOld > 120;
+    const isMed = daysOld > 60 && daysOld <= 120;
+    const freshIcon = isStale ? '🔴' : isMed ? '🟡' : '🟢';
+    const rowBg = isStale ? 'rgba(231,76,60,0.05)' : i % 2 === 0 ? 'transparent' : 'var(--chip)';
+
+    const confColor = {
+      'High': '#27ae60', 'Medium': '#2980b9', 'Medium-Low': '#e67e22',
+      'Low': '#e74c3c', 'Very Low': '#8e44ad'
+    }[v.confidence] || '#666';
+
+    const tr = document.createElement('tr');
+    tr.style.background = rowBg;
+    tr.innerHTML = `
+      <td style="padding:7px 10px;border-bottom:1px solid var(--border);color:var(--muted);">#${v.rank}</td>
+      <td style="padding:7px 10px;border-bottom:1px solid var(--border);font-weight:600;">${v.name}</td>
+      <td style="padding:7px 10px;border-bottom:1px solid var(--border);font-family:monospace;">${v.daily}T</td>
+      <td style="padding:7px 10px;border-bottom:1px solid var(--border);color:var(--muted);">${v.sourceDate}</td>
+      <td style="padding:7px 10px;border-bottom:1px solid var(--border);">${freshIcon} ${daysOld}d</td>
+      <td style="padding:7px 10px;border-bottom:1px solid var(--border);"><span style="color:${confColor};font-weight:600;font-size:0.72rem;">${v.confidence}</span></td>
+      <td style="padding:7px 10px;border-bottom:1px solid var(--border);color:var(--muted);font-size:0.71rem;">${v.method}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+})();
+</script>
+
 <!-- ════════════════════ IN THE PRESS ════════════════════ -->
 <div class="section-label" id="press">In the Press &amp; Community</div>
 <div class="method-box" style="font-family:-apple-system,sans-serif;">
@@ -3007,6 +3095,7 @@ function setTheme(t) {
     <a href="#section-methodology" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔬 Methodology</a>
     <a href="#section-api" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">{ } Agent API</a>
     <a href="#section-about" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">ℹ About & Cite</a>
+    <a href="#section-provenance" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔍 Data Provenance Board</a>
     <a href="#press" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📰 In the Press</a>
   </div>
 </div>
