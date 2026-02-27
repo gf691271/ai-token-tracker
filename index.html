@@ -497,6 +497,8 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 
 @media (max-width: 640px) {
   .page { padding: 0 16px 60px; }
+  /* Token Economy 3-col → 1-col on mobile */
+  [style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns: 1fr !important; }
 
   /* Header: stack vertically on mobile */
   .site-header { flex-direction: column; gap: 10px; padding: 16px 0 12px; }
@@ -545,7 +547,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.22</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.24</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -848,6 +850,45 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
     <p style="font-size:0.78rem;color:var(--muted);margin:6px 0 0;">Get the latest Token Economy data every Monday.<br>
     Email <a href="mailto:aiyinshuangke@gmail.com?subject=Subscribe%20to%20GATT%20Weekly" style="color:var(--us);font-weight:600;">aiyinshuangke@gmail.com</a> with subject "Subscribe"</p>
   </div>
+</div>
+
+<!-- ════════════════════ TOKEN ECONOMY FRAMEWORK ════════════════════ -->
+<div class="section-label">The Token Economy — A Macro Framework</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;">
+  <div style="border-left:4px solid var(--text);padding:14px 18px;margin-bottom:20px;background:var(--chip);border-radius:0 6px 6px 0;">
+    <p style="font-size:0.92rem;font-weight:700;color:var(--text);margin-bottom:6px;font-style:italic;">"The Token Economy is the global system of AI inference production, consumption, and exchange — in which AI-generated tokens function simultaneously as commodity, currency, and geopolitical signal."</p>
+    <p style="font-size:0.72rem;color:var(--muted);">— GATT Definition, 2026. Distinct from behavioral psychology's token economies and crypto's token systems.</p>
+  </div>
+
+  <h3 style="font-size:0.95rem;margin-bottom:10px;">Why Tokens Are the New Oil</h3>
+  <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:12px;">
+    In Carlota Perez's framework of <em>Technological Revolutions and Financial Capital</em>, each major technology wave creates a new "key input" — coal → steam, steel → railroads, oil → automobiles, chips → computers.
+    AI inference tokens are the key input of the current wave: they are the unit of production, the measure of scale, and the battleground of geopolitical competition.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:16px;">
+    <div style="background:var(--surface);padding:14px 12px;">
+      <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">As Commodity</div>
+      <div style="font-size:0.85rem;color:var(--text);line-height:1.5;">Bought and sold per million units at market prices. Chinese tokens trade at $0.10–0.30/M. US tokens at $1–6/M. A 4–60× price gap that mirrors oil quality differentials.</div>
+    </div>
+    <div style="background:var(--surface);padding:14px 12px;">
+      <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">As Currency</div>
+      <div style="font-size:0.85rem;color:var(--text);line-height:1.5;">API access is priced in tokens. Enterprise AI budgets are denominated in tokens. Countries that produce cheap tokens gain influence — just as petrodollar recycling shaped 20th-century geopolitics.</div>
+    </div>
+    <div style="background:var(--surface);padding:14px 12px;">
+      <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">As Geopolitical Signal</div>
+      <div style="font-size:0.85rem;color:var(--text);line-height:1.5;">Token volume = sovereign AI capacity. China's 55% share signals computational self-sufficiency. US export controls target the chip layer that produces tokens. Token counts are a proxy for national AI power.</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:0.95rem;margin-bottom:8px;">The GATT Thesis in One Sentence</h3>
+  <p style="font-size:0.85rem;color:var(--text);line-height:1.7;background:var(--chip);padding:12px 14px;border-radius:6px;">
+    <strong>China leads token volume by 2×; the US leads token value by 4×; and this gap — measured by the Dollar-Equivalent Compute (DEC) metric — is the single most important number in understanding the global AI power balance.</strong>
+  </p>
+  <p style="font-size:0.72rem;color:var(--muted);margin-top:8px;">
+    Related frameworks: Perez (2002) <em>Technological Revolutions and Financial Capital</em> · Zuboff (2019) <em>The Age of Surveillance Capitalism</em> · Bresnahan &amp; Trajtenberg (1995) on General Purpose Technologies.
+    GATT's contribution: applying commodity-market analysis to AI inference at daily granularity.
+  </p>
 </div>
 
 <!-- ════════════════════ ABOUT & CITE ════════════════════ -->
