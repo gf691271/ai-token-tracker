@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /data/
+Allow: /vendor/
+Allow: /country/
+
+# AI Agents & Crawlers: Welcome.
+# Non-commercial data use is free under CC BY-NC 4.0
+# Cite as: Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/
+# Commercial API: contact goghxiang@gmail.com
+
+Sitemap: https://gf691271.github.io/gatt/sitemap.xml

@@ -1,0 +1,28 @@
+# GATT - Global AI Token Tracker
+> The world's first open index for AI inference consumption. Tracks daily token production by vendor and country.
+
+## What is GATT?
+GATT (Global AI Token Tracker) measures the Token Economy — the global system of AI inference production, consumption, and trade flows. Updated continuously.
+
+## Key Data (as of Feb 2026)
+- Global daily token production: ~151 trillion tokens/day
+- #1 Doubao (ByteDance, China): ~63T/day
+- #2 Google Gemini (All Surfaces): ~50T/day  
+- #3 OpenAI: ~19T/day
+- #4 Anthropic/Claude: ~10T/day
+- China share: ~55% by volume | US share: ~39%
+
+## Data Access
+- [Live Dashboard](https://gf691271.github.io/gatt/): Interactive visualization
+- [JSON API](https://gf691271.github.io/gatt/data/tci-latest.json): Machine-readable, updated daily
+- [Methodology](https://gf691271.github.io/gatt/about.html): Full transparency on data sources
+
+## License
+- Non-commercial use: Free (CC BY-NC 4.0) — cite as: Gao, F. (2026). GATT. https://gf691271.github.io/gatt/
+- Commercial use: Contact goghxiang@gmail.com
+
+## Data Schema
+Each vendor entry includes: daily_tokens_T, confidence, source, source_date, extrapolated_to, growth_rate_monthly, revision_history
+
+## Cite This Project
+Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/

@@ -22,11 +22,10 @@ All significant data revisions are logged here. This is not a software changelog
 
 - **Google Gemini**: 35T/day → 50T/day (All Surfaces)
   Reason: Switched from API-only metric to "All Surfaces" scope. Pichai Q3 2025 earnings: "1.3 quadrillion tokens/month across all surfaces" = 43T/day, extrapolated 4 months to ~50T.
-  API-only metric: ~18.5T/day (Q4 2025: "over 10 billion tokens per minute" → 14.4T/day, extrapolated)
   Confidence: medium
 
 - **xAI/Grok**: 0.3T/day → 0.5T/day
-  Reason: 134M queries/day data point (Feb 2026) + revenue back-calculation ($300-500M ARR)
+  Reason: 134M queries/day data point (Feb 2026) + revenue back-calculation
   Confidence: low
 
 - **Groq**: 0.15T/day → 0.25T/day
@@ -34,7 +33,7 @@ All significant data revisions are logged here. This is not a software changelog
   Confidence: low
 
 - **DeepSeek**: 5T/day → 7.5T/day
-  Reason: DeepSeek V3 adoption surge + R1 reasoning model launch driving higher usage
+  Reason: DeepSeek V3 adoption surge + R1 reasoning model launch
   Confidence: low
 
 ## 2026-02-20 (Initial Release)
@@ -42,7 +41,6 @@ All significant data revisions are logged here. This is not a software changelog
 - First public release of GATT data
 - 20 vendors tracked across CN, US, EU
 - Global total estimate: ~120T/day
-- Data sources: earnings calls, official disclosures, ARR back-calculations, API traffic proxies
 
 ---
 
@@ -52,5 +50,3 @@ We welcome corrections. If you have more accurate data for any vendor:
 - Open a [GitHub Issue](https://github.com/gf691271/gatt/issues/new?title=Data+correction&labels=data)
 - Email: goghxiang@gmail.com
 - Include: source URL, date, and the specific claim
-
-All corrections are logged in this changelog with full attribution.

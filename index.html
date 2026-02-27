@@ -11,6 +11,12 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://gf691271.github.io/gatt/">
 
+<!-- Agent/LLM friendly -->
+<link rel="ai-data" href="/gatt/data/tci-latest.json" type="application/json">
+<meta name="ai-readable" content="true">
+<meta name="data-license" content="CC BY-NC 4.0">
+<meta name="cite-as" content="Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/">
+
 <meta property="og:type" content="website">
 <meta property="og:title" content="GATT — Global AI Token Tracker | Token Economy Index">
 <meta property="og:description" content="China runs 55% of global AI tokens. US runs 30%. But in compute value, it flips. Daily estimates from 29 vendors. The most complete open dataset.">
@@ -588,7 +594,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.30</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.31</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -596,6 +602,16 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     </div>
   </div>
 </header>
+
+<!-- ════════════════════ WHAT CHANGED BANNER ════════════════════ -->
+<div style="background:#fef3c7;border:1px solid #fde68a;border-radius:var(--radius);padding:12px 16px;margin-bottom:24px;font-family:-apple-system,sans-serif;font-size:0.8rem;display:flex;align-items:flex-start;gap:10px;">
+  <span style="font-size:1.1rem;flex-shrink:0;">🔔</span>
+  <div>
+    <strong style="color:#92400e;">What changed since last update (Feb 26):</strong>
+    <span style="color:#78350f;"> Global total revised 136T→<strong>151T</strong> · Claude corrected 2.5T→10T · Grok &amp; Hunyuan added to tracked vendors · 5 CHANGELOG entries published</span>
+    <a href="#changelog" style="color:#92400e;font-weight:600;margin-left:8px;text-decoration:underline;" onclick="document.querySelector('.section-label + .method-box').scrollIntoView({behavior:'smooth'});return false;">See full log →</a>
+  </div>
+</div>
 
 <!-- ════════════════════ HEADLINE NUMBERS ════════════════════ -->
 <div class="section-label">Key Numbers — Feb 26, 2026</div>
@@ -915,6 +931,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     <div style="font-size:0.68rem;background:#fef9c3;color:#92400e;padding:6px 8px;border-radius:4px;font-weight:600;">
       🎯 2026 projection: 1.5–3% of global volume if govt AI infra deploys on schedule
     </div>
+    <a href="https://twitter.com/intent/tweet?text=India%20generates%20just%200.6%25%20of%20global%20AI%20tokens%20today.%20But%201.4B%20people%2C%20IIT%20talent%2C%20and%20a%20national%20AI%20mission%20say%20that%27s%20about%20to%20change.%20%F0%9F%87%AE%F0%9F%87%B3%20Data%3A%20https%3A%2F%2Fgf691271.github.io%2Fgatt%2F%20%23IndiaAI%20%23TokenEconomy" target="_blank" style="display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:6px 12px;background:#0f1419;color:#fff;border-radius:16px;text-decoration:none;font-size:0.72rem;font-weight:600;font-family:-apple-system,sans-serif;">𝕏 Share India's AI story</a>
   </div>
 
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 14px;">
@@ -1093,6 +1110,7 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
   </div>
 
   <div style="background:var(--surface);border:1px solid #bbf7d0;border-left:4px solid #16a34a;border-radius:var(--radius);padding:16px 14px;">
+
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
       <div>
         <span style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#166534;font-family:-apple-system,sans-serif;">📈 Emerging</span>
