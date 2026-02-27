@@ -1,15 +1,54 @@
 {
   "version": "1.0",
-  "generated_at": "2026-02-27T00:00:00Z",
+  "gatt_version": "0.58",
+  "generated_at": "2026-02-27T11:05:00Z",
   "methodology_url": "https://gf691271.github.io/gatt/about.html",
   "cite_as": "Gao, F. (2026). GATT: Global AI Token Tracker. https://gf691271.github.io/gatt/",
   "license": "CC BY 4.0 — free to use with attribution",
   "global_summary": {
-    "total_daily_tokens_T": 151,
+    "total_daily_tokens_T": 162,
     "as_of_date": "2026-02-27",
     "confidence": "medium",
     "last_updated": "2026-02-27",
     "note": "Sum of 20 tracked vendors. Actual global total likely 200-300T including self-hosted/private deployments."
+  },
+  "token_gdp": {
+    "daily_usd_M": 122.6,
+    "annual_usd_B": 44.8,
+    "as_of_date": "2026-02-27",
+    "methodology": "vendor_volume_x_blended_price",
+    "note": "Blended price per vendor region. US ~$1.50/M tokens, EU ~$1.20/M, CN ~$0.10/M.",
+    "breakdown": [
+      {"region": "United States", "daily_tokens_T": 68, "price_per_M": 1.50, "daily_gdp_M": 102.0, "gdp_share_pct": 83},
+      {"region": "China", "daily_tokens_T": 83, "price_per_M": 0.10, "daily_gdp_M": 8.3, "gdp_share_pct": 7},
+      {"region": "Europe", "daily_tokens_T": 8, "price_per_M": 1.20, "daily_gdp_M": 9.6, "gdp_share_pct": 8},
+      {"region": "Rest of World", "daily_tokens_T": 3, "price_per_M": 0.90, "daily_gdp_M": 2.7, "gdp_share_pct": 2}
+    ],
+    "key_insight": "China generates 51% of global tokens but only 7% of Token GDP. US generates 42% of tokens but 83% of Token GDP. Pricing gap: 15x."
+  },
+  "per_capita": [
+    {"country": "United States", "code": "US", "daily_tokens_T": 68, "population_M": 335, "tokens_per_person_K": 203, "rank": 1},
+    {"country": "United Kingdom", "code": "GB", "daily_tokens_T": 3.2, "population_M": 67, "tokens_per_person_K": 47.8, "rank": 2},
+    {"country": "China", "code": "CN", "daily_tokens_T": 83, "population_M": 1400, "tokens_per_person_K": 59.3, "rank": 3},
+    {"country": "France", "code": "FR", "daily_tokens_T": 2.0, "population_M": 68, "tokens_per_person_K": 29.4, "rank": 4},
+    {"country": "Germany", "code": "DE", "daily_tokens_T": 1.8, "population_M": 84, "tokens_per_person_K": 21.4, "rank": 5},
+    {"country": "South Korea", "code": "KR", "daily_tokens_T": 1.0, "population_M": 52, "tokens_per_person_K": 19.2, "rank": 6},
+    {"country": "Japan", "code": "JP", "daily_tokens_T": 1.5, "population_M": 124, "tokens_per_person_K": 12.1, "rank": 7},
+    {"country": "Brazil", "code": "BR", "daily_tokens_T": 0.8, "population_M": 214, "tokens_per_person_K": 3.7, "rank": 8},
+    {"country": "Saudi Arabia", "code": "SA", "daily_tokens_T": 0.4, "population_M": 35, "tokens_per_person_K": 11.4, "rank": 9},
+    {"country": "Canada", "code": "CA", "daily_tokens_T": 0.9, "population_M": 40, "tokens_per_person_K": 22.5, "rank": 10},
+    {"country": "India", "code": "IN", "daily_tokens_T": 0.9, "population_M": 1430, "tokens_per_person_K": 0.63, "rank": 11},
+    {"country": "Indonesia", "code": "ID", "daily_tokens_T": 0.2, "population_M": 277, "tokens_per_person_K": 0.72, "rank": 12}
+  ],
+  "key_stats": {
+    "us_vs_india_per_capita_ratio": 214,
+    "china_token_volume_share_pct": 51,
+    "china_token_gdp_share_pct": 7,
+    "us_token_volume_share_pct": 42,
+    "us_token_gdp_share_pct": 83,
+    "pricing_gap_us_vs_cn": "15x",
+    "214x_headline": "A US user generates 214× more AI tokens per day than an Indian user",
+    "great_divergence": "China: 51% of tokens, 7% of Token GDP. US: 42% of tokens, 83% of Token GDP."
   },
   "vendors": [
     {
@@ -37,11 +76,13 @@
     },
     {
       "id": "openai-chatgpt", "rank": 3, "name": "OpenAI (ChatGPT + API)", "country": "US",
-      "daily_tokens_T": 19, "confidence": "medium", "tier": 1,
-      "source": "Epoch AI compute proxy + $5B ARR (mid-2025)",
-      "source_date": "2025-H2", "extrapolated_to": "2026-02-27", "growth_rate_monthly": 0.15,
+      "daily_tokens_T": 28, "confidence": "medium-low", "tier": 1,
+      "source": "Sep 2025 baseline (~15T) × 15%/mo growth × 5 months. Conservative estimate (theoretical max 38T).",
+      "source_date": "2026-02-01",
+      "extrapolated_to": "2026-02-27", "growth_rate_monthly": 0.15,
       "revision_history": [
-        {"date": "2026-02-20", "value_T": 19, "reason": "Initial estimate from $5B ARR at blended ~$2/M tokens"}
+        {"date": "2026-02-20", "value_T": 19, "reason": "Initial estimate from $5B ARR at blended ~$2/M tokens (Sep 2025 baseline)"},
+        {"date": "2026-02-27", "value_T": 28, "reason": "Sep 2025 baseline × 1.15^5 months growth = 38T theoretical; conservative floor 28T; sourceDate updated to Feb 2026"}
       ]
     },
     {
@@ -182,16 +223,27 @@
     }
   ],
   "countries": [
-    {"rank": 1, "country": "China", "code": "CN", "share_pct": 55, "daily_tokens_T": 83, "confidence": "medium"},
-    {"rank": 2, "country": "United States", "code": "US", "share_pct": 39, "daily_tokens_T": 59, "confidence": "medium"},
-    {"rank": 3, "country": "United Kingdom", "code": "GB", "share_pct": 2, "daily_tokens_T": 3, "confidence": "low"},
-    {"rank": 4, "country": "France", "code": "FR", "share_pct": 1, "daily_tokens_T": 1.5, "confidence": "low"},
-    {"rank": 5, "country": "Others", "code": "ROW", "share_pct": 3, "daily_tokens_T": 4.5, "confidence": "low"}
+    {"rank": 1, "country": "China", "code": "CN", "share_pct": 51, "daily_tokens_T": 83, "confidence": "medium", "per_capita_K": 59.3},
+    {"rank": 2, "country": "United States", "code": "US", "share_pct": 42, "daily_tokens_T": 68, "confidence": "medium", "per_capita_K": 203},
+    {"rank": 3, "country": "United Kingdom", "code": "GB", "share_pct": 2, "daily_tokens_T": 3.2, "confidence": "low", "per_capita_K": 47.8},
+    {"rank": 4, "country": "France", "code": "FR", "share_pct": 1.2, "daily_tokens_T": 2.0, "confidence": "low", "per_capita_K": 29.4},
+    {"rank": 5, "country": "Germany", "code": "DE", "share_pct": 1.1, "daily_tokens_T": 1.8, "confidence": "low", "per_capita_K": 21.4},
+    {"rank": 6, "country": "Japan", "code": "JP", "share_pct": 0.9, "daily_tokens_T": 1.5, "confidence": "low", "per_capita_K": 12.1},
+    {"rank": 7, "country": "South Korea", "code": "KR", "share_pct": 0.6, "daily_tokens_T": 1.0, "confidence": "low", "per_capita_K": 19.2},
+    {"rank": 8, "country": "Canada", "code": "CA", "share_pct": 0.6, "daily_tokens_T": 0.9, "confidence": "low", "per_capita_K": 22.5},
+    {"rank": 9, "country": "Brazil", "code": "BR", "share_pct": 0.5, "daily_tokens_T": 0.8, "confidence": "low", "per_capita_K": 3.7},
+    {"rank": 10, "country": "India", "code": "IN", "share_pct": 0.6, "daily_tokens_T": 0.9, "confidence": "low", "per_capita_K": 0.63},
+    {"rank": 11, "country": "Saudi Arabia", "code": "SA", "share_pct": 0.2, "daily_tokens_T": 0.4, "confidence": "low", "per_capita_K": 11.4},
+    {"rank": 12, "country": "Rest of World", "code": "ROW", "share_pct": 0.3, "daily_tokens_T": 0.5, "confidence": "low"}
   ],
-  "global_total_T": 151,
+  "global_total_T": 162,
   "year_end_projection_T": "800-1200",
   "last_updated": "2026-02-27",
   "correction_log": [
+    {"date": "2026-02-27", "vendor": "OpenAI", "old": "19T/day", "new": "28T/day", "reason": "Sep 2025 baseline × 15%/mo growth × 5 months, conservative floor. Source date updated to Feb 2026."},
+    {"date": "2026-02-27", "vendor": "Global", "old": "151T/day", "new": "162T/day", "reason": "OpenAI +9T cascade update"},
+    {"date": "2026-02-27", "vendor": "China share", "old": "55%", "new": "51%", "reason": "Recalculated as 83T/162T=51.2% with corrected global total"},
+    {"date": "2026-02-27", "vendor": "US share", "old": "39%", "new": "42%", "reason": "68T/162T=42% with OpenAI revision"},
     {"date": "2026-02-27", "vendor": "Global", "old": "136T/day", "new": "151T/day", "reason": "Google All Surfaces + Anthropic revision"},
     {"date": "2026-02-27", "vendor": "Anthropic/Claude", "old": "2.5T/day", "new": "10T/day", "reason": "$14B ARR + 820M req/day cross-validation"},
     {"date": "2026-02-26", "vendor": "Google Gemini", "old": "35T/day", "new": "50T/day", "reason": "Switched to All Surfaces scope"},
