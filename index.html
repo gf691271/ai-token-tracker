@@ -609,7 +609,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.52</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.53</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -1084,6 +1084,10 @@ function showKeyEvent(id) {
   const maxTokens = Math.max(...bubbleData.map(d => d.tokens));
   function bubbleR(t) { return Math.max(4, Math.sqrt(t / maxTokens) * 38); }
 
+  // Pre-compute US per-capita for gap ratio
+  const usEntry = bubbleData.find(d => d.label === 'US');
+  const usPerCapita = usEntry ? (usEntry.tokens * 1e12) / (usEntry.pop * 1e6) : 135000; // tokens/person/day
+
   const datasets = bubbleData.map(d => ({
     label: d.flag + ' ' + d.label,
     data: [{ x: toLog(d.pop), y: toLog(d.tokens), r: bubbleR(d.tokens), _label: d.label, _flag: d.flag, _pop: d.pop, _tok: d.tokens }],
@@ -1130,12 +1134,23 @@ function showKeyEvent(id) {
             label: function(ctx) {
               const d = ctx.raw;
               if (!d._label) return ctx.dataset.label;
-              return [
+              const perCapita = d._tok * 1e12 / (d._pop * 1e6);
+              const perCapitaK = (perCapita / 1e3).toFixed(1);
+              const lines = [
                 d._flag + ' ' + d._label,
                 'Population: ' + d._pop.toLocaleString() + 'M',
                 'Tokens: ' + d._tok + 'T/day',
-                'Tokens/capita: ' + (d._tok * 1e12 / (d._pop * 1e6) / 1e3).toFixed(1) + 'K/day'
+                'Tokens/capita: ' + perCapitaK + 'K/day'
               ];
+              if (d._label !== 'US' && usPerCapita > 0) {
+                const gap = (usPerCapita / perCapita);
+                if (gap > 1.5) {
+                  lines.push('Gap vs US: ' + (gap >= 10 ? gap.toFixed(0) : gap.toFixed(1)) + '× behind 🇺🇸');
+                } else if (gap < 0.9) {
+                  lines.push('vs US: ' + (1/gap).toFixed(1) + '× ahead of 🇺🇸');
+                }
+              }
+              return lines;
             }
           }
         },
