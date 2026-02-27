@@ -399,6 +399,48 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 .method-extrapolation { color: var(--us); }
 .method-correct-link { color: var(--cn); font-size: 0.72rem; text-decoration: none; }
 .method-correct-link:hover { text-decoration: underline; }
+
+/* ── CORRECTION HISTORY BADGES ── */
+.correction-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 0.62rem; font-family: -apple-system, sans-serif;
+  font-weight: 600; padding: 1px 5px; border-radius: 3px;
+  background: #fef3c7; color: #92400e;
+  border: 1px solid #fde68a; cursor: pointer;
+  margin-left: 4px; vertical-align: middle;
+  transition: background 0.15s;
+}
+.correction-badge:hover { background: #fde68a; }
+.correction-panel {
+  background: #fffbeb;
+  border-left: 3px solid #d97706;
+  padding: 10px 14px;
+  font-family: -apple-system, sans-serif;
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.correction-old { color: var(--cn); text-decoration: line-through; font-weight: 600; }
+.correction-new { color: #166534; font-weight: 600; }
+.correction-date { color: var(--subtle); font-size: 0.68rem; }
+
+/* ── CHANGELOG PAGE ── */
+.changelog-entry {
+  border-left: 3px solid var(--border);
+  padding: 10px 16px;
+  margin-bottom: 12px;
+}
+.changelog-entry.correction { border-left-color: #d97706; }
+.changelog-entry.addition { border-left-color: #16a34a; }
+.changelog-entry.update { border-left-color: var(--us); }
+.changelog-tag {
+  display: inline-block; font-size: 0.62rem; font-weight: 700;
+  padding: 1px 6px; border-radius: 3px; font-family: -apple-system,sans-serif;
+  text-transform: uppercase; letter-spacing: 0.06em; margin-right: 6px;
+}
+.tag-correction { background: #fef3c7; color: #92400e; }
+.tag-addition { background: #dcfce7; color: #166534; }
+.tag-update { background: #dbeafe; color: #1d4ed8; }
 .method-conf-badge {
   display: inline-block; font-size: 0.62rem; padding: 1px 6px; border-radius: 3px;
   font-weight: 600; font-family: -apple-system, sans-serif;
@@ -503,7 +545,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.20</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.22</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -839,6 +881,52 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
         <code style="font-size:0.75rem;">curl https://gf691271.github.io/gatt/data/tci-latest.json</code>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ════════════════════ CHANGELOG ════════════════════ -->
+<div class="section-label">Correction & Update Log — Public Data Revision History</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;font-size:0.82rem;">
+  <p style="font-size:0.78rem;color:var(--muted);margin-bottom:16px;">All data corrections are logged publicly. Transparency is core to GATT's credibility. If you spot an error, <a href="https://github.com/gf691271/gatt/issues/new?title=Data+correction&labels=data" style="color:var(--us);">submit a correction →</a></p>
+
+  <div class="changelog-entry correction">
+    <span class="changelog-tag tag-correction">Correction</span>
+    <strong>Claude (Anthropic)</strong>
+    <span class="correction-date" style="margin-left:8px;">2026-02-20</span><br>
+    <span class="correction-old">2.5T/day</span> → <span class="correction-new">~10T/day</span><br>
+    <span style="color:var(--muted);font-size:0.78rem;">Previous estimate used stale $3B ARR from 2024. Corrected after Bloomberg confirmed $14B ARR (Feb 2026) and Anthropic's own 820M API requests/day stat (Jun 2025). Revenue÷blended price yields 8–12T range.</span>
+  </div>
+
+  <div class="changelog-entry correction">
+    <span class="changelog-tag tag-correction">Correction</span>
+    <strong>Doubao (ByteDance)</strong>
+    <span class="correction-date" style="margin-left:8px;">2026-01-15</span><br>
+    <span class="correction-old">~50T/day</span> → <span class="correction-new">63T/day</span><br>
+    <span style="color:var(--muted);font-size:0.78rem;">December 2025 figure (50T) replaced with official January 2026 average published by Volcano Engine blog. High-confidence anchor event.</span>
+  </div>
+
+  <div class="changelog-entry addition">
+    <span class="changelog-tag tag-addition">Promoted</span>
+    <strong>Hunyuan/Tencent</strong> — Dark Zone → Tier 2
+    <span class="correction-date" style="margin-left:8px;">2026-02-25</span><br>
+    <span class="correction-old">Unknown (dark zone)</span> → <span class="correction-new">~2T/day est.</span><br>
+    <span style="color:var(--muted);font-size:0.78rem;">Tencent Yuanbao hit 50M DAU + 900 internal corporate deployments (Feb 2026). Sufficient to model: 50M DAU × 40K tokens/day avg = ~2T.</span>
+  </div>
+
+  <div class="changelog-entry addition">
+    <span class="changelog-tag tag-addition">Promoted</span>
+    <strong>Grok (xAI)</strong> — Dark Zone → Tier 2
+    <span class="correction-date" style="margin-left:8px;">2026-02-20</span><br>
+    <span class="correction-old">Unknown (dark zone)</span> → <span class="correction-new">~0.5T/day est.</span><br>
+    <span style="color:var(--muted);font-size:0.78rem;">xAI disclosed 134M queries/day (Feb 2026). At avg 3,700 tokens/query → ~0.5T/day. Source: Elon Musk post on X.</span>
+  </div>
+
+  <div class="changelog-entry update">
+    <span class="changelog-tag tag-update">Update</span>
+    <strong>ERNIE (Baidu)</strong>
+    <span class="correction-date" style="margin-left:8px;">2026-02-10</span><br>
+    <span class="correction-old">~1T/day</span> → <span class="correction-new">1.6T/day</span><br>
+    <span style="color:var(--muted);font-size:0.78rem;">Baidu Q4 2025 earnings confirmed ERNIE 4.5 adoption growth, revised upward from previous estimate.</span>
   </div>
 </div>
 
@@ -1214,6 +1302,84 @@ const methodData = {
   }
 };
 
+// ── CORRECTION HISTORY ──
+// Documents all data corrections made to vendor estimates, with date + rationale
+const corrections = {
+  'Claude': [
+    {
+      date: '2026-02-20',
+      old: '2.5T/day',
+      new: '~10T/day',
+      reason: 'Stale $3B ARR estimate replaced with confirmed $14B ARR (Feb 2026) + Anthropic 820M API req/day (Jun 2025) proxy. Revenue÷blended price gives 8–12T range; midpoint 10T adopted.',
+      source: 'Bloomberg $14B ARR (Feb-2026) + Anthropic API blog (Jun-2025)'
+    }
+  ],
+  'Doubao': [
+    {
+      date: '2026-01-15',
+      old: '~50T/day',
+      new: '63T/day',
+      reason: 'ByteDance Volcano Engine published January 2026 average (63T). Previous 50T was December 2025 figure.',
+      source: 'Volcano Engine official blog (Jan 2026)'
+    }
+  ],
+  'Hunyuan': [
+    {
+      date: '2026-02-25',
+      old: 'Dark Zone (unknown)',
+      new: '~2T/day est.',
+      reason: 'Tencent Yuanbao reached 50M DAU + 900 internal corporate deployments (Feb 2026). Promoted from Tier 3 to Tier 2 based on DAU × avg tokens model.',
+      source: 'Tencent investor day (Feb 2026) · Yuanbao DAU announcement'
+    }
+  ],
+  'Grok': [
+    {
+      date: '2026-02-20',
+      old: 'Dark Zone (unknown)',
+      new: '~0.5T/day est.',
+      reason: 'xAI reported 134M queries/day (Feb 2026). At avg ~3.7K tokens/query → ~0.5T/day. Promoted from Tier 3 to Tier 2.',
+      source: 'xAI / Elon Musk X post citing 134M queries/day (Feb 2026)'
+    }
+  ],
+  'ERNIE': [
+    {
+      date: '2026-02-10',
+      old: '~1T/day',
+      new: '1.6T/day',
+      reason: 'Baidu Q4 2025 earnings confirmed upgraded ERNIE 4.5 adoption growth. Revised upward from previous estimate.',
+      source: 'Baidu Q4 2025 earnings call'
+    }
+  ]
+};
+
+function renderCorrectionBadge(vendorName) {
+  const history = corrections[vendorName];
+  if (!history || history.length === 0) return '';
+  const count = history.length;
+  const id = 'corr-' + vendorName.replace(/[^a-z0-9]/gi, '');
+  return `<button class="correction-badge" onclick="toggleCorrection('${id}')" title="Data corrected ${count}× — click to see history">✏️ ${count > 1 ? count + ' corrections' : 'corrected ' + history[0].date}</button>`;
+}
+
+function renderCorrectionPanel(vendorName) {
+  const history = corrections[vendorName];
+  if (!history || history.length === 0) return '';
+  const id = 'corr-' + vendorName.replace(/[^a-z0-9]/gi, '');
+  let inner = history.map(c => `
+    <div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #fde68a;">
+      <span class="correction-date">📅 ${c.date}</span><br>
+      <span class="correction-old">${c.old}</span> → <span class="correction-new">${c.new}</span><br>
+      <span style="color:var(--muted)">${c.reason}</span><br>
+      <span style="font-size:0.68rem;color:var(--subtle)">Source: ${c.source}</span>
+    </div>`).join('');
+  return `<div class="correction-panel" id="${id}" style="display:none">${inner}</div>`;
+}
+
+function toggleCorrection(id) {
+  const panel = document.getElementById(id);
+  if (!panel) return;
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
 const confBadgeClass = { 'high': 'conf-high', 'medium': 'conf-medium', 'medium-low': 'conf-medium', 'low-medium': 'conf-low-medium' };
 const confBadgeLabel = { 'high': '✓ High confidence', 'medium': '~ Medium confidence', 'medium-low': '≈ Medium-low', 'low-medium': '≈ Low-medium' };
 
@@ -1354,6 +1520,8 @@ function buildRankTable() {
     const nameHtml = vendorLink
       ? `<a href="${vendorLink}" class="rank-name" style="color:inherit;text-decoration:none;border-bottom:1px dashed var(--subtle)">${v.name}</a>`
       : `<span class="rank-name">${v.name}</span>`;
+    const correctionBadge = renderCorrectionBadge(v.name);
+    const correctionPanel = renderCorrectionPanel(v.name);
 
     html += `<div class="rank-row-wrapper">
     <div class="rank-row${isTier2 ? ' dark-row' : ''}">
@@ -1362,7 +1530,7 @@ function buildRankTable() {
         <span class="rank-flag">${v.flag}</span>
         ${nameHtml}
         <span style="font-size:.7rem;color:var(--muted);margin-left:5px;font-weight:400">${v.co}</span>
-        ${infoBtn}
+        ${infoBtn}${correctionBadge}
         <div class="rank-bar-wrap" style="margin-top:4px">
           <div class="rank-bar-fill" style="width:${bar}%;background:${col};${isTier2?'opacity:0.45':''}"></div>
         </div>
@@ -1370,7 +1538,7 @@ function buildRankTable() {
       <div class="rank-tokens">${tokenLabel}</div>
       <div class="rank-confidence" style="font-size:.68rem">${confBadge}<br><span style="color:var(--subtle);font-size:.62rem">${v.src}</span></div>
     </div>
-    ${methodPanel}
+    ${methodPanel}${correctionPanel}
     </div>`;
   });
 
