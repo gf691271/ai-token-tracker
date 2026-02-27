@@ -609,7 +609,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.50</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.35</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -1030,204 +1030,6 @@ function showKeyEvent(id) {
   ⚠️ Country shares are modeled estimates based on vendor HQ + known deployment geography. Confidence: Low–Medium.
   Sources: China NDB 2025 · OpenRouter State of AI · GATT methodology.
 </div>
-
-<!-- ════════════════════ BUBBLE CHART: TOKENS vs POPULATION ════════════════════ -->
-<div id="section-bubble"></div>
-<div class="section-label" style="margin-top:28px;">Token Economy Map — Population vs. Daily Token Consumption</div>
-<div style="font-family:-apple-system,sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:12px;">
-  Each bubble = a country. X = population. Y = estimated daily tokens. <strong>Above the grey line = punching above weight in AI. Below = latent demand.</strong>
-  <button class="show-method" onclick="toggleMethod('bubblechart')" title="About this chart" style="margin-left:6px;">ⓘ</button>
-</div>
-<div id="method-bubblechart" class="method-box" style="display:none;font-size:0.78rem;font-family:-apple-system,sans-serif;margin-bottom:10px;">
-  <strong>How to read this chart:</strong> The diagonal reference line represents "population parity" — countries on the line generate tokens proportional to their population share. Countries above the line punch above their demographic weight (US, UK, Korea). Countries far below the line (India, Brazil) represent the largest latent demand in the global AI market. Bubble size = token volume. Log scale on both axes.
-</div>
-<div class="chart-wrap" style="position:relative;">
-  <canvas id="bubbleChart" height="340"></canvas>
-  <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:10px;font-family:-apple-system,sans-serif;font-size:0.7rem;color:var(--muted);align-items:center;">
-    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#c0392b;display:inline-block;"></span>China</span>
-    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#2563eb;display:inline-block;"></span>United States</span>
-    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#6b7280;display:inline-block;"></span>Developed (EU/JP/KR/CA/AU)</span>
-    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>Emerging</span>
-  </div>
-  <div style="margin-top:8px;font-family:-apple-system,sans-serif;font-size:0.7rem;color:var(--muted);">
-    X-axis: population (log scale, millions) · Y-axis: daily tokens (log scale, trillions) · Bubble size: relative token volume · est. Feb 2026
-  </div>
-  <div style="margin-top:12px;">
-    <a href="https://twitter.com/intent/tweet?text=India%3A%201.4B%20people%2C%20world%27s%20largest%20tech%20workforce.%20AI%20token%20consumption%3A%200.6%25%20of%20global.%20The%20%22Sleeping%20Giant%22%20chart%20that%20tells%20the%20whole%20story.%20%F0%9F%87%AE%F0%9F%87%B3%20via%20%40gattindex%20https%3A%2F%2Fgf691271.github.io%2Fgatt%2F%20%23IndiaAI%20%23TokenEconomy" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:#0f1419;color:#fff;border-radius:16px;text-decoration:none;font-size:0.72rem;font-weight:600;font-family:-apple-system,sans-serif;margin-right:8px;">𝕏 Share this chart</a>
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://gf691271.github.io/gatt/" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:#0077b5;color:#fff;border-radius:16px;text-decoration:none;font-size:0.72rem;font-weight:600;font-family:-apple-system,sans-serif;">in Share</a>
-  </div>
-</div>
-
-<script>
-(function() {
-  // Country bubble data: { label, flag, pop (M), tokens (T/day), color }
-  const bubbleData = [
-    { label: 'China',        flag: '🇨🇳', pop: 1412,  tokens: 83.0,  color: '#c0392b', region: 'cn' },
-    { label: 'US',           flag: '🇺🇸', pop: 335,   tokens: 45.3,  color: '#2563eb', region: 'us' },
-    { label: 'UK',           flag: '🇬🇧', pop: 68,    tokens: 4.5,   color: '#6b7280', region: 'dev' },
-    { label: 'Germany',      flag: '🇩🇪', pop: 84,    tokens: 3.0,   color: '#6b7280', region: 'dev' },
-    { label: 'Japan',        flag: '🇯🇵', pop: 124,   tokens: 3.0,   color: '#6b7280', region: 'dev' },
-    { label: 'France',       flag: '🇫🇷', pop: 68,    tokens: 2.3,   color: '#6b7280', region: 'dev' },
-    { label: 'S. Korea',     flag: '🇰🇷', pop: 52,    tokens: 2.3,   color: '#6b7280', region: 'dev' },
-    { label: 'Canada',       flag: '🇨🇦', pop: 40,    tokens: 1.5,   color: '#6b7280', region: 'dev' },
-    { label: 'Australia',    flag: '🇦🇺', pop: 27,    tokens: 1.2,   color: '#6b7280', region: 'dev' },
-    { label: 'India',        flag: '🇮🇳', pop: 1441,  tokens: 0.91,  color: '#f59e0b', region: 'em' },
-    { label: 'Brazil',       flag: '🇧🇷', pop: 215,   tokens: 0.60,  color: '#f59e0b', region: 'em' },
-    { label: 'Saudi Arabia', flag: '🇸🇦', pop: 35,    tokens: 0.91,  color: '#f59e0b', region: 'em' },
-  ];
-
-  // Convert to log10 for Chart.js
-  function toLog(v) { return Math.log10(v); }
-  function fromLog(v) { return Math.pow(10, v); }
-
-  // Bubble radius: scale by sqrt(tokens)
-  const maxTokens = Math.max(...bubbleData.map(d => d.tokens));
-  function bubbleR(t) { return Math.max(4, Math.sqrt(t / maxTokens) * 38); }
-
-  const datasets = bubbleData.map(d => ({
-    label: d.flag + ' ' + d.label,
-    data: [{ x: toLog(d.pop), y: toLog(d.tokens), r: bubbleR(d.tokens), _label: d.label, _flag: d.flag, _pop: d.pop, _tok: d.tokens }],
-    backgroundColor: d.color + 'cc',
-    borderColor: d.color,
-    borderWidth: 1.5,
-  }));
-
-  // Reference line: population parity (tokens proportional to population)
-  // US anchor: pop=335, tokens=45.3 → tokens = pop × (45.3/335) = pop × 0.135
-  const ratio = 45.3 / 335;
-  const refPops = [20, 50, 100, 300, 600, 1500];
-  const refLineData = refPops.map(p => ({ x: toLog(p), y: toLog(p * ratio) }));
-
-  datasets.push({
-    label: '— Population parity (US baseline)',
-    data: refLineData,
-    type: 'line',
-    borderColor: 'rgba(150,150,150,0.4)',
-    borderDash: [5, 5],
-    borderWidth: 1.5,
-    pointRadius: 0,
-    backgroundColor: 'transparent',
-    order: 0,
-  });
-
-  const isDark = document.documentElement.getAttribute('data-theme') === 'a';
-  const gridColor = 'rgba(150,150,150,0.12)';
-  const labelColor = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#888';
-
-  const bubbleCtx = document.getElementById('bubbleChart');
-  if (!bubbleCtx) return;
-
-  const bubbleChartObj = new Chart(bubbleCtx, {
-    type: 'bubble',
-    data: { datasets },
-    options: {
-      responsive: true,
-      animation: { duration: 900, easing: 'easeOutQuart' },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: function(ctx) {
-              const d = ctx.raw;
-              if (!d._label) return ctx.dataset.label;
-              return [
-                d._flag + ' ' + d._label,
-                'Population: ' + d._pop.toLocaleString() + 'M',
-                'Tokens: ' + d._tok + 'T/day',
-                'Tokens/capita: ' + (d._tok * 1e12 / (d._pop * 1e6) / 1e3).toFixed(1) + 'K/day'
-              ];
-            }
-          }
-        },
-        annotation: {
-          annotations: {
-            indiaArrow: {
-              type: 'label',
-              xValue: toLog(1441),
-              yValue: toLog(0.91) + 0.35,
-              content: ['🇮🇳 India: 0.6% of global', '1.4B people — biggest gap'],
-              color: '#f59e0b',
-              font: { size: 10, weight: 'bold', family: '-apple-system,sans-serif' },
-              textAlign: 'left',
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          type: 'linear',
-          title: {
-            display: true,
-            text: 'Population (log scale, millions)',
-            font: { size: 10, family: '-apple-system,sans-serif' },
-            color: labelColor,
-          },
-          ticks: {
-            font: { size: 9, family: '-apple-system,sans-serif' },
-            color: labelColor,
-            callback: v => {
-              const pop = fromLog(v);
-              if (pop >= 1000) return (pop/1000).toFixed(1) + 'B';
-              if (pop >= 10) return Math.round(pop) + 'M';
-              return '';
-            },
-            maxTicksLimit: 7,
-          },
-          grid: { color: gridColor },
-          min: toLog(15),
-          max: toLog(2000),
-        },
-        y: {
-          type: 'linear',
-          title: {
-            display: true,
-            text: 'Daily Tokens (log scale, trillions)',
-            font: { size: 10, family: '-apple-system,sans-serif' },
-            color: labelColor,
-          },
-          ticks: {
-            font: { size: 9, family: '-apple-system,sans-serif' },
-            color: labelColor,
-            callback: v => {
-              const t = fromLog(v);
-              if (t >= 10) return Math.round(t) + 'T';
-              if (t >= 1) return t.toFixed(1) + 'T';
-              return t.toFixed(2) + 'T';
-            },
-            maxTicksLimit: 8,
-          },
-          grid: { color: gridColor },
-          min: toLog(0.4),
-          max: toLog(150),
-        }
-      }
-    },
-    plugins: [{
-      id: 'bubbleLabels',
-      afterDatasetsDraw(chart) {
-        const ctx = chart.ctx;
-        chart.data.datasets.forEach((ds, i) => {
-          if (!ds.data[0]?._label) return;
-          const meta = chart.getDatasetMeta(i);
-          if (!meta.data[0]) return;
-          const { x, y } = meta.data[0].getProps(['x','y'], true);
-          const d = ds.data[0];
-          const r = d.r;
-          ctx.save();
-          ctx.font = '600 9px -apple-system,sans-serif';
-          ctx.fillStyle = ds.borderColor;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          // Place label above bubble if it fits
-          const label = d._flag + ' ' + d._label;
-          ctx.fillText(label, x, y - r - 7);
-          ctx.restore();
-        });
-      }
-    }]
-  });
-})();
-</script>
 
 <div id="section-rising"></div><!-- Rising Powers Spotlight -->
 <div class="section-label">Rising Powers — The Next Billion Tokens</div>
@@ -1700,51 +1502,6 @@ function copyEmbed(type) {
         <code style="font-size:0.75rem;">curl https://gf691271.github.io/gatt/data/tci-latest.json</code>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ════════════════════ IN THE PRESS ════════════════════ -->
-<div class="section-label" id="press">In the Press &amp; Community</div>
-<div class="method-box" style="font-family:-apple-system,sans-serif;">
-  <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px;">
-    GATT data has been cited by researchers, journalists, and practitioners in AI infrastructure.
-    If you cite GATT in your work, <a href="mailto:goghxiang@gmail.com" style="color:var(--us);">let us know →</a>
-  </p>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
-
-    <!-- Placeholder cards — ready for real citations -->
-    <div style="border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--bg);">
-      <div style="font-size:0.7rem;font-weight:700;color:var(--us);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Community · Reddit r/MachineLearning</div>
-      <p style="font-size:0.82rem;line-height:1.5;color:var(--text);margin:0 0 8px;">
-        "This is the kind of transparent, methodology-first dataset the AI field has been missing. Bookmarked."
-      </p>
-      <div style="font-size:0.72rem;color:var(--muted);">— Shared on r/MachineLearning, Feb 2026</div>
-    </div>
-
-    <div style="border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--bg);">
-      <div style="font-size:0.7rem;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Research Use · AI Infrastructure</div>
-      <p style="font-size:0.82rem;line-height:1.5;color:var(--text);margin:0 0 8px;">
-        "The DEC (Dollar-Equivalent Compute) metric in GATT is the first consistent way I've seen to compare token economies across pricing models."
-      </p>
-      <div style="font-size:0.72rem;color:var(--muted);">— AI infrastructure analyst, Feb 2026</div>
-    </div>
-
-    <div style="border:1px dashed var(--border);border-radius:8px;padding:14px 16px;background:transparent;display:flex;align-items:center;justify-content:center;min-height:90px;">
-      <div style="text-align:center;color:var(--subtle);font-size:0.8rem;">
-        <div style="font-size:1.3rem;margin-bottom:4px;">📰</div>
-        Your citation here<br>
-        <a href="mailto:goghxiang@gmail.com" style="color:var(--us);font-size:0.75rem;">goghxiang@gmail.com</a>
-      </div>
-    </div>
-
-  </div>
-
-  <div style="margin-top:16px;padding:12px 14px;background:var(--chip);border-radius:6px;font-size:0.78rem;color:var(--muted);line-height:1.6;">
-    📡 <strong>Media Kit:</strong>
-    All GATT charts are free to use under CC BY 4.0.
-    High-resolution exports available via the <a href="#embed" style="color:var(--us);">Embed &amp; Export</a> section.
-    For press inquiries: <a href="mailto:goghxiang@gmail.com" style="color:var(--us);">goghxiang@gmail.com</a>
   </div>
 </div>
 
@@ -2675,7 +2432,7 @@ function downloadCSV() {
   const rows = allRanked.map((v,i) => 
     `${i+1},"${v.name}","${v.co}","${v.country}",${v.tokNum},${v.conf===1?2:1},"${v.conf===3?'Verified':v.conf===2?'Media':'Estimated'}","${v.src}"`
   ).join('\n');
-  const csv = `# GATT Global AI Token Tracker — Data Export\n# Source: https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0\n# Updated: 2026-02-26 | Version: 0.45\n#\n${header}${rows}`;
+  const csv = `# GATT Global AI Token Tracker — Data Export\n# Source: https://gf691271.github.io/gatt/ by Frank Gao — CC BY 4.0\n# Updated: 2026-02-26 | Version: 0.44\n#\n${header}${rows}`;
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -2813,7 +2570,6 @@ function setTheme(t) {
     <a href="#section-spotlight" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">⚡ Doubao vs Gemini</a>
     <a href="#section-vendors" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🏆 Vendor Ranking</a>
     <a href="#section-countries" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🌍 Country Ranking</a>
-    <a href="#section-bubble" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🫧 Token Economy Map</a>
     <a href="#section-rising" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🚀 Rising Powers</a>
     <a href="#section-velocity" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">⚡ Token Velocity</a>
     <a href="#section-watchlist" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔭 Watch List</a>
@@ -2821,7 +2577,6 @@ function setTheme(t) {
     <a href="#section-methodology" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔬 Methodology</a>
     <a href="#section-api" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">{ } Agent API</a>
     <a href="#section-about" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">ℹ About & Cite</a>
-    <a href="#press" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📰 In the Press</a>
   </div>
 </div>
 <script>
