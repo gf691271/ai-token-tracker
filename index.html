@@ -985,6 +985,13 @@ function showKeyEvent(id) {
 
 <!-- ════════════════════ RANKING ════════════════════ -->
 <div class="section-label">Vendor Ranking — Daily Tokens</div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+  <input type="text" id="rank-search" placeholder="Search vendors..." oninput="filterRankTable(this.value)"
+    style="flex:1;max-width:280px;padding:6px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-family:-apple-system,sans-serif;background:var(--surface);color:var(--text);outline:none;"
+    onfocus="this.style.borderColor='var(--us)'" onblur="this.style.borderColor='var(--border)'">
+  <span style="font-size:0.72rem;color:var(--subtle);font-family:-apple-system,sans-serif;" id="rank-count"></span>
+</div>
+
 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;" id="rankTable">
   <div class="rank-header">
     <div>#</div><div>Vendor</div><div>T Tokens/day</div><div>DEC $/day</div><div>Source</div>
@@ -2237,6 +2244,21 @@ function copyShareText() {
     btn.textContent = '✓ Copied!';
     setTimeout(() => { btn.textContent = '📋 Copy shareable text'; }, 2000);
   });
+}
+
+// ── RANK TABLE SEARCH ──
+function filterRankTable(query) {
+  const q = query.toLowerCase();
+  const rows = document.querySelectorAll('#rankTable .rank-row-wrapper');
+  let visible = 0;
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    const show = !q || text.includes(q);
+    row.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const countEl = document.getElementById('rank-count');
+  if (countEl) countEl.textContent = q ? `${visible} result${visible !== 1 ? 's' : ''}` : '';
 }
 
 // ── DATA EXPORT ──
