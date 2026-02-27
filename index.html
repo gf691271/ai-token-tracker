@@ -375,6 +375,70 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 .api-val { color: #98d982; }
 .api-str { color: #f0b96a; }
 
+/* ── METHOD PANELS ── */
+.show-method {
+  background: none; border: none; cursor: pointer;
+  color: var(--subtle); font-size: 0.75rem; padding: 0 4px;
+  transition: color 0.15s; vertical-align: middle; line-height: 1;
+}
+.show-method:hover { color: var(--text); }
+.rank-row-wrapper { border-bottom: 1px solid var(--border); }
+.rank-row-wrapper:last-child { border-bottom: none; }
+.rank-row-wrapper .rank-row { border-bottom: none; }
+.method-panel {
+  background: var(--chip);
+  border-left: 3px solid var(--us);
+  padding: 12px 16px;
+  font-family: -apple-system, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+.method-panel-inner { display: flex; flex-direction: column; gap: 4px; }
+.method-source { color: var(--muted); }
+.method-logic { color: var(--text); }
+.method-extrapolation { color: var(--us); }
+.method-correct-link { color: var(--cn); font-size: 0.72rem; text-decoration: none; }
+.method-correct-link:hover { text-decoration: underline; }
+.method-conf-badge {
+  display: inline-block; font-size: 0.62rem; padding: 1px 6px; border-radius: 3px;
+  font-weight: 600; font-family: -apple-system, sans-serif;
+}
+.conf-high { background: #dcfce7; color: #166534; }
+.conf-medium { background: #fef9c3; color: #854d0e; }
+.conf-medium-low { background: #ffedd5; color: #9a3412; }
+.conf-low-medium { background: #f3f4f6; color: #374151; }
+
+/* ── 2026 PROJECTIONS ── */
+.proj-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.proj-card { background: var(--surface); padding: 18px 16px; position: relative; }
+.proj-label { font-family: -apple-system,sans-serif; font-size: 0.7rem; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
+.proj-number { font-size: 1.8rem; font-weight: 700; color: #d97706; line-height: 1; }
+.proj-sub { font-family: -apple-system,sans-serif; font-size: 0.72rem; color: var(--muted); margin-top: 5px; }
+.proj-badge { display:inline-block; font-size:0.62rem; background:#fef3c7; color:#92400e; padding:2px 6px; border-radius:3px; margin-top:5px; font-family:-apple-system,sans-serif; font-weight:600; }
+.proj-method-panel {
+  background: #fffbeb;
+  border-left: 3px solid #d97706;
+  padding: 10px 14px;
+  font-family: -apple-system, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 8px;
+  border-radius: 0 4px 4px 0;
+}
+@media (max-width: 640px) {
+  .proj-grid { grid-template-columns: 1fr; }
+  .proj-number { font-size: 1.4rem; }
+}
+
 /* ── FOOTER ── */
 .site-footer {
   border-top: 1px solid var(--border);
@@ -439,7 +503,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.17</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.18</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -455,10 +519,13 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <!-- 1. Daily volume — precise -->
   <div class="headline-card">
     <div class="hl-label">Global daily tokens</div>
-    <div class="hl-number">~136T</div>
+    <div class="hl-number">~136T <button class="show-method" onclick="toggleMethod('global')" title="How we calculated this">ⓘ</button></div>
     <div class="hl-sub">trillion tokens / day · Feb 2026 est.</div>
     <div class="hl-badge">↑ from ~13T in Feb 2025</div>
     <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: GATT synthesis · Epoch AI · ByteDance disclosures</div>
+    <div class="method-panel" id="method-global" style="display:none;margin-top:10px;border-radius:4px;">
+      <div class="method-panel-inner" id="method-global-inner"></div>
+    </div>
   </div>
 
   <!-- 2. MoM growth -->
@@ -524,6 +591,56 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       Correct data
     </button>
   </div>
+</div>
+
+<!-- ════════════════════ 2026 PROJECTIONS ════════════════════ -->
+<div class="section-label">2026 Projections — End of Year</div>
+<div class="proj-grid">
+
+  <div class="proj-card">
+    <div class="proj-label">Global Daily Tokens by Dec 2026</div>
+    <div class="proj-number">~800T–1.2PT</div>
+    <div class="proj-sub">per day by December 2026</div>
+    <div class="proj-badge">At current +18%/mo growth rate</div>
+    <button class="show-method" onclick="toggleProjMethod('proj-global')" title="Projection logic" style="margin-top:8px;display:block;">ⓘ See projection logic</button>
+    <div class="proj-method-panel" id="proj-global" style="display:none">
+      At +18%/mo compounded from Feb 2026 (136T/day), Dec 2026 = 136 × 1.18^10 ≈ 800T. At +22%/mo (upper) ≈ 1.2PT. Growth driven by Doubao expansion, Apple Intelligence scale-up, and OpenAI o3 rollout. Key risk: actual growth could decelerate to +10%/mo → ~350T/day.
+    </div>
+  </div>
+
+  <div class="proj-card">
+    <div class="proj-label">Top Vendor (Projected)</div>
+    <div class="proj-number">Doubao</div>
+    <div class="proj-sub">ByteDance · ~180T/day by Dec 2026</div>
+    <div class="proj-badge">If +8%/mo growth holds</div>
+    <button class="show-method" onclick="toggleProjMethod('proj-doubao')" title="Projection logic" style="margin-top:8px;display:block;">ⓘ See projection logic</button>
+    <div class="proj-method-panel" id="proj-doubao" style="display:none">
+      Doubao at 63T/day (Jan 2026) growing at +8%/mo → 63 × 1.08^11 ≈ 144T by Dec 2026. ByteDance has publicly committed to continued Volcano Engine expansion and Doubao product integrations across TikTok's 170-country footprint. Upside: new markets + enterprise API rollout could push to 200T+.
+    </div>
+  </div>
+
+  <div class="proj-card">
+    <div class="proj-label">China vs US Gap</div>
+    <div class="proj-number" style="font-size:1.3rem;color:var(--text);">Narrowing vol · Widening val</div>
+    <div class="proj-sub">CN: 62% vol / US: 28% val → projected CN: 58% / US: 22%</div>
+    <div class="proj-badge">DEC gap persists — premium pricing advantage</div>
+    <button class="show-method" onclick="toggleProjMethod('proj-gap')" title="Projection logic" style="margin-top:8px;display:block;">ⓘ See projection logic</button>
+    <div class="proj-method-panel" id="proj-gap" style="display:none">
+      Volume gap narrows as US models (Claude, GPT) grow faster (+14%/mo) than Doubao (+8%/mo). But DEC gap widens: US API pricing ($1–6/M tokens) vs China ($0.10–0.30/M) means US generates 4–8× more dollar value per token. By Dec 2026, CN may lead volume 58% but US still commands ~70%+ of compute dollar value.
+    </div>
+  </div>
+
+  <div class="proj-card">
+    <div class="proj-label">Biggest Wild Card</div>
+    <div class="proj-number" style="font-size:1.5rem;color:#7c3aed;">Apple Intelligence</div>
+    <div class="proj-sub">Could add 50–200T/day if iPhone AI features scale</div>
+    <div class="proj-badge">~2.2B iPhone users · on-device + cloud hybrid</div>
+    <button class="show-method" onclick="toggleProjMethod('proj-apple')" title="Projection logic" style="margin-top:8px;display:block;">ⓘ See projection logic</button>
+    <div class="proj-method-panel" id="proj-apple" style="display:none">
+      Apple has 2.2B active devices. If 10% use AI features daily at 1M tokens/day = 220T/day — larger than any current vendor. Apple doesn't disclose AI usage data (Tier 3 dark zone). Conservative estimate (1% active AI users, 500K tokens/day) = ~11T/day by H2 2026. Wild card: Apple could silently become the #1 AI compute node on Earth by token count without any public disclosure.
+    </div>
+  </div>
+
 </div>
 
 <!-- ════════════════════ TREND CHART ════════════════════ -->
@@ -977,6 +1094,110 @@ function setView(v) {
   trendChart.update();
 }
 
+// ── METHOD DATA ──
+const methodData = {
+  'doubao': {
+    vendor: 'Doubao (ByteDance)',
+    sourceValue: '50T/day (avg)',
+    sourceDate: '2025-Q3',
+    source: 'ByteDance investor presentation Q3 2025',
+    logic: 'Direct disclosure from ByteDance. Doubao hit 50T/day average in Q3 2025, making it the highest-volume AI service globally.',
+    growthRate: '+8%/mo',
+    extrapolated: '~63T/day (Feb 2026 est.)',
+    confidence: 'high',
+    confidenceReason: 'Direct company disclosure, cross-validated with Volcano Engine compute spend'
+  },
+  'gemini': {
+    vendor: 'Google Gemini',
+    sourceValue: '10.08B tokens/min (Q3 2025)',
+    sourceDate: '2025-Q4 earnings',
+    source: 'Alphabet Q4 2025 Earnings Call',
+    logic: 'Google disclosed tokens/min in earnings calls. Q3: 10.08B/min → Q4: 14.54B/min. Extrapolated at +13%/mo to Feb 2026.',
+    growthRate: '+13%/mo (Q3→Q4)',
+    extrapolated: '~18.5T/day (Feb 2026 est.)',
+    confidence: 'high',
+    confidenceReason: 'Two direct financial disclosure data points with clear growth trend'
+  },
+  'openai': {
+    vendor: 'OpenAI (ChatGPT + API)',
+    sourceValue: '~500M API calls/day, $5B ARR',
+    sourceDate: '2025-H2',
+    source: 'Multiple media reports citing OpenAI revenue data',
+    logic: 'Estimated from $5B ARR (mid-2025) at blended ~$2/M tokens = ~6.8T/day API, plus ChatGPT consumer usage ~12T/day. Total ~19T/day.',
+    growthRate: '+15%/mo',
+    extrapolated: '~19T/day (Feb 2026 est.)',
+    confidence: 'medium',
+    confidenceReason: 'ARR-derived, sensitive to pricing assumptions. Multiple analyst reports converge on this range.'
+  },
+  'claude': {
+    vendor: 'Claude (Anthropic)',
+    sourceValue: '$14B ARR (Feb 2026)',
+    sourceDate: '2026-02',
+    source: 'The Information, Feb 2026; Anthropic $380B valuation round',
+    logic: 'Anthropic reached $14B ARR by Feb 2026 (up from $1B in Dec 2024). At 70% API revenue share and ~$3/M blended token price: $9.8B/yr ÷ $3/M ÷ 365 = ~9T/day. Cross-validated: 18M MAU × avg 500K tokens/day = 9T.',
+    growthRate: '+14×/year (2024→2025)',
+    extrapolated: '~7–10T/day (Feb 2026 est.)',
+    confidence: 'medium-low',
+    confidenceReason: 'Inferred from ARR. Key uncertainty: actual blended pricing ($1.5–$6/M range gives 3–18T). Claude Code long-context use likely undercounted.'
+  },
+  'global': {
+    vendor: 'Global Total',
+    sourceValue: '~136T/day',
+    sourceDate: '2026-02-26',
+    source: 'GATT synthesis of all vendor estimates',
+    logic: 'Sum of all Tier 1 (direct disclosure + extrapolation) + Tier 2 (inferred) + Tier 3 (algorithmic estimate). Tier 1: ~115T, Tier 2: ~15T, Tier 3: ~6T.',
+    growthRate: '+23%/mo (Jan→Feb 2026)',
+    extrapolated: '~1,000T/day by Dec 2026 (at current growth)',
+    confidence: 'low-medium',
+    confidenceReason: 'Aggregate of individually uncertain estimates. Doubao alone is ~46% of total — its accuracy dominates the aggregate.'
+  }
+};
+
+const confBadgeClass = { 'high': 'conf-high', 'medium': 'conf-medium', 'medium-low': 'conf-medium', 'low-medium': 'conf-low-medium' };
+const confBadgeLabel = { 'high': '✓ High confidence', 'medium': '~ Medium confidence', 'medium-low': '≈ Medium-low', 'low-medium': '≈ Low-medium' };
+
+function renderMethodPanel(id) {
+  const d = methodData[id];
+  if (!d) return '';
+  const cls = confBadgeClass[d.confidence] || 'conf-low-medium';
+  const lbl = confBadgeLabel[d.confidence] || d.confidence;
+  return `<div class="method-panel-inner">
+    <strong>How we estimated ${d.vendor}</strong>
+    <span class="method-source">📌 Source: ${d.source} <em>(${d.sourceDate})</em> — ${d.sourceValue}</span>
+    <span class="method-logic">${d.logic}</span>
+    <span class="method-extrapolation">📈 Growth rate: ${d.growthRate} → <strong>${d.extrapolated}</strong></span>
+    <span><span class="method-conf-badge ${cls}">${lbl}</span> <span class="method-source">${d.confidenceReason}</span></span>
+    <a href="https://github.com/gf691271/gatt/issues/new?title=Data+correction+${encodeURIComponent(d.vendor)}&labels=data" target="_blank" class="method-correct-link">✏️ Correct this estimate</a>
+  </div>`;
+}
+
+function toggleMethod(vendorId) {
+  const panel = document.getElementById('method-' + vendorId);
+  if (!panel) return;
+  const isHidden = panel.style.display === 'none';
+  panel.style.display = isHidden ? 'block' : 'none';
+  // Render content on first open
+  if (isHidden) {
+    const inner = panel.querySelector('.method-panel-inner') || document.getElementById('method-' + vendorId + '-inner');
+    if (inner && !inner.dataset.rendered) {
+      inner.innerHTML = renderMethodPanel(vendorId);
+      inner.dataset.rendered = '1';
+    }
+  }
+}
+
+function toggleProjMethod(id) {
+  const panel = document.getElementById(id);
+  if (!panel) return;
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+// Populate global method panel inner on page load
+(function() {
+  const inner = document.getElementById('method-global-inner');
+  if (inner) inner.innerHTML = renderMethodPanel('global');
+})();
+
 // ── RANKING TABLE ──
 // Tier 1: direct or strongly-sourced data — sorted by tokNum desc
 const vendors = [
@@ -1028,14 +1249,21 @@ function confLabel(c) {
   return '<span style="color:var(--subtle)">? Unknown</span>';
 }
 
+// Map vendor names to method IDs
+const vendorMethodIds = {
+  'Doubao': 'doubao',
+  'Google Gemini': 'gemini',
+  'ChatGPT / API': 'openai',
+  'Claude': 'claude'
+};
+
 function buildRankTable() {
   const table = document.getElementById('rankTable');
-  let html = `<div class="rank-header"><div>#</div><div>Vendor</div><div>T Tokens/day</div><div>DEC $/day</div><div>Source</div></div>`;
   const allRanked = [...vendors, ...tier2].sort((a,b) => b.tokNum - a.tokNum);
   let globalRank = 0;
 
   // Header
-  html = `<div class="rank-header"><div>#</div><div>Vendor · Company</div><div>T Tokens/day</div><div>Source</div></div>`;
+  let html = `<div class="rank-header"><div>#</div><div>Vendor · Company</div><div>T Tokens/day</div><div>Source</div></div>`;
 
   allRanked.forEach(v => {
     globalRank++;
@@ -1046,31 +1274,43 @@ function buildRankTable() {
     const confBadge = isTier2
       ? `<span style="font-size:.65rem;color:var(--muted);font-weight:400">≈ est.</span>`
       : confLabel(v.conf);
-    html += `<div class="rank-row${isTier2 ? ' dark-row' : ''}">
+    const methodId = vendorMethodIds[v.name];
+    const infoBtn = methodId
+      ? `<button class="show-method" onclick="toggleMethod('${methodId}')" title="How we estimated this">ⓘ</button>`
+      : '';
+    const methodPanel = methodId
+      ? `<div class="method-panel" id="method-${methodId}" style="display:none"><div class="method-panel-inner">${renderMethodPanel(methodId)}</div></div>`
+      : '';
+
+    html += `<div class="rank-row-wrapper">
+    <div class="rank-row${isTier2 ? ' dark-row' : ''}">
       <div class="rank-num">${globalRank}</div>
       <div>
         <span class="rank-flag">${v.flag}</span>
         <span class="rank-name">${v.name}</span>
         <span style="font-size:.7rem;color:var(--muted);margin-left:5px;font-weight:400">${v.co}</span>
+        ${infoBtn}
         <div class="rank-bar-wrap" style="margin-top:4px">
           <div class="rank-bar-fill" style="width:${bar}%;background:${col};${isTier2?'opacity:0.45':''}"></div>
         </div>
       </div>
       <div class="rank-tokens">${tokenLabel}</div>
       <div class="rank-confidence" style="font-size:.68rem">${confBadge}<br><span style="color:var(--subtle);font-size:.62rem">${v.src}</span></div>
+    </div>
+    ${methodPanel}
     </div>`;
   });
 
   // Dark zone
   html += `<div class="tier-divider">🕳️ Data Dark Zone — ${tier3.length} vendors with no public data</div>`;
   tier3.forEach(v => {
-    html += `<div class="rank-row dark-row" style="opacity:.45">
+    html += `<div class="rank-row-wrapper"><div class="rank-row dark-row" style="opacity:.45">
       <div class="rank-num">—</div>
       <div><span class="rank-flag">${v.flag}</span><span class="rank-name">${v.name}</span>
         <span style="font-size:.7rem;color:var(--subtle);margin-left:5px">${v.co}</span></div>
       <div style="font-size:.7rem;color:var(--subtle)">unknown</div>
       <div style="font-size:.65rem;color:var(--subtle)">${v.reason}</div>
-    </div>`;
+    </div></div>`;
   });
 
   table.innerHTML = html;
