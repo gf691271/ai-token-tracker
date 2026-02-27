@@ -1,5 +1,18 @@
 # GATT Data Changelog
 
+## 2026-02-26 (v0.51 — Per Capita Ranking)
+
+- **New section**: "AI Inequality — Tokens Per Person, Per Day"
+  - 12-country horizontal bar chart (log scale), ranked by tokens/person/day
+  - Key finding: US 135K vs India 631 = **214× gap**
+  - Insight: China ranks #3 per capita (59K), not #1 — large population dilutes absolute lead
+  - Three insight cards: highest (US 135K), biggest surprise (China 59K), biggest gap (India 631)
+  - Twitter share hook pre-filled: "Americans generate 135,000 tokens/day. Indians: 631. That's 214×."
+  - Quick-nav added: "📊 Per Capita Ranking"
+  - This addresses 10-question audit item #3 (UI/share) and #10 (journalist citation value)
+
+
+
 All significant data revisions are logged here. This is not a software changelog — it tracks when and why estimates changed.
 
 ---

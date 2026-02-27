@@ -609,7 +609,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.50</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.51</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -1225,6 +1225,123 @@ function showKeyEvent(id) {
         });
       }
     }]
+  });
+})();
+</script>
+
+<!-- ════════════════════ PER CAPITA TOKENS RANKING ════════════════════ -->
+<div id="section-percapita"></div>
+<div class="section-label" style="margin-top:28px;">AI Inequality — Tokens Per Person, Per Day</div>
+<div style="font-family:-apple-system,sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:10px;">
+  Raw token volume hides the real story. Adjusted for population, a very different ranking emerges.
+  <button class="show-method" onclick="toggleMethod('percapita')" title="About this metric" style="margin-left:6px;">ⓘ</button>
+</div>
+<div id="method-percapita" class="method-box" style="display:none;font-size:0.78rem;font-family:-apple-system,sans-serif;margin-bottom:10px;">
+  <strong>Methodology:</strong> Country daily token estimates (from GATT Country Rankings) divided by total population. This normalizes for country size to show relative AI intensity per person. China ranks #1 in absolute volume but #3 per capita — illustrating how large populations can mask adoption rates. India's 0.91T/day across 1.44B people yields just ~631 tokens/person/day — 214× below the US average. All figures are modeled estimates. Confidence: Low–Medium.
+</div>
+
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:10px;">
+  <!-- Headline stat -->
+  <div style="font-family:-apple-system,sans-serif;font-size:0.85rem;font-weight:700;margin-bottom:14px;color:var(--text);">
+    🇺🇸 Americans generate <span style="color:#2563eb;font-size:1.1rem;">214×</span> more AI tokens per day than 🇮🇳 Indians.
+  </div>
+  <!-- Horizontal bar chart -->
+  <canvas id="perCapitaChart" height="260"></canvas>
+  <div style="margin-top:6px;font-family:-apple-system,sans-serif;font-size:0.68rem;color:var(--muted);">
+    Tokens per person per day (est. Feb 2026) · All values estimated · <a href="/api/v1/tci-latest.json" style="color:var(--accent);">JSON ↗</a>
+  </div>
+</div>
+
+<!-- Key insight cards -->
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;font-family:-apple-system,sans-serif;">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+    <div style="font-size:0.68rem;color:var(--muted);margin-bottom:3px;">🥇 HIGHEST PER CAPITA</div>
+    <div style="font-size:1.3rem;font-weight:700;color:#2563eb;">🇺🇸 135K</div>
+    <div style="font-size:0.72rem;color:var(--muted);">tokens / person / day</div>
+    <div style="font-size:0.7rem;margin-top:6px;color:var(--text);">US leads by a wide margin — AI inference is woven into daily software (Copilot, search, cloud apps).</div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+    <div style="font-size:0.68rem;color:var(--muted);margin-bottom:3px;">🔺 BIGGEST SURPRISE</div>
+    <div style="font-size:1.3rem;font-weight:700;color:#c0392b;">🇨🇳 59K</div>
+    <div style="font-size:0.72rem;color:var(--muted);">tokens / person / day</div>
+    <div style="font-size:0.7rem;margin-top:6px;color:var(--text);">China is #3 per capita despite 4× the population of the US. Doubao, Kimi, DeepSeek driving mass adoption.</div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+    <div style="font-size:0.68rem;color:var(--muted);margin-bottom:3px;">📉 BIGGEST GAP</div>
+    <div style="font-size:1.3rem;font-weight:700;color:#f59e0b;">🇮🇳 631</div>
+    <div style="font-size:0.72rem;color:var(--muted);">tokens / person / day</div>
+    <div style="font-size:0.7rem;margin-top:6px;color:var(--text);">India has 1.44B people and world-class AI talent — yet the average Indian generates barely 631 tokens/day. The gap is the opportunity.</div>
+  </div>
+</div>
+
+<!-- Share hooks -->
+<div style="font-family:-apple-system,sans-serif;font-size:0.75rem;margin-bottom:20px;">
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%87%BA%F0%9F%87%B8%20The%20average%20American%20generates%20135%2C000%20AI%20tokens%20per%20day.%0A%F0%9F%87%AE%F0%9F%87%B3%20The%20average%20Indian%20generates%20631.%0A%0AThat%E2%80%99s%20a%20214%C3%97%20gap.%0A%0AGATT%20Token%20Economy%20Index%20%E2%80%94%20est.%20Feb%202026%0Ahttps%3A%2F%2Fgf691271.github.io%2Fgatt%2F%20%23TokenEconomy%20%23AIInequality%20%23IndiaAI" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#0f1419;color:#fff;border-radius:16px;text-decoration:none;font-size:0.72rem;font-weight:600;margin-right:8px;">𝕏 Share the 214× stat</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://gf691271.github.io/gatt/" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#0077b5;color:#fff;border-radius:16px;text-decoration:none;font-size:0.72rem;font-weight:600;">in Share on LinkedIn</a>
+</div>
+
+<script>
+(function(){
+  const pcData = [
+    { label: '🇺🇸 US',           tpd: 135224, color: '#2563eb' },
+    { label: '🇬🇧 UK',           tpd: 66176,  color: '#6b7280' },
+    { label: '🇨🇳 China',        tpd: 58782,  color: '#c0392b' },
+    { label: '🇦🇺 Australia',    tpd: 44444,  color: '#6b7280' },
+    { label: '🇰🇷 S. Korea',     tpd: 44231,  color: '#6b7280' },
+    { label: '🇨🇦 Canada',       tpd: 37500,  color: '#6b7280' },
+    { label: '🇩🇪 Germany',      tpd: 35714,  color: '#6b7280' },
+    { label: '🇫🇷 France',       tpd: 33824,  color: '#6b7280' },
+    { label: '🇸🇦 Saudi Arabia', tpd: 26000,  color: '#f59e0b' },
+    { label: '🇯🇵 Japan',        tpd: 24194,  color: '#6b7280' },
+    { label: '🇧🇷 Brazil',       tpd: 2791,   color: '#f59e0b' },
+    { label: '🇮🇳 India',        tpd: 631,    color: '#f59e0b' },
+  ];
+  const ctx2 = document.getElementById('perCapitaChart');
+  if (!ctx2) return;
+  new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: pcData.map(d => d.label),
+      datasets: [{
+        data: pcData.map(d => d.tpd),
+        backgroundColor: pcData.map(d => d.color),
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(c) {
+              const v = c.raw;
+              return v >= 1000 ? (v/1000).toFixed(1) + 'K tokens/person/day' : v + ' tokens/person/day';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: 'logarithmic',
+          ticks: {
+            callback: function(v) {
+              if (v >= 1000) return (v/1000).toFixed(0) + 'K';
+              return v;
+            },
+            color: 'var(--muted)',
+            font: { size: 10 }
+          },
+          grid: { color: 'rgba(128,128,128,0.12)' }
+        },
+        y: {
+          ticks: { color: 'var(--text)', font: { size: 11 } },
+          grid: { display: false }
+        }
+      }
+    }
   });
 })();
 </script>
@@ -2738,6 +2855,7 @@ const i18n = {
     'section-trend': '日趋势图 — Token消耗量历史曲线',
     'section-vendor-rank': '厂商排行 — 每日Token量',
     'section-country-rank': '国家排行 — Token量份额',
+    'section-percapita': 'AI不平等 — 人均每日Token量',
     'section-rising': '崛起力量 — 下一个十亿Token来自哪里',
     'section-watchlist': '观察清单 — 值得追踪的下一个数字',
     'section-token-economy': 'Token经济学 — 宏观框架',
@@ -2814,6 +2932,7 @@ function setTheme(t) {
     <a href="#section-vendors" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🏆 Vendor Ranking</a>
     <a href="#section-countries" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🌍 Country Ranking</a>
     <a href="#section-bubble" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🫧 Token Economy Map</a>
+    <a href="#section-percapita" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">📊 Per Capita Ranking</a>
     <a href="#section-rising" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🚀 Rising Powers</a>
     <a href="#section-velocity" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">⚡ Token Velocity</a>
     <a href="#section-watchlist" onclick="closeNav()" style="display:block;padding:7px 14px;color:var(--text);text-decoration:none;">🔭 Watch List</a>
