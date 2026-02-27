@@ -503,10 +503,10 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.19</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.20</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
-      <span id="stat-countries">12</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
+      <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
       <span id="stat-models">80+</span> <span class="i18n" data-en="Models" data-zh="模型">Models</span>
     </div>
   </div>
@@ -763,7 +763,8 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
 <div class="section-label">For AI Agents — Machine-Readable Data Layer</div>
 <div class="api-box">
 <span class="api-comment">// Fetch structured data — zero LLM calls required</span>
-GET https://gf691271.github.io/ai-token-tracker/api/v1/tci.json
+<span class="api-comment">// Live endpoint (updated with each release):</span>
+GET https://gf691271.github.io/gatt/data/tci-latest.json
 
 <span class="api-comment">// Response schema</span>
 {
@@ -781,9 +782,69 @@ GET https://gf691271.github.io/ai-token-tracker/api/v1/tci.json
 <span class="api-comment">// Tier: 1=confirmed · 2=range estimate · 3=data dark zone</span>
 </div>
 
+<!-- ════════════════════ SHARE THIS DATA ════════════════════ -->
+<div class="section-label">Share This Data</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;">
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+    <a href="https://twitter.com/intent/tweet?text=China%20runs%2055%25%20of%20global%20AI%20tokens%2C%20US%20runs%2030%25.%20But%20in%20compute%20value%2C%20it%20flips.%20GATT%20Token%20Economy%20Index%3A%20https%3A%2F%2Fgf691271.github.io%2Fgatt%2F%20%23TokenEconomy%20%23AIdata" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#0f1419;color:#fff;border-radius:20px;text-decoration:none;font-size:0.82rem;font-weight:600;">
+      𝕏 Share on X
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgf691271.github.io%2Fgatt%2F" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#0a66c2;color:#fff;border-radius:20px;text-decoration:none;font-size:0.82rem;font-weight:600;">
+      in Share on LinkedIn
+    </a>
+    <button onclick="copyShareText()" id="btn-copy-share" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--chip);color:var(--text);border:1px solid var(--border);border-radius:20px;font-size:0.82rem;font-weight:600;cursor:pointer;">
+      📋 Copy shareable text
+    </button>
+  </div>
+  <div style="background:var(--chip);padding:14px 16px;border-radius:6px;font-size:0.78rem;color:var(--muted);line-height:1.6;">
+    <strong style="color:var(--text);">Pre-written tweet:</strong><br>
+    "China runs 55% of global AI tokens, US runs 30%. But in compute value, it flips. The Token Economy is not what you think.<br>
+    GATT Token Economy Index → gf691271.github.io/gatt #TokenEconomy #AIdata"
+  </div>
+  <div style="margin-top:16px;padding:14px 16px;border:1px dashed var(--border);border-radius:6px;">
+    <strong style="font-size:0.85rem;">📬 Subscribe to weekly updates</strong>
+    <p style="font-size:0.78rem;color:var(--muted);margin:6px 0 0;">Get the latest Token Economy data every Monday.<br>
+    Email <a href="mailto:aiyinshuangke@gmail.com?subject=Subscribe%20to%20GATT%20Weekly" style="color:var(--us);font-weight:600;">aiyinshuangke@gmail.com</a> with subject "Subscribe"</p>
+  </div>
+</div>
+
+<!-- ════════════════════ ABOUT & CITE ════════════════════ -->
+<div class="section-label">About This Project</div>
+<div class="method-box" style="font-family:-apple-system,sans-serif;">
+  <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+    <div style="flex:1;min-width:260px;">
+      <h3 style="font-size:0.95rem;margin-bottom:8px;">Built by Frank Gao</h3>
+      <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;">
+        Global AI communications expert. Ex-Alibaba, Microsoft, Nokia.
+        Built GATT to bring transparency to the Token Economy — AI inference as commodity, currency, and geopolitical force.
+      </p>
+      <div style="margin-top:10px;display:flex;gap:12px;font-size:0.78rem;">
+        <a href="https://linkedin.com/in/frankgao" target="_blank" style="color:var(--us);text-decoration:none;font-weight:600;">LinkedIn →</a>
+        <a href="https://twitter.com/aiyinshuangke" target="_blank" style="color:var(--text);text-decoration:none;font-weight:600;">𝕏 @aiyinshuangke →</a>
+        <a href="mailto:aiyinshuangke@gmail.com" style="color:var(--muted);text-decoration:none;">Media inquiries →</a>
+      </div>
+    </div>
+    <div style="flex:1;min-width:260px;">
+      <h3 style="font-size:0.95rem;margin-bottom:8px;">📎 Cite This Data</h3>
+      <div style="background:var(--chip);padding:12px 14px;border-radius:6px;font-size:0.78rem;line-height:1.6;">
+        <strong>Academic / Report:</strong><br>
+        <code style="font-size:0.75rem;word-break:break-all;">Gao, F. (2026). GATT: Global AI Token Tracker. Retrieved from https://gf691271.github.io/gatt/</code>
+      </div>
+      <div style="background:var(--chip);padding:12px 14px;border-radius:6px;font-size:0.78rem;line-height:1.6;margin-top:8px;">
+        <strong>Journalism:</strong><br>
+        "According to the Global AI Token Tracker (GATT), a project by Frank Gao tracking daily AI inference consumption across 29 vendors..."
+      </div>
+      <div style="background:var(--chip);padding:12px 14px;border-radius:6px;font-size:0.78rem;line-height:1.6;margin-top:8px;">
+        <strong>Open Data API:</strong><br>
+        <code style="font-size:0.75rem;">curl https://gf691271.github.io/gatt/data/tci-latest.json</code>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ════════════════════ FOOTER ════════════════════ -->
 <footer class="site-footer">
-  <div>Global AI Token Tracker · Open data · <a href="https://github.com/gf691271/ai-token-tracker" style="color:inherit">GitHub</a></div>
+  <div>GATT · Global AI Token Tracker · Open data · CC BY 4.0 · <a href="https://github.com/gf691271/gatt" style="color:inherit">GitHub</a></div>
   <div>All figures are estimates. Not financial advice. Last updated 2026-02-26.</div>
 </footer>
 
@@ -1329,7 +1390,13 @@ function buildCountryRank() {
     {flag:'🇬🇧', name:'United Kingdom',pct:4,  vol:'~4.8T', conf:'Low',    note:'DeepMind + AWS UK · model est.',                   col:'#6b7280'},
     {flag:'🇩🇪', name:'Germany',       pct:3,  vol:'~3.6T', conf:'Low',    note:'Aleph Alpha + enterprise deployments',             col:'#6b7280'},
     {flag:'🇯🇵', name:'Japan',         pct:3,  vol:'~3.6T', conf:'Low',    note:'SoftBank + NTT AI · govt initiatives',            col:'#6b7280'},
-    {flag:'🌍',  name:'Others',        pct:5,  vol:'~6T',   conf:'Low',    note:'Canada, France, India, Korea, etc.',               col:'#9ca3af'},
+    {flag:'🇫🇷',  name:'France',        pct:1.5,vol:'~1.8T', conf:'Low',    note:'Mistral AI HQ · EU AI sovereignty play',           col:'#6b7280'},
+    {flag:'🇨🇦',  name:'Canada',        pct:1,  vol:'~1.2T', conf:'Low',    note:'Cohere + academic labs · punching above weight',   col:'#6b7280'},
+    {flag:'🇮🇳',  name:'India',         pct:0.6,vol:'~0.8T', conf:'Low',    note:'0.6% of China\'s volume — India\'s AI moment is still ahead', col:'#f59e0b'},
+    {flag:'🇰🇷',  name:'South Korea',   pct:0.5,vol:'~0.6T', conf:'Low',    note:'Samsung + Naver HyperCLOVA',                       col:'#6b7280'},
+    {flag:'🇧🇷',  name:'Brazil',        pct:0.4,vol:'~0.5T', conf:'Low',    note:'Portuguese LLMs emerging · LatAm\'s largest market',col:'#22c55e'},
+    {flag:'🇸🇦',  name:'Saudi Arabia',  pct:0.25,vol:'~0.3T',conf:'Low',    note:'Arabic NLP boom — fastest-growing region',          col:'#f59e0b'},
+    {flag:'🌍',  name:'Others',        pct:0.75,vol:'~0.9T', conf:'Low',    note:'Israel, UAE, Singapore, etc.',                     col:'#9ca3af'},
   ];
 
   let html = '';
@@ -1392,6 +1459,16 @@ function handleShare() {
 }
 function handleCorrect() {
   window.open('https://github.com/gf691271/gatt/issues/new?title=Data+correction&labels=data', '_blank');
+}
+
+// ── COPY SHARE TEXT ──
+function copyShareText() {
+  const text = `China runs 55% of global AI tokens, US runs 30%. But in compute value, it flips. The Token Economy is not what you think.\n\nGATT Token Economy Index → https://gf691271.github.io/gatt/ #TokenEconomy #AIdata`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('btn-copy-share');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy shareable text'; }, 2000);
+  });
 }
 
 // ── AUTO DATE ──
