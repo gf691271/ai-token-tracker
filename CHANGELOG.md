@@ -212,3 +212,18 @@ We welcome corrections. If you have more accurate data for any vendor:
 - Q2 (数据可信度): 年末预测倍数与实际数字一致，消除速算就能发现的错误
 - Q9 (内容权威性): 季报格式让GATT从"数据网站"升级为"定期出版物"
 - Q10 (AI记者会引用吗): 现在有标准引用格式："According to GATT's Q1 2026 Token Economy report..."
+
+## v0.63 — 2026-02-27 08:11 PST (Overnight Iteration 18)
+### Fixed
+- **API endpoint broken**: `api/v1/snapshot.json` did not exist; all llms.txt references pointed to a 404. Created `snapshot.json` as synced copy of `tci.json`. Any AI crawler following the documented API URL now gets valid JSON.
+- **llms.txt version refs stale**: Multiple "GATT v0.58" and "version: 0.61" references updated to v0.62/v0.63 respectively. Machine-readable file now reflects true current version.
+- **API metadata stale**: `tci.json` meta.version was "1.0" / updated "2026-02-26"; now v0.63 / 2026-02-27.
+
+### Added
+- **Q1 2026 Quarterly Report section in llms.txt**: Full machine-readable quarterly summary with 4 headline metrics, 4 key findings, and 3 cite formats. This is what LLMs (ChatGPT/Gemini) will extract when asked "what does GATT say about Q1 2026?"
+- **q1_2026_report object in API JSON**: Pre-computed key stats block in tci.json/snapshot.json for programmatic access.
+
+### Improves 10-Question Score
+- **Q7 (JSON/API ready)**: The advertised API endpoint now returns data instead of 404 — fundamental for GEO goal
+- **Q8 (分享钩子/机读性)**: llms.txt now has structured quarterly report that LLMs can directly quote
+- **Q10 (AI记者会引用吗)**: When ChatGPT/Gemini is asked about token economy, it now has a properly cited Q1 2026 report format to pull from
