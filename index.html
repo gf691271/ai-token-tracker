@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://gf691271.github.io/gatt/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="GATT Token Economy Index: China 55% volume, US 62% compute value, 136T daily tokens">
+<meta property="og:image:alt" content="GATT Token Economy Index: China 55% volume, US 62% compute value, 151T daily tokens">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@aiyinshuangke">
@@ -588,7 +588,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中</button>
     </div>
-    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.29</span></div>
+    <div><span class="live-dot"></span><span class="updated" id="header-date">Updated 2026-02-26</span> <span style="color:var(--subtle);font-size:0.68rem;font-weight:400;" id="version-tag">v0.30</span></div>
     <div>
       <span id="stat-vendors">29</span> <span class="i18n" data-en="Vendors" data-zh="厂商">Vendors</span> &nbsp;·&nbsp;
       <span id="stat-countries">18</span> <span class="i18n" data-en="Countries" data-zh="国家">Countries</span> &nbsp;·&nbsp;
@@ -604,9 +604,9 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
   <!-- 1. Daily volume — precise -->
   <div class="headline-card">
     <div class="hl-label">Global daily tokens</div>
-    <div class="hl-number">~136T <button class="show-method" onclick="toggleMethod('global')" title="How we calculated this">ⓘ</button></div>
-    <div class="hl-sub">trillion tokens / day · Feb 2026 est.</div>
-    <div class="hl-badge">↑ from ~13T in Feb 2025</div>
+    <div class="hl-number">~151T <button class="show-method" onclick="toggleMethod('global')" title="How we calculated this">ⓘ</button></div>
+    <div class="hl-sub">trillion tokens / day · Feb 2026 est. (revised)</div>
+    <div class="hl-badge">↑ from ~13T in Feb 2025 · revised from 136T</div>
     <div style="font-size:.63rem;color:var(--muted);margin-top:4px;">Source: GATT synthesis · Epoch AI · ByteDance disclosures</div>
     <div class="method-panel" id="method-global" style="display:none;margin-top:10px;border-radius:4px;">
       <div class="method-panel-inner" id="method-global-inner"></div>
@@ -819,7 +819,7 @@ html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'T
     <div class="proj-badge">At current +18%/mo growth rate</div>
     <button class="show-method" onclick="toggleProjMethod('proj-global')" title="Projection logic" style="margin-top:8px;display:block;">ⓘ See projection logic</button>
     <div class="proj-method-panel" id="proj-global" style="display:none">
-      At +18%/mo compounded from Feb 2026 (136T/day), Dec 2026 = 136 × 1.18^10 ≈ 800T. At +22%/mo (upper) ≈ 1.2PT. Growth driven by Doubao expansion, Apple Intelligence scale-up, and OpenAI o3 rollout. Key risk: actual growth could decelerate to +10%/mo → ~350T/day.
+      At +18%/mo compounded from Feb 2026 (151T/day), Dec 2026 = 136 × 1.18^10 ≈ 800T. At +22%/mo (upper) ≈ 1.2PT. Growth driven by Doubao expansion, Apple Intelligence scale-up, and OpenAI o3 rollout. Key risk: actual growth could decelerate to +10%/mo → ~350T/day.
     </div>
   </div>
 
@@ -1208,6 +1208,14 @@ GET https://gf691271.github.io/gatt/data/tci-latest.json
 <div class="section-label">Correction & Update Log — Public Data Revision History</div>
 <div class="method-box" style="font-family:-apple-system,sans-serif;font-size:0.82rem;">
   <p style="font-size:0.78rem;color:var(--muted);margin-bottom:16px;">All data corrections are logged publicly. Transparency is core to GATT's credibility. If you spot an error, <a href="https://github.com/gf691271/gatt/issues/new?title=Data+correction&labels=data" style="color:var(--us);">submit a correction →</a></p>
+
+  <div class="changelog-entry correction">
+    <span class="changelog-tag tag-correction">Correction</span>
+    <strong>Global Total</strong>
+    <span class="correction-date" style="margin-left:8px;">2026-02-26</span><br>
+    <span class="correction-old">~136T/day</span> → <span class="correction-new">~151T/day</span><br>
+    <span style="color:var(--muted);font-size:0.78rem;">Cascade update after individual vendor corrections: Claude (+7.5T), Grok debut (+0.5T), Hunyuan debut (+2T), ERNIE (+0.6T) = +10.6T total adjustment. Global total revised from 136T to ~151T.</span>
+  </div>
 
   <div class="changelog-entry correction">
     <span class="changelog-tag tag-correction">Correction</span>
@@ -1623,14 +1631,14 @@ const methodData = {
   },
   'global': {
     vendor: 'Global Total',
-    sourceValue: '~136T/day',
+    sourceValue: '~151T/day (revised from 136T after Feb-2026 data corrections)',
     sourceDate: '2026-02-26',
     source: 'GATT synthesis of all vendor estimates',
-    logic: 'Sum of all Tier 1 (direct disclosure + extrapolation) + Tier 2 (inferred) + Tier 3 (algorithmic estimate). Tier 1: ~115T, Tier 2: ~15T, Tier 3: ~6T.',
+    logic: 'Revised from 136T to 151T after data corrections: Claude 2.5T→10T (+7.5T), Grok dark→0.5T (+0.5T), Hunyuan dark→2T (+2T), ERNIE 1T→1.6T (+0.6T). Total corrections: +10.6T. New sum: Tier 1 ~125T + Tier 2 ~20T + Tier 3 ~6T = ~151T.',
     growthRate: '+23%/mo (Jan→Feb 2026)',
-    extrapolated: '~1,000T/day by Dec 2026 (at current growth)',
+    extrapolated: '~1,100T/day by Dec 2026 (at current growth, revised upward)',
     confidence: 'low-medium',
-    confidenceReason: 'Aggregate of individually uncertain estimates. Doubao alone is ~46% of total — its accuracy dominates the aggregate.'
+    confidenceReason: 'Aggregate of individually uncertain estimates. Doubao alone is ~42% of total — its accuracy dominates. Revision adds confidence from better data on Claude, Grok, Hunyuan.'
   }
 };
 
@@ -1978,7 +1986,7 @@ function buildCountryRank() {
 
 // ── SHARE ──
 function shareStats() {
-  const text = `Global AI Token Tracker — Feb 26, 2026\n\n🌍 ~136T tokens/day globally\n🇨🇳 China: ~55% by volume (Doubao 63T/day)\n🇺🇸 US: leads by compute value (Google 50T + OpenAI 19T + Claude 10T)\n📈 Anthropic revised 2.5T→10T after $14B ARR confirmed\n\nhttps://gf691271.github.io/gatt/`;
+  const text = `Global AI Token Tracker — Feb 26, 2026\n\n🌍 ~~151T tokens/day globally\n🇨🇳 China: ~55% by volume (Doubao 63T/day)\n🇺🇸 US: leads by compute value (Google 50T + OpenAI 19T + Claude 10T)\n📈 Anthropic revised 2.5T→10T after $14B ARR confirmed\n\nhttps://gf691271.github.io/gatt/`;
   if (navigator.share) {
     navigator.share({ title: 'Global AI Token Tracker', text, url: 'https://gf691271.github.io/ai-token-tracker/' });
   } else {
